@@ -26,6 +26,12 @@ public class ProductServiceImpl implements ProductService
 	}
 
 	@Override
+	public Product getProductById(String productId)
+	{
+		return productRepository.getProductById(productId);
+	}
+
+	@Override
 	public void updateAllStock()
 	{
 		List<Product> allProducts = productRepository.getAllProducts();
