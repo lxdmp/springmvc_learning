@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>  
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
@@ -22,8 +23,7 @@
 		<h3>${product.name}</h3>
 		<p>${product.description}</p>
 		<p>
-			<strong>Item Code : </strong>
-			<span class="label label warning">${product.productId}</span>
+			<strong>Item Code</strong> : ${product.productId}
 		</p>
 		<p>
 			<strong>manufacturer</strong> : ${product.manufacturer}
