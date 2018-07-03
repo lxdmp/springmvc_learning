@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.lxdmp.springtest.domain.Product;
 import com.lxdmp.springtest.service.ProductService;
+
+import com.lxdmp.springtest.domain.CustomFormatTestObj;
 
 @Controller
 public class ProductController
@@ -43,6 +46,15 @@ public class ProductController
 	{
 		model. addAttribute("product", productService.getProductById(productId));
 		return "product";
+	}
+
+	@RequestMapping("/format")
+	@ResponseBody
+	public String testFormat(
+		@RequestParam("data") CustomFormatTestObj param
+	)
+	{
+		return param.getId();
 	}
 
 	@RequestMapping("/update/stock")
