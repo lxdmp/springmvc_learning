@@ -25,18 +25,24 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer)
 	{
+		super.configureDefaultServletHandling(configurer);
+
 		configurer.enable();
 	}
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry)
 	{
+		super.addInterceptors(registry);
+
 		registry.addInterceptor(new ProcessTimeLogInterceptor());
 	}
 
 	@Override
 	public void addFormatters(FormatterRegistry registry)
 	{
+		super.addFormatters(registry);
+
 		// 将请求参数格式化为自定义的实体类(比如解码一个自定义编码的字符串)
 		registry.addFormatterForFieldType(CustomFormatTestObj.class, new CustomFormatTestFormatter()); 
 	}
