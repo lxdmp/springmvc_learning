@@ -14,6 +14,7 @@ import com.lxdmp.springtest.domain.Product;
 import com.lxdmp.springtest.service.ProductService;
 
 import com.lxdmp.springtest.domain.CustomFormatTestObj;
+import com.lxdmp.springtest.formatter.CustomFormatTestFormatter;
 
 @Controller
 public class ProductController
@@ -51,9 +52,10 @@ public class ProductController
 	@RequestMapping("/format")
 	@ResponseBody
 	public String testFormat(
-		@RequestParam("data") CustomFormatTestObj param
+		@RequestParam(value="data", required=false, defaultValue=CustomFormatTestFormatter.dummy) CustomFormatTestObj param
 	)
 	{
+		// @RequestParam注解的defaultValue属性不能为空,可设定为一默认值在Formatter中再进一步处理.
 		return param.getId();
 	}
 
