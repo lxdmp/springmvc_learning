@@ -1,3 +1,4 @@
+// Controller层面的配置
 package com.lxdmp.springtest.config;
 
 import org.springframework.context.annotation.Bean;

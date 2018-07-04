@@ -1,3 +1,4 @@
+// DAO/Service层面的配置
 package com.lxdmp.springtest.config;
 
 import java.util.concurrent.Executor;
