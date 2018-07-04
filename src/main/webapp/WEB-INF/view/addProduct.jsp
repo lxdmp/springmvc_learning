@@ -3,23 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>  
 
-<html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-	<title>添加商品</title>
-</head>
-<body>
-	<section>
-	<div class="jumbotron">
-	<div class="container">
-		<h1>Products</h1>
-		<p>Add products</p>
-	</div>
-	</div>
-	</section>
-
-	<section class="container">
+<section class="container">
 	<form:form method="POST" modelAttribute="newProduct" class="form-horizontal">
 	<fieldset>
 	<legend>Add new product</legend>
@@ -109,7 +93,5 @@
 
 	</fieldset>
 	</form:form>
-	</section>
-</body>
-</html>
+</section>
 

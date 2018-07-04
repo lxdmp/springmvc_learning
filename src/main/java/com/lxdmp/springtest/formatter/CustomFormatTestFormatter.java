@@ -29,7 +29,6 @@ public class CustomFormatTestFormatter implements Formatter<CustomFormatTestObj>
 		if(text.equals(this.dummy))
 			text = "";
 
-		CustomFormatTestObj obj = new CustomFormatTestObj();
 		String[] l = text.split(this.external_sep);
 		StringBuilder builder = new StringBuilder();
 		for(int i=0; i<l.length; ++i)
@@ -38,6 +37,7 @@ public class CustomFormatTestFormatter implements Formatter<CustomFormatTestObj>
 				builder.append(this.internal_sep);
 			builder.append(l[i]);
 		}
+		CustomFormatTestObj obj = new CustomFormatTestObj();
 		obj.setId(builder.substring(0, builder.length()));
 		return obj;
 	}

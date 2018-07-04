@@ -18,6 +18,12 @@ import org.springframework.format.FormatterRegistry;
 import com.lxdmp.springtest.formatter.CustomFormatTestFormatter;
 import com.lxdmp.springtest.domain.CustomFormatTestObj;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.view.UrlBasedViewResolver;
+import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
+import org.springframework.web.servlet.view.tiles3.TilesView;
+
 @Configuration
 @EnableWebMvc
 @ComponentScan({"com.lxdmp.springtest.controller", "com.lxdmp.springtest.interceptor", "com.lxdmp.springtest.formatter"})
@@ -48,6 +54,7 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter
 		registry.addFormatterForFieldType(CustomFormatTestObj.class, new CustomFormatTestFormatter()); 
 	}
 
+	/*
 	@Bean
 	public InternalResourceViewResolver getInternalResourceViewResolver()
 	{
@@ -56,6 +63,25 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter
 		resolver.setPrefix("/WEB-INF/jsp/");
 		resolver.setSuffix(".jsp");
 		return resolver;
+	}
+	*/
+
+	@Bean
+	public UrlBasedViewResolver viewResolver()
+	{
+		UrlBasedViewResolver viewResolver = new UrlBasedViewResolver();
+		viewResolver.setViewClass(TilesView.class);
+		viewResolver.setOrder(-2);
+		return viewResolver;
+	}
+
+	@Bean
+	public TilesConfigurer tilesConfigurer()
+	{
+		TilesConfigurer tilesConfigurer = new TilesConfigurer();
+		tilesConfigurer.setDefinitions("/WEB-INF/layouts/definitions/tiles.xml");
+		tilesConfigurer.setCheckRefresh(true);
+		return tilesConfigurer;
 	}
 }
 
