@@ -1,6 +1,9 @@
 package com.lxdmp.springtest.config;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import javax.sql.DataSource;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -9,9 +12,15 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
+import org.springframework.scheduling.annotation.SchedulingConfigurer;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.config.ScheduledTaskRegistrar;
+import com.lxdmp.springtest.schedule.TaskScheduler;
+
 @Configuration
-@ComponentScan("com.lxdmp.springtest")
-public class RootApplicationContextConfig
+@ComponentScan({"com.lxdmp.springtest.domain", "com.lxdmp.springtest.service", "com.lxdmp.springtest.schedule"})
+@EnableScheduling
+public class RootApplicationContextConfig implements SchedulingConfigurer
 {
 	@Bean
 	public DataSource dataSource()
@@ -29,6 +38,18 @@ public class RootApplicationContextConfig
 	public NamedParameterJdbcTemplate getJdbcTemplate()
 	{
 		return new NamedParameterJdbcTemplate(dataSource());
+	}
+
+	@Override
+	public void configureTasks(ScheduledTaskRegistrar taskRegistrar)
+	{
+		taskRegistrar.setScheduler(taskExecutor());
+	}
+
+	@Bean(destroyMethod="shutdown")
+	public Executor taskExecutor()
+	{
+		return Executors.newScheduledThreadPool(10);
 	}
 }
 

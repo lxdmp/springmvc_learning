@@ -19,7 +19,7 @@ import com.lxdmp.springtest.domain.CustomFormatTestObj;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("com.lxdmp.springtest")
+@ComponentScan({"com.lxdmp.springtest.controller", "com.lxdmp.springtest.interceptor", "com.lxdmp.springtest.formatter"})
 public class WebApplicationContextConfig extends WebMvcConfigurerAdapter
 {
 	@Override
