@@ -3,6 +3,16 @@ package com.lxdmp.springtest.domain;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
+
+/*
+ * 通过框架与json/xml间自动转换,实体类需用注释@XmlRootElement修饰,
+ * 对无需参与转化的字段,其get方法用@XmlTransient和@JsonIgnore修饰.
+ */
+
+@XmlRootElement(name="product")
 public class Product implements Serializable
 {
 	private static final long serialVersionUID = 1L;

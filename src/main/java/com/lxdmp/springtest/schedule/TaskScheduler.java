@@ -24,7 +24,7 @@ public class TaskScheduler
 	public void periodcTask()
 	{
 		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		logger.info(String.format("periodic work : %s", f.format(new Date())));
+		//logger.info(String.format("periodic work : %s", f.format(new Date())));
 	}
 }
 

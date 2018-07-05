@@ -28,7 +28,7 @@ public class ProcessTimeLogInterceptor implements HandlerInterceptor
 
 		long startTime = (Long)request.getAttribute(key_name);
 		long endTime = System.currentTimeMillis();
-		logger.info(String.format("%s millisecond taken to process the request %s.", endTime-startTime, path));
+		logger.info(String.format("%s millisecond taken to process the request %s", endTime-startTime, path));
 	}
 
 	public void afterCompletion(
