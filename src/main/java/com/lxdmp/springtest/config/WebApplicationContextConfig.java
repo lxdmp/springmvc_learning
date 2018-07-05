@@ -39,38 +39,37 @@ import com.lxdmp.springtest.dto.ProductList;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan({"com.lxdmp.springtest.controller", "com.lxdmp.springtest.interceptor", "com.lxdmp.springtest.formatter"})
+@ComponentScan({"com.lxdmp.springtest.controller", "com.lxdmp.springtest.interceptor", "com.lxdmp.springtest.formatter", "com.lxdmp.springtest.exception"})
 public class WebApplicationContextConfig extends WebMvcConfigurerAdapter
 {
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer)
 	{
 		super.configureDefaultServletHandling(configurer);
-
 		configurer.enable();
 	}
 
+	// - 添加interceptor
 	@Override
 	public void addInterceptors(InterceptorRegistry registry)
 	{
-		// 添加interceptor
 		super.addInterceptors(registry);
 		registry.addInterceptor(new ProcessTimeLogInterceptor());
 		registry.addInterceptor(new ProductsInXmlViewInterceptor());
 	}
 
+	// - 添加formatter
 	@Override
 	public void addFormatters(FormatterRegistry registry)
 	{
-		// 添加formatter
 		super.addFormatters(registry);
 		registry.addFormatterForFieldType(CustomFormatTestObj.class, new CustomFormatTestFormatter());  // 将请求参数格式化为自定义的实体类(比如解码一个自定义编码的字符串)
 	}
 
+	// - 指定视图解析器
 	@Bean
 	public InternalResourceViewResolver getInternalResourceViewResolver()
 	{
-		// 指定视图解析器
 		InternalResourceViewResolver resolver = new InternalResourceViewResolver();
 		resolver.setViewClass(JstlView.class);
 		resolver.setPrefix("/WEB-INF/jsp/");
@@ -78,10 +77,10 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter
 		return resolver;
 	}
 
+	// - 指定模板风格的视图解析器(tiles,并指定了优先级,越小优先级越高)
 	@Bean
 	public UrlBasedViewResolver viewResolver()
 	{
-		// 指定模板风格的视图解析器(tiles,并指定了优先级,越小优先级越高)
 		UrlBasedViewResolver viewResolver = new UrlBasedViewResolver();
 		viewResolver.setViewClass(TilesView.class);
 		viewResolver.setOrder(-2);
@@ -97,7 +96,7 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter
 		return tilesConfigurer;
 	}
 
-	// 指定ContentNegotiatingViewResolver的json/xml实现
+	// - 指定ContentNegotiatingViewResolver的json/xml实现
 	@Bean
 	public ViewResolver contentNegotiatingViewResolver(ContentNegotiationManager manager)
 	{
@@ -126,6 +125,15 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter
 		});
 		MarshallingView xmlView = new MarshallingView(marshaller);
 		return xmlView;
+	}
+
+	// - 指定静态文件路径
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry)
+	{
+		registry.addResourceHandler("/img/**").addResourceLocations("/resources/images/");
+		registry.addResourceHandlers("/js/**").addResourceLocations("/resources/js/");
+		registry.addResourceHandlers("/css/**").addResourceLocations("/resources/css/");
 	}
 }
 

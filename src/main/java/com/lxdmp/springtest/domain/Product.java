@@ -9,7 +9,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 /*
  * 通过框架与json/xml间自动转换,实体类需用注释@XmlRootElement修饰,
- * 对无需参与转化的字段,其get方法用@XmlTransient和@JsonIgnore修饰.
+ * 对无需参与转化的字段,用@XmlTransient修饰其get方法,用@JsonIgnore修饰其字段成员.
  */
 
 @XmlRootElement(name="product")

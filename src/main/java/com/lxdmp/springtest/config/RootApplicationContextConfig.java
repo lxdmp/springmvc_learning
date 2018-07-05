@@ -19,7 +19,7 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import com.lxdmp.springtest.schedule.TaskScheduler;
 
 @Configuration
-@ComponentScan({"com.lxdmp.springtest.domain", "com.lxdmp.springtest.service", "com.lxdmp.springtest.schedule"})
+@ComponentScan({"com.lxdmp.springtest.domain", "com.lxdmp.springtest.service", "com.lxdmp.springtest.dto", "com.lxdmp.springtest.schedule"})
 @EnableScheduling
 public class RootApplicationContextConfig implements SchedulingConfigurer
 {
