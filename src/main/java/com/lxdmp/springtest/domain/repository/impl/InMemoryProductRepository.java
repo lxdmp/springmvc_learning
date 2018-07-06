@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.dao.DataAccessException;
 import com.lxdmp.springtest.domain.Product;
 import com.lxdmp.springtest.domain.repository.ProductRepository;
 
@@ -42,7 +43,11 @@ public class InMemoryProductRepository implements ProductRepository
 		String SQL = "select * from PRODUCTS where ID = :productId";
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("productId", productId);
-		return jdbcTemplate.queryForObject(SQL, params, new ProductMapper());
+		try{
+			return jdbcTemplate.queryForObject(SQL, params, new ProductMapper());
+		}catch(DataAccessException e){
+			return null;
+		}
 	}
 
 	private static final class ProductMapper implements RowMapper<Product>

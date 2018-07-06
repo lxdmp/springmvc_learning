@@ -58,5 +58,12 @@
 		<put-attribute name="content" value="/WEB-INF/view/cart.jsp" />
 	</definition>
 	-->
+
+	<definition name="productNotFound" extends="baseLayout">
+		<put-attribute name="title" value="Products" />
+		<put-attribute name="heading" value="Products"/>
+		<put-attribute name="tagline" value="Product not Found" />
+		<put-attribute name="content" value="/WEB-INF/view/productNotFound.jsp" />
+	</definition>
 </tiles-definitions>
 

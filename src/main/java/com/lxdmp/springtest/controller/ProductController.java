@@ -1,8 +1,10 @@
 package com.lxdmp.springtest.controller;
 
+import java.util.List;
 import java.math.BigDecimal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +18,11 @@ import com.lxdmp.springtest.service.ProductService;
 import com.lxdmp.springtest.domain.CustomFormatTestObj;
 import com.lxdmp.springtest.formatter.CustomFormatTestFormatter;
 
+import com.lxdmp.springtest.exception.NoProductsFoundException;
+import com.lxdmp.springtest.exception.ProductNotFoundException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class ProductController
 {
@@ -25,7 +32,10 @@ public class ProductController
 	@RequestMapping("/products")
 	public String list(Model model)
 	{
-		model.addAttribute("products", productService.getAllProducts());
+		List<Product> products = productService.getAllProducts();
+		if(products==null || products.isEmpty())
+			throw new NoProductsFoundException();
+		model.addAttribute("products", products);
 		return "products";
 	}
 
@@ -35,7 +45,10 @@ public class ProductController
 		@PathVariable("category") String category
 	)
 	{
-		model.addAttribute("products", productService.getProductsByCategory(category));
+		List<Product> products = productService.getProductsByCategory(category);
+		if(products==null || products.isEmpty())
+			throw new NoProductsFoundException();
+		model.addAttribute("products", products);
 		return "products";
 	}
 
@@ -45,8 +58,24 @@ public class ProductController
 		@RequestParam("id") String productId
 	)
 	{
-		model. addAttribute("product", productService.getProductById(productId));
+		Product product = productService.getProductById(productId);
+		if(product==null)
+			throw new ProductNotFoundException(productId);
+		model.addAttribute("product", product);
 		return "product";
+	}
+
+	@ExceptionHandler(ProductNotFoundException.class)
+	public ModelAndView handleProductNotFoundError(
+		HttpServletRequest req, ProductNotFoundException exception)
+	{
+		ModelAndView model = new ModelAndView();
+		model.addObject("invalidProductId", exception.getProductId());
+		model.addObject("exception", exception);
+		model.addObject("url", req.getRequestURL()+"?"+req.getQueryString());
+		model.addObject("jumpDelay", 5);
+		model.setViewName("productNotFound");
+		return model;
 	}
 
 	@RequestMapping("/format")
