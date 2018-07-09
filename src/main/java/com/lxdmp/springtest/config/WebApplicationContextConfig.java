@@ -40,7 +40,12 @@ import com.lxdmp.springtest.dto.ProductList;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan({"com.lxdmp.springtest.controller", "com.lxdmp.springtest.interceptor", "com.lxdmp.springtest.formatter", "com.lxdmp.springtest.exception"})
+@ComponentScan({
+	"com.lxdmp.springtest.controller", 
+	"com.lxdmp.springtest.interceptor", 
+	"com.lxdmp.springtest.formatter", 
+	"com.lxdmp.springtest.exception"
+})
 public class WebApplicationContextConfig extends WebMvcConfigurerAdapter
 {
 	@Override
