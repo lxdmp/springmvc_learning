@@ -57,6 +57,18 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter
 		super.addInterceptors(registry);
 		registry.addInterceptor(new ProcessTimeLogInterceptor());
 		registry.addInterceptor(new ProductsInXmlViewInterceptor());
+
+		/*
+		 * InterceptorRegistration addPathPatterns(String patterns) : 显式声明拦截器作用的路径;
+		 * InterceptorRegistration excludePathPatterns(String patterns) : 显式声明拦截器不作用的路径.
+		 */
+		// 例如:
+		// registry.addInterceptor(...).addPathPatterns("/**/market/products/specialOffer"),
+		// 只作用于以该字串结尾的路径请求.
+
+		/*
+		 * 另外,可以在Interceptor接口的preHandle()中进行请求的重定向(HttpServletRequest.sendRedirect()).
+		 */
 	}
 
 	// - 添加formatter

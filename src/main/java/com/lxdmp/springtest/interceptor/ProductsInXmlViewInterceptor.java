@@ -45,10 +45,11 @@ public class ProductsInXmlViewInterceptor implements HandlerInterceptor
 		if(!modelAndView.getModel().containsKey(dataKeyName))
 			return;
 
-		logger.info("replacement done in ProductsInXmlView");
+		logger.info("try to do replacement in ProductsInXmlView");
 		List<Product> products = reinterpret_cast(modelAndView.getModel().remove(dataKeyName));
 		ProductList list = new ProductList(products);
 		modelAndView.getModel().put(dataKeyName, list);
+		logger.info("replacement done in ProductsInXmlView");
 	}
 
 	public void afterCompletion(
