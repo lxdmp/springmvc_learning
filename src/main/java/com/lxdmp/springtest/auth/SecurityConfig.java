@@ -44,9 +44,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 				.antMatchers("/**/add").access("hasRole('ADMIN')") // url的权限匹配按照声明顺序进行,
 				.antMatchers("/**/format").access("hasRole('USER')") // 故可按照由精确到模糊的顺序声明.
 				.antMatchers("/**").permitAll()
-				.and()
+				.and();
+			/*
 			.csrf()
 				.disable();
+			*/
 	}
 }
 

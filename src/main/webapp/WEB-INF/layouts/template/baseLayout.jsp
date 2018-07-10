@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
@@ -27,13 +28,27 @@
 
 	<section class="container">
 	<div class="pull-right" style="padding-right:50px">
-		<a href="?language=en">English</a>|<a href="?language=nl">Dutch</a>
+		<div style="float:left"><a href="?language=en">English</a>|</div>
+		<div style="float:left"><a href="?language=nl">Dutch</a>|</div>
 		<c:choose>
+			<%-- 登出 --%>
 			<c:when test="${isAuthenticated}">
-				|<a href="<spring:url value="/logout"/>">Logout</a>
+				<div style="float:left">
+					<%-- csrf开启情况下登出需用post --%>
+					<%--
+					<a href="<spring:url value="/logout"/>">Logout</a>
+					--%>
+					<c:url var="logoutUrl" value="/logout"/>
+					<form:form action="${logoutUrl}" method="post" id="logout_form">
+						<a onclick="document:logout_form.submit();" style="cursor:pointer">Logout</a>
+					</form:form>
+				</div>
 			</c:when>
+			<%-- 登录 --%>
 			<c:otherwise>
-				|<a href="<spring:url value="/login"/>">Login</a>
+				<div style="float:left">
+					<a href="<spring:url value="/login"/>">Login</a>
+				</div>
 			</c:otherwise>
 		</c:choose>
 	</div>

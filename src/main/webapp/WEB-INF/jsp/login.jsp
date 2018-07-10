@@ -47,7 +47,7 @@
 	
 	<div class="panel-body">
 		<c:url var="loginUrl" value="/login"/>
-		<form action="${loginUrl}" method="post" class="form-horizontal">
+		<form:form action="${loginUrl}" method="post" class="form-horizontal">
 			<c:if test="${param.error!=null}">
 				<div class="alert alert-danger">
 					<p>Invalid username or password.</p>
@@ -79,7 +79,7 @@ Password" required>
 			<div class="form-actions">
 				<input type="submit" class="btn btn-block btn-primary btn-default" value="Log in">
 			</div>
-		</form>
+		</form:form>
 	</div>
 	</c:otherwise>
 	</c:choose>
