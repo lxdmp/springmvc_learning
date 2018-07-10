@@ -65,5 +65,12 @@
 		<put-attribute name="tagline" value="Product not Found" />
 		<put-attribute name="content" value="/WEB-INF/view/productNotFound.jsp" />
 	</definition>
+
+	<definition name="login" extends="baseLayout">
+		<put-attribute name="title" value="Login" />
+		<put-attribute name="heading" value="Login"/>
+		<put-attribute name="tagline" value="Login" />
+		<put-attribute name="content" value="/WEB-INF/view/login.jsp" />
+	</definition>
 </tiles-definitions>
 

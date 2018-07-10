@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 
 <!DOCTYPE html>
 <html>
@@ -10,6 +11,14 @@
 	<title>Products</title>
 </head>
 <body>
+	
+	<%--
+		根据具有的角色确定是否已登录.
+		若未登录,显示登录表单;否则不显示.
+	--%>
+	<security:authorize access="hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')" var="isAuthenticated">
+	</security:authorize>	
+
 	<section>
 	<div class="jumbotron">
 	<div class="container">
@@ -24,6 +33,14 @@
 	<div class="col-md-4 col-md-offset-4">
 	<div class="panel panel-default">
 
+	<c:choose>
+	<c:when test="${isAuthenticated}"> <%-- 当前已登录,不显示表单,显示一些提示 --%>
+	<div>
+		<p class="alert alert-danger">Already login</p>
+	</div>
+	</c:when>
+
+	<c:otherwise> <%-- 当前未登录,显示登录表单 --%>
 	<div class="panel-heading">
 		<h3 class="panel-title">Please sign in</h3>
 	</div>
@@ -64,6 +81,8 @@ Password" required>
 			</div>
 		</form>
 	</div>
+	</c:otherwise>
+	</c:choose>
 
 	</div>
 	</div>

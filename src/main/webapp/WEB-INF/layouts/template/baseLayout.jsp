@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -14,11 +15,27 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.1/angular.min.js"></script>
 	<script src="https://cdn.bootcss.com/jquery/3.3.0/jquery.min.js"></script>
 </head>
+
 <body>
+
+	<%--
+		根据具有的角色确定是否已登录.
+		若登录,显示Logout链接;若未登录,显示Login链接.
+	--%>
+	<security:authorize access="hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')" var="isAuthenticated">
+	</security:authorize>
+
 	<section class="container">
 	<div class="pull-right" style="padding-right:50px">
 		<a href="?language=en">English</a>|<a href="?language=nl">Dutch</a>
-		<a href="<spring:url value="/logout"/>">Logout</a>
+		<c:choose>
+			<c:when test="${isAuthenticated}">
+				|<a href="<spring:url value="/logout"/>">Logout</a>
+			</c:when>
+			<c:otherwise>
+				|<a href="<spring:url value="/login"/>">Login</a>
+			</c:otherwise>
+		</c:choose>
 	</div>
 	</section>
 
