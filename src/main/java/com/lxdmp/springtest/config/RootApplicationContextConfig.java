@@ -21,6 +21,13 @@ import com.lxdmp.springtest.schedule.TaskScheduler;
 
 import com.lxdmp.springtest.auth.SecurityConfig;
 
+import java.io.FileInputStream;
+import java.util.Properties;
+import java.io.IOException;
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+
+import org.apache.log4j.Logger;
+
 @Configuration
 @ComponentScan({
 	"com.lxdmp.springtest.domain", 
@@ -32,22 +39,46 @@ import com.lxdmp.springtest.auth.SecurityConfig;
 @Import({ SecurityConfig.class })
 public class RootApplicationContextConfig implements SchedulingConfigurer
 {
-	@Bean
-	public DataSource dataSource()
-	{
-		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-		EmbeddedDatabase db = builder
-			.setType(EmbeddedDatabaseType.HSQL)
-			.addScript("db/sql/create-table.sql")
-			.addScript("db/sql/insert-data.sql")
-			.build();
-		return db;
-	}
+	private static final Logger logger = Logger.getLogger(RootApplicationContextConfig.class);
 
 	@Bean
 	public NamedParameterJdbcTemplate getJdbcTemplate()
 	{
-		return new NamedParameterJdbcTemplate(dataSource());
+		//return new NamedParameterJdbcTemplate(hsqlDataSource());
+		return new NamedParameterJdbcTemplate(mysqlDataSource());
+	}
+
+	private DataSource hsqlDataSource()
+	{
+		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+		EmbeddedDatabase db = builder
+			.setType(EmbeddedDatabaseType.HSQL)
+			.addScript("db/hsql/create-table.sql")
+			.addScript("db/hsql/insert-data.sql")
+			.build();
+		return db;
+	}
+
+	private DataSource mysqlDataSource()
+	{
+		Properties props = new Properties();
+		FileInputStream fis = null;
+		MysqlDataSource mysqlDS = null;
+		try {
+			String mysql_config_file_name = "mysql.properties";
+			String class_path = RootApplicationContextConfig.class.getClassLoader().getResource("/").toURI().getPath();
+			fis = new FileInputStream(class_path+"/"+mysql_config_file_name);
+			props.load(fis);
+			Class.forName(props.getProperty("dbDriverClass"));
+
+			mysqlDS = new MysqlDataSource();
+			mysqlDS.setURL(props.getProperty("dbUrl"));
+			mysqlDS.setUser(props.getProperty("dbUsr"));
+			mysqlDS.setPassword(props.getProperty("dbPw"));
+		}catch(Exception e){
+			logger.error(e);
+		}
+		return mysqlDS;
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package com.lxdmp.springtest.service.impl;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import com.lxdmp.springtest.domain.Product;
 import com.lxdmp.springtest.domain.repository.ProductRepository;
@@ -11,6 +12,8 @@ import com.lxdmp.springtest.service.ProductService;
 public class ProductServiceImpl implements ProductService
 {
 	@Autowired
+	//@Qualifier("hsqlRepo")
+	@Qualifier("mysqlRepo")
 	private ProductRepository productRepository;
 
 	@Override

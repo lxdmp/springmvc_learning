@@ -13,16 +13,16 @@ import org.springframework.dao.DataAccessException;
 import com.lxdmp.springtest.domain.Product;
 import com.lxdmp.springtest.domain.repository.ProductRepository;
 
-@Repository
+@Repository("hsqlRepo")
 public class InMemoryProductRepository implements ProductRepository
 {
 	@Autowired
-	private NamedParameterJdbcTemplate jdbcTemplate;
+	protected NamedParameterJdbcTemplate jdbcTemplate;
 
 	@Override
 	public List<Product> getAllProducts()
 	{
-		String SQL = "SELECT * FROM products";
+		String SQL = "SELECT * FROM PRODUCTS";
 		Map<String, Object> params = new HashMap<String, Object>();
 		List<Product> result = jdbcTemplate.query(SQL, params, new ProductMapper());
 		return result;
@@ -50,7 +50,7 @@ public class InMemoryProductRepository implements ProductRepository
 		}
 	}
 
-	private static final class ProductMapper implements RowMapper<Product>
+	protected static final class ProductMapper implements RowMapper<Product>
 	{
 		public Product mapRow(ResultSet rs, int rowNum) throws SQLException
 		{
