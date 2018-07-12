@@ -16,7 +16,7 @@
 		根据具有的角色确定是否已登录.
 		若未登录,显示登录表单;否则不显示.
 	--%>
-	<security:authorize access="hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')" var="isAuthenticated">
+	<security:authorize access="hasAnyAuthority('CUSTOM_FORMAT', 'ADD_PRODUCT')" var="isAuthenticated">
 	</security:authorize>	
 
 	<section>

@@ -3,7 +3,7 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 
-<security:authorize access="hasAnyAuthority('ROLE_ADMIN')" var="isAuthenticatedWithAdmin">
+<security:authorize access="hasAnyAuthority('ADD_PRODUCT')" var="isAuthenticatedWithAddProduct">
 </security:authorize>
 
 <li>
@@ -14,7 +14,7 @@
 	<a href="<spring:url value="/products"/>">Products</a>
 </li>
 
-<c:if test="${isAuthenticatedWithAdmin}">
+<c:if test="${isAuthenticatedWithAddProduct}">
 <li>
 	<a href="<spring:url value="/products/add"/>">Add Product</a>
 </li>

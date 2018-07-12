@@ -23,7 +23,7 @@
 		根据具有的角色确定是否已登录.
 		若登录,显示Logout链接;若未登录,显示Login链接.
 	--%>
-	<security:authorize access="hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')" var="isAuthenticated">
+	<security:authorize access="hasAnyAuthority('ADD_PRODUCT', 'CUSTOM_FORMAT')" var="isAuthenticated">
 	</security:authorize>
 
 	<section class="container">

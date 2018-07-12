@@ -22,8 +22,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 	@Autowired
 	public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception
 	{
+		/*
 		auth.inMemoryAuthentication().withUser("test").password("123").roles("USER");
 		auth.inMemoryAuthentication().withUser("admin").password("root123").roles("USER", "ADMIN");
+		*/
+		auth.inMemoryAuthentication().withUser("test").password("123").authorities("CUSTOM_FORMAT");
+		auth.inMemoryAuthentication().withUser("admin").password("root123").authorities(
+			"CUSTOM_FORMAT", "ADD_PRODUCT"
+		);
 	}
 
 	@Override
@@ -49,8 +55,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 				.accessDeniedPage("/login?accessDenied")
 				.and()
 			.authorizeRequests()
-				.antMatchers("/**/add").access("hasRole('ADMIN')") // url的权限匹配按照声明顺序进行,
-				.antMatchers("/**/format").access("hasRole('USER')") // 故可按照由精确到模糊的顺序声明.
+				//.antMatchers("/**/add").access("hasRole('ADMIN')") // url的权限匹配按照声明顺序进行,
+				//.antMatchers("/**/format").access("hasRole('USER')") // 故可按照由精确到模糊的顺序声明.
+				.antMatchers("/**/add").access("hasAuthority('ADD_PRODUCT')") // url的权限匹配按照声明顺序进行,
+				.antMatchers("/**/format").access("hasAuthority('CUSTOM_FORMAT')") // 故可按照由精确到模糊的顺序声明.
 				.antMatchers("/**").permitAll()
 				.and();
 			/*
