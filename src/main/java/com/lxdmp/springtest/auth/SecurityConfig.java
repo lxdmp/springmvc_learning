@@ -11,6 +11,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
+	/*
+	 * Spring Security约定的权限是人员、角色两张表,
+	 * roles/hasRole方法默认有前缀"ROLE_"前缀.
+	 *
+	 * 若要实现更灵活的人员、角色、功能三张表(可用功能代替默认约定的角色概念),
+	 * 使用authorities/hasAuthority代替上述的roles方法,这样的字串没有任何前缀或后缀.
+	 */
+
 	@Autowired
 	public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception
 	{
