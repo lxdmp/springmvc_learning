@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -67,28 +68,28 @@ public class RootApplicationContextConfig implements SchedulingConfigurer
 	}
 
 	@Bean(name={"mysqlDataSource"})
-	public DataSource mysqlDataSource()
+	public DriverManagerDataSource mysqlDataSource()
 	{
 		Properties props = new Properties();
 		FileInputStream fis = null;
-		MysqlDataSource mysqlDS = null;
+		DriverManagerDataSource mysqlDataSource = null;
 		try {
 			String mysql_config_file_name = "mysql.properties";
 			String class_path = RootApplicationContextConfig.class.getClassLoader().getResource("/").toURI().getPath();
 			fis = new FileInputStream(class_path+"/"+mysql_config_file_name);
 			props.load(fis);
-			Class.forName(props.getProperty("dbDriverClass"));
 
-			mysqlDS = new MysqlDataSource();
-			mysqlDS.setURL(props.getProperty("dbUrl"));
-			mysqlDS.setUser(props.getProperty("dbUsr"));
-			mysqlDS.setPassword(props.getProperty("dbPw"));
+			mysqlDataSource = new DriverManagerDataSource();
+			mysqlDataSource.setDriverClassName(props.getProperty("dbDriverClass"));
+			mysqlDataSource.setUrl(props.getProperty("dbUrl"));
+			mysqlDataSource.setUsername(props.getProperty("dbUsr"));
+			mysqlDataSource.setPassword(props.getProperty("dbPw"));
 		}catch(Exception e){
 			logger.error(e);
 		}
-		return mysqlDS;
+		return mysqlDataSource;
 	}
-
+	
 	@Override
 	public void configureTasks(ScheduledTaskRegistrar taskRegistrar)
 	{
