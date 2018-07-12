@@ -6,6 +6,8 @@ import java.util.concurrent.Executors;
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -41,14 +43,19 @@ public class RootApplicationContextConfig implements SchedulingConfigurer
 {
 	private static final Logger logger = Logger.getLogger(RootApplicationContextConfig.class);
 
+	@Autowired
+	//@Qualifier("hsqlDataSource")
+	@Qualifier("mysqlDataSource")
+	DataSource dataSource;
+
 	@Bean
 	public NamedParameterJdbcTemplate getJdbcTemplate()
 	{
-		//return new NamedParameterJdbcTemplate(hsqlDataSource());
-		return new NamedParameterJdbcTemplate(mysqlDataSource());
+		return new NamedParameterJdbcTemplate(this.dataSource);
 	}
 
-	private DataSource hsqlDataSource()
+	@Bean(name={"hsqlDataSource"})
+	public DataSource hsqlDataSource()
 	{
 		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
 		EmbeddedDatabase db = builder
@@ -59,7 +66,8 @@ public class RootApplicationContextConfig implements SchedulingConfigurer
 		return db;
 	}
 
-	private DataSource mysqlDataSource()
+	@Bean(name={"mysqlDataSource"})
+	public DataSource mysqlDataSource()
 	{
 		Properties props = new Properties();
 		FileInputStream fis = null;

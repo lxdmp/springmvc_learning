@@ -65,9 +65,11 @@
 		<h1><tiles:insertAttribute name="heading" /></h1>
 		<p><tiles:insertAttribute name="tagline" /></p>
 	</div>
+
 	<div class="row">
 		<tiles:insertAttribute name="content" />
 	</div>
+
 	<div class="footer">
 		<tiles:insertAttribute name="footer" />
 	</div>
