@@ -5,20 +5,15 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.dao.DataAccessException;
 import com.lxdmp.springtest.domain.Product;
 import com.lxdmp.springtest.domain.repository.ProductRepository;
 
 @Repository("hsqlRepo")
-public class InMemoryProductRepository implements ProductRepository
+public class InMemoryProductRepository extends BaseRepository implements ProductRepository
 {
-	@Autowired
-	protected NamedParameterJdbcTemplate jdbcTemplate;
-
 	@Override
 	public List<Product> getAllProducts()
 	{
