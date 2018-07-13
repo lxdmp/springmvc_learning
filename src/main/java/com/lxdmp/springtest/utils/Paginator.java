@@ -11,18 +11,21 @@ import java.util.List;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
  
+import org.apache.log4j.Logger;
+
 public class Paginator<T> implements Serializable
 {
+	private static final Logger logger = Logger.getLogger(Paginator.class);
 	private final static long serialVersionUID = 1L;
-	private final static int DEFAULT_NAVIGATOR_SIZE = 5;
+	private final static int DEFAULT_NAVIGATOR_SIZE = 3;
 	
     private int currentPage = 1; //当前页,从1开始
     private int pageSize = 3; //每页显示数量
-    private int totalCount = 10; //总条数
+    private int totalCount = 12; //总条数
     private boolean havaNextPage; // 是否有上一页
     private boolean havePrevPage; // 是否有下一页
-    private int navigatorSize; // 前后显示的页数链接数量
-    private List<T> items; // 存放查询结果用的list
+    private int navigatorSize = DEFAULT_NAVIGATOR_SIZE; // 前后显示的页数链接数量
+	//private List<T> items; // 存放查询结果用的list
     
     public Paginator()
 	{
@@ -41,7 +44,7 @@ public class Paginator<T> implements Serializable
         this.navigatorSize = navigatorSize;
     }
     
-	// 页数(只读不可设)
+	// 总页数(只读不可设)
     public int getPageCount()
 	{
         int pageCount = 0;
@@ -104,15 +107,16 @@ public class Paginator<T> implements Serializable
         return this.havePrevPage;
     }
  
-	// 显示的页面(链接)范围
+	// 显示的页面(链接)范围(只读)
     private int getNavigatorIndex(boolean isBegin)
 	{
         int beginNavigatorIndex = getCurrentPage() - navigatorSize / 2;
         int endNavigatorIndex = getCurrentPage() + navigatorSize / 2;
+
         beginNavigatorIndex = beginNavigatorIndex<1?1:beginNavigatorIndex;
         endNavigatorIndex = endNavigatorIndex<getPageCount()?endNavigatorIndex:getPageCount();
 
-        while( (endNavigatorIndex - beginNavigatorIndex) < navigatorSize &&
+        while( (endNavigatorIndex-beginNavigatorIndex+1) < navigatorSize &&
                (beginNavigatorIndex != 1 || endNavigatorIndex != getPageCount()) )
 		{
             if(beginNavigatorIndex>1)
@@ -120,7 +124,7 @@ public class Paginator<T> implements Serializable
             else if(endNavigatorIndex < getPageCount())
                 ++endNavigatorIndex;
         }
- 
+
         if(isBegin)
             return beginNavigatorIndex;
         else
@@ -138,6 +142,7 @@ public class Paginator<T> implements Serializable
     }
  
 	// 存放的内容
+	/*
     public List<T> getItems()
 	{
         return items;
@@ -147,6 +152,7 @@ public class Paginator<T> implements Serializable
 	{
         this.items = items;
     }
+	*/
  
 	@Override
 	public String toString()

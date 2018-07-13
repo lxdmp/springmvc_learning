@@ -16,6 +16,8 @@ public class PaginatorTag extends SimpleTagSupport
 	private String sparam; //每页条数
 	private int size;
 	private int total; //总页数
+	private int beginNavigatorIndex = -1; // 可选设置
+	private int endNavigatorIndex = -1;
 	
 	@Override
 	public void doTag() throws JspException, IOException
@@ -55,6 +57,33 @@ public class PaginatorTag extends SimpleTagSupport
 			out.append("上一页");
 		else
 			href(out, href, curr-1, "上一页");
+
+		// navigator部分
+		if( beginNavigatorIndex>0 && 
+			endNavigatorIndex>0 && 
+			beginNavigatorIndex<=endNavigatorIndex )
+		{
+			if(1<beginNavigatorIndex)
+			{
+				out.append(" | ");
+				out.append(" ... ");
+			}
+
+			for(int index=beginNavigatorIndex; index<=endNavigatorIndex; ++index)
+			{
+				out.append(" | ");
+				if(index==curr)
+					out.append(String.valueOf(index));
+				else
+					href(out, href, index, String.valueOf(index));
+			}
+
+			if(endNavigatorIndex<total)
+			{
+				out.append(" | ");
+				out.append(" ... ");
+			}
+		}
 
 		// 下一页
 		out.append(" | ");
@@ -152,6 +181,27 @@ public class PaginatorTag extends SimpleTagSupport
 	public void setSize(int size)
 	{
 		this.size = size;
+	}
+
+	// navigator
+	public int getBeginNavigatorIndex()
+	{
+		return beginNavigatorIndex;
+	}
+
+	public void setBeginNavigatorIndex(int beginNavigatorIndex)
+	{
+		this.beginNavigatorIndex = beginNavigatorIndex;
+	}
+
+	public int getEndNavigatorIndex()
+	{
+		return endNavigatorIndex;
+	}
+
+	public void setEndNavigatorIndex(int endNavigatorIndex)
+	{
+		this.endNavigatorIndex = endNavigatorIndex;
 	}
 }
 
