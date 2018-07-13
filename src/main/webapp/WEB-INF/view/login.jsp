@@ -7,14 +7,14 @@
 	根据具有的角色确定是否已登录.
 	若未登录,显示登录表单;否则不显示.
 --%>
-<security:authorize access="hasAnyAuthority('ADD_PRODUCT', 'CUSTOM_FORMAT')" var="isAuthenticated">
-</security:authorize>	
 
 <section class="container">
 <div class="container">
 <div class="row">
 <div class="col-md-4 col-md-offset-4">
 <div class="panel panel-default">
+
+<%@ include file="/WEB-INF/layouts/template/privilege.jsp" %>
 
 <c:choose>
 <c:when test="${isAuthenticated}"> <%-- 当前已登录,不显示表单,显示一些提示 --%>

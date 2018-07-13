@@ -3,8 +3,7 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 
-<security:authorize access="hasAnyAuthority('ADD_PRODUCT')" var="isAuthenticatedWithAddProduct">
-</security:authorize>
+<%@ include file="/WEB-INF/layouts/template/privilege.jsp" %>
 
 <li>
 	<a href="<spring:url value="/"/>">Home</a>
