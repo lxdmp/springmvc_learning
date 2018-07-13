@@ -39,6 +39,17 @@ public class ProductController
 		return "products";
 	}
 
+	/*
+	@RequestMapping("/products/list")
+	public String productInList(
+		Model model, 
+		@ModelAttribute("paginator") Paginator paginator
+	)
+	{
+		return "productsInList";
+	}
+	*/
+
 	@RequestMapping("/products/{category}")
 	public String listByCategory(
 		Model model, 
