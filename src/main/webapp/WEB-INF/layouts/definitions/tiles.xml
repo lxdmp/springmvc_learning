@@ -27,6 +27,13 @@
 		<put-attribute name="content" value="/WEB-INF/view/products.jsp" />
 	</definition>
 
+	<definition name="productsInList" extends="baseLayout">
+		<put-attribute name="title" value="Products" />
+		<put-attribute name="heading" value="Products"/>
+		<put-attribute name="tagline" value="Products with Paginator" />
+		<put-attribute name="content" value="/WEB-INF/view/productsInList.jsp" />
+	</definition>
+
 	<definition name="product" extends="baseLayout">
 		<put-attribute name="title" value="Product" />
 		<put-attribute name="heading" value="Product"/>

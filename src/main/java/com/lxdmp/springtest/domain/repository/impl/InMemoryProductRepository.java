@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.dao.DataAccessException;
 import com.lxdmp.springtest.domain.Product;
 import com.lxdmp.springtest.domain.repository.ProductRepository;
+import com.lxdmp.springtest.utils.Paginator;
 
 @Repository("hsqlRepo")
 public class InMemoryProductRepository extends BaseRepository implements ProductRepository
@@ -24,11 +25,33 @@ public class InMemoryProductRepository extends BaseRepository implements Product
 	}
 
 	@Override
+	public int getAllProductsNum()
+	{
+		String SQL = "SELECT count(*) FROM PRODUCTS";
+		Map<String, Object> params = new HashMap<String, Object>();
+		try{
+			return jdbcTemplate.queryForObject(SQL, params, Integer.class);
+		}catch(DataAccessException e){
+			return 0;
+		}
+	}
+
+	@Override
 	public List<Product> getProductsByCategory(String category)
 	{
 		String SQL = "SELECT * FROM PRODUCTS WHERE CATEGORY = :category";
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("category", category);
+		return jdbcTemplate.query(SQL, params, new ProductMapper());
+	}
+
+	@Override
+	public List<Product> getProductsByPage(Paginator<Product> paginator)
+	{
+		String SQL = "SELECT * FROM PRODUCTS limit :start,:num";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("start", (paginator.getCurrentPage()-1)*paginator.getPageSize());
+		params.put("num", paginator.getPageSize());
 		return jdbcTemplate.query(SQL, params, new ProductMapper());
 	}
 

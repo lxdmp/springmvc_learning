@@ -18,6 +18,8 @@ import com.lxdmp.springtest.service.ProductService;
 import com.lxdmp.springtest.domain.CustomFormatTestObj;
 import com.lxdmp.springtest.formatter.CustomFormatTestFormatter;
 
+import com.lxdmp.springtest.utils.Paginator;
+
 import com.lxdmp.springtest.exception.NoProductsFoundException;
 import com.lxdmp.springtest.exception.ProductNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -39,16 +41,19 @@ public class ProductController
 		return "products";
 	}
 
-	/*
 	@RequestMapping("/products/list")
 	public String productInList(
 		Model model, 
-		@ModelAttribute("paginator") Paginator paginator
+		@ModelAttribute("paginator") Paginator<Product> paginator
 	)
 	{
+		// 分页显示Product
+		List<Product> products = productService.getProductsByPage(paginator);
+		if(products==null || products.isEmpty())
+			throw new NoProductsFoundException();
+		model.addAttribute("products", products);
 		return "productsInList";
 	}
-	*/
 
 	@RequestMapping("/products/{category}")
 	public String listByCategory(

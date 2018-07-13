@@ -1,5 +1,7 @@
 /*
  * 分页实现
+ *
+ * 实例化时,需要指定"总条数","一页的条数","第几页(从1开始)".
  */
 package com.lxdmp.springtest.utils;
  
@@ -15,8 +17,8 @@ public class Paginator<T> implements Serializable
 	private final static int DEFAULT_NAVIGATOR_SIZE = 5;
 	
     private int currentPage = 1; //当前页,从1开始
-    private int pageSize = 5; //每页显示数量
-    private int totalCount; //总条数
+    private int pageSize = 3; //每页显示数量
+    private int totalCount = 10; //总条数
     private boolean havaNextPage; // 是否有上一页
     private boolean havePrevPage; // 是否有下一页
     private int navigatorSize; // 前后显示的页数链接数量

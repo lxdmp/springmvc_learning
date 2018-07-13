@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.lxdmp.springtest.domain.Product;
 import com.lxdmp.springtest.domain.repository.ProductRepository;
 import com.lxdmp.springtest.service.ProductService;
+import com.lxdmp.springtest.utils.Paginator;
 
 @Service
 public class ProductServiceImpl implements ProductService
@@ -23,9 +24,21 @@ public class ProductServiceImpl implements ProductService
 	}
 
 	@Override
+	public int getAllProductsNum()
+	{
+		return productRepository.getAllProductsNum();
+	}
+
+	@Override
 	public List<Product> getProductsByCategory(String category)
 	{
 		return productRepository.getProductsByCategory(category);
+	}
+
+	@Override
+	public List<Product> getProductsByPage(Paginator<Product> paginator)
+	{
+		return productRepository.getProductsByPage(paginator);
 	}
 
 	@Override
