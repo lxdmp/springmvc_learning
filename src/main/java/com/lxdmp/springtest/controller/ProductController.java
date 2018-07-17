@@ -59,13 +59,14 @@ public class ProductController
 	{
 		// 查询参数指定了"第几页"与"每页多少条"(两者有默认参数),还需指定共有多少条记录.
 		paginator.setTotalCount(productService.getAllProductsNum());
-		logger.info(paginator.toString());
+		//logger.info(paginator.toString());
 
 		// 分页显示Product
 		List<Product> products = productService.getProductsByPage(paginator);
 		if(products==null || products.isEmpty())
 			throw new NoProductsFoundException();
 		paginator.setItems(products);
+
 		return "productsInList";
 	}
 
