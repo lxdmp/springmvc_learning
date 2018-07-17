@@ -132,6 +132,31 @@
 			<failOnMissingWebXml>false</failOnMissingWebXml>
 		</configuration>
 	  </plugin>
+	  <!-- native2ascii处理properties文件 -->
+	  <plugin>
+		<groupId>org.codehaus.mojo</groupId>
+		<artifactId>native2ascii-maven-plugin</artifactId>
+		<version>1.0-beta-1</version>
+		<configuration>
+			<src>src/main/resources</src>
+			<dest>target/resources</dest>
+			<encoding>UTF8</encoding>
+			<includes>*.properties</includes>
+			<!--
+			<includes>*.properties, 指定的其他文件</includes>
+			-->
+		</configuration>
+		<executions>
+			<execution>
+				<id>native2ascii-utf8-resources</id>
+				<phase>compile</phase>
+				<goals>
+					<goal>native2ascii</goal>
+				</goals>
+			</execution>
+		</executions>
+	  </plugin>
 	</plugins>
   </build>
 </project>
+

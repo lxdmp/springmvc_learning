@@ -38,6 +38,9 @@ import org.springframework.web.servlet.view.xml.MarshallingView;
 import com.lxdmp.springtest.domain.Product;
 import com.lxdmp.springtest.dto.ProductList;
 
+import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.context.MessageSource;
+
 @Configuration
 @EnableWebMvc
 @ComponentScan({
@@ -152,6 +155,15 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter
 		registry.addResourceHandler("/img/**").addResourceLocations("/resources/images/");
 		registry.addResourceHandler("/js/**").addResourceLocations("/resources/js/");
 		registry.addResourceHandler("/css/**").addResourceLocations("/resources/css/");
+	}
+
+	// - 页面内容导入
+	@Bean
+	public MessageSource messageSource()
+	{
+		ResourceBundleMessageSource resource = new ResourceBundleMessageSource();
+		resource.setBasename("messages");
+		return resource;
 	}
 }
 

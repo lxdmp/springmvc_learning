@@ -15,7 +15,8 @@
 		<p>Available ${product.unitsInStock} units in stock</p>
 		<p>
 			<a href=" <spring:url value="/product?id=${product.productId}"/> " class="btn btn-primary">
-				<span class="glyphicon-info-sign glyphicon"/></span>Details
+				<span class="glyphicon-info-sign glyphicon"/></span>
+				<spring:message code="products.product.detail.label"/>
 			</a>
 		</p>
 	</div>
