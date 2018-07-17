@@ -25,9 +25,19 @@ import com.lxdmp.springtest.exception.ProductNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.validation.BindingResult;
+//import org.apache.commons.lang.StringUtils;
+import org.springframework.util.StringUtils;
+
+import org.apache.log4j.Logger;
+
 @Controller
 public class ProductController
 {
+	private static final Logger logger = Logger.getLogger(ProductController.class);
+
 	@Autowired
 	private ProductService productService;
 
@@ -47,11 +57,15 @@ public class ProductController
 		@ModelAttribute("paginator") Paginator<Product> paginator
 	)
 	{
+		// 查询参数指定了"第几页"与"每页多少条"(两者有默认参数),还需指定共有多少条记录.
+		paginator.setTotalCount(productService.getAllProductsNum());
+		logger.info(paginator.toString());
+
 		// 分页显示Product
 		List<Product> products = productService.getProductsByPage(paginator);
 		if(products==null || products.isEmpty())
 			throw new NoProductsFoundException();
-		model.addAttribute("products", products);
+		paginator.setItems(products);
 		return "productsInList";
 	}
 
@@ -112,6 +126,30 @@ public class ProductController
 	}
 
 	// 添加product
+	@InitBinder
+	public void initializeBinder(WebDataBinder binder)
+	{
+		/*
+		// 设置允许绑定的字段
+		binder.setAllowedFields(
+			"productId",
+			"name",
+			"unitPrice",
+			"description",
+			"manufacturer",
+			"category",
+			"unitsInStock",
+			"condition"
+		);
+		*/
+		// paginator也需要绑定,故只设置不允许绑定的字段.
+		binder.setDisallowedFields(
+			"unitsInStock", 
+			"unitsInOrder", 
+			"discontinued"
+		);
+	}
+
 	@RequestMapping(value="/products/add", method=RequestMethod.GET)
 	public String getAddNewProductForm(Model model)
 	{
@@ -122,8 +160,19 @@ public class ProductController
 
 	@RequestMapping(value="/products/add", method=RequestMethod.POST)
 	public String processAddNewProductForm(
-		@ModelAttribute("newProduct") Product newProduct)
+		@ModelAttribute("newProduct") Product newProduct, 
+		BindingResult bindingResult
+	)
 	{
+		String[] suppressedFields = bindingResult.getSuppressedFields();
+		if(suppressedFields.length>0)
+		{
+			throw new RuntimeException(
+				"Attempting to bind disallowed fields : " +
+				StringUtils.arrayToCommaDelimitedString(suppressedFields)
+			);
+		}
+
 		productService.addProduct(newProduct);
 		//return "redirect:/products";
 		String redirect_url = String.format("redirect:/product?id=%s", newProduct.getProductId());

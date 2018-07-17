@@ -21,11 +21,11 @@ public class Paginator<T> implements Serializable
 	
     private int currentPage = 1; //当前页,从1开始
     private int pageSize = 3; //每页显示数量
-    private int totalCount = 12; //总条数
+    private int totalCount; //总条数
     private boolean havaNextPage; // 是否有上一页
     private boolean havePrevPage; // 是否有下一页
     private int navigatorSize = DEFAULT_NAVIGATOR_SIZE; // 前后显示的页数链接数量
-	//private List<T> items; // 存放查询结果用的list
+	private List<T> items; // 存放查询结果用的list
     
     public Paginator()
 	{
@@ -142,7 +142,6 @@ public class Paginator<T> implements Serializable
     }
  
 	// 存放的内容
-	/*
     public List<T> getItems()
 	{
         return items;
@@ -152,7 +151,6 @@ public class Paginator<T> implements Serializable
 	{
         this.items = items;
     }
-	*/
  
 	@Override
 	public String toString()

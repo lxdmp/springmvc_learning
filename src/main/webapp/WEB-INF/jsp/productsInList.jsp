@@ -23,7 +23,7 @@
 
 	<section class="container">
 	<div class="row">
-	<c:forEach items="${products}" var="product">
+	<c:forEach items="${paginator.items}" var="product">
 		<div class="col-sm-6 col-md-3" style="padding-bottom:15px">
 		<div class="thumbnail">
 		<div class="caption">
@@ -43,8 +43,13 @@
 	</div>
 	</section>
 
+
 	<c:url var="productsInListUrl" value="/products/list"/>
-	<custom:paginator curr="${rf.currentPage}" total="${rf.pageCount}" size="${rf.pageSize}" href="${productsInListUrl}"/>
+	<custom:paginator curr="${paginator.currentPage}" total="${paginator.pageCount}" size="${paginator.pageSize}" href="${productsInListUrl}" beginNavigatorIndex="${paginator.beginNavigatorIndex}" endNavigatorIndex="${paginator.endNavigatorIndex}"/>
+
+	<br/>
+
+	<custom:paginator curr="${paginator.currentPage}" total="${paginator.pageCount}" size="${paginator.pageSize}" href="${productsInListUrl}"/>
 
 </body>
 </html>

@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 				.antMatchers("/**").permitAll()
 				.and();
 			/*
-			.csrf()
+			.csrf() // 跨域请求,使能该功能
 				.disable();
 			*/
 	}

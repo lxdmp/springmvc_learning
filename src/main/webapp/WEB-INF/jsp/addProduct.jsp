@@ -64,19 +64,25 @@
 		</div>
 	</div>
 
+	<%--
+	<!-- 该字段不由前台提交的表单绑定 -->
 	<div class="form-group">
 		<label class="control-label col-lg-2 col-lg-2" for="unitsInStock">Units in Stock</label>
 		<div class="col-lg-10">
 			<form:input id="unitsInStock" path="unitsInStock" type="text" class="form:input-large" value="0"/>
 		</div>
 	</div>
+	--%>
 
+	<%--
+	<!-- 该字段不由前台提交的表单绑定 -->
 	<div class="form-group">
 		<label class="control-label col-lg-2 col-lg-2" for="unitsInOrder">Units in Order</label>
 		<div class="col-lg-10">
 			<form:input id="unitsInOrder" path="unitsInOrder" type="text" class="form:input-large" value="0"/>
 		</div>
 	</div>
+	--%>
 
 	<div class="form-group">
 		<label class="control-label col-lg-2" for="description">Description</label>
@@ -85,12 +91,15 @@
 		</div>
 	</div>
 
+	<%--
+	<!-- 该字段不由前台提交的表单绑定 -->
 	<div class="form-group">
 		<label class="control-label col-lg-2" for="discontinued">Discontinued</label>
 		<div class="col-lg-10">
 			<form:checkbox id="discontinued" path="discontinued"/>
 		</div>
 	</div>
+	--%>
 
 	<div class="form-group">
 		<label class="control-label col-lg-2" for="condition">Condition</label>

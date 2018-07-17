@@ -19,6 +19,7 @@ public class MysqlProductRepository extends InMemoryProductRepository
 	@Override
 	public void addProduct(Product product)
 	{
+		// condition为mysql的关键字,用``修饰.
 		product.setUnitsInOrder(0);
 		product.setDiscontinued(false);
 

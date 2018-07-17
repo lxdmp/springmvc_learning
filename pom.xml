@@ -17,11 +17,14 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+	<!--
 	<dependency>
 		<groupId>org.apache.commons</groupId>
 		<artifactId>commons-lang3</artifactId>
 		<version>3.7</version>
 	</dependency>
+	-->
+	<!-- use org.springframework.util.StringUtils instead -->
 	<dependency>
 		<groupId>log4j</groupId>
 		<artifactId>log4j</artifactId>
