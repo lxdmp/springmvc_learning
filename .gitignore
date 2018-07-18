@@ -1,3 +1,6 @@
 *.swp
 target/
-src/main/webapp/resources/images/
+src/main/webapp/resources/images/*.jpg
+src/main/webapp/resources/images/*.jpeg
+src/main/webapp/resources/images/*.png
+src/main/webapp/resources/images/*.bmp

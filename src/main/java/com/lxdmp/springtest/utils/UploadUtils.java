@@ -25,7 +25,7 @@ public class UploadUtils
 				productImage.transferTo(new File(imageSavePath));
 			}else{
 				String sep = File.separator;
-				String tmp_storage_path = sep+"tmp"+sep+fileName;
+				String tmp_storage_path = System.getProperty("java.io.tmpdir")+sep+fileName;
 				productImage.transferTo(new File(tmp_storage_path));
 				Process p = new ProcessBuilder("convert", tmp_storage_path, imageSavePath).start();
 			}
