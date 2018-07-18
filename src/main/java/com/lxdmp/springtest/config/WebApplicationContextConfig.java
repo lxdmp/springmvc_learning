@@ -17,6 +17,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import com.lxdmp.springtest.interceptor.ProcessTimeLogInterceptor;
 import com.lxdmp.springtest.interceptor.ProductsInXmlViewInterceptor;
+import com.lxdmp.springtest.interceptor.FileUploadInterceptor;
 
 import org.springframework.format.FormatterRegistry;
 import com.lxdmp.springtest.formatter.CustomFormatTestFormatter;
@@ -40,6 +41,8 @@ import com.lxdmp.springtest.dto.ProductList;
 
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.context.MessageSource;
+
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 @Configuration
 @EnableWebMvc
@@ -77,6 +80,10 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter
 		/*
 		 * 另外,可以在Interceptor接口的preHandle()中进行请求的重定向(HttpServletRequest.sendRedirect()).
 		 */
+		registry.addInterceptor(new FileUploadInterceptor(
+			new String[] {"jpg", "jpeg", "png"}, 
+			/*(long)(3.1*1024*1024)*/5*1024
+		)).addPathPatterns("/products/add");
 	}
 
 	// - 添加formatter
@@ -164,6 +171,15 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter
 		ResourceBundleMessageSource resource = new ResourceBundleMessageSource();
 		resource.setBasename("messages");
 		return resource;
+	}
+
+	// - 文件上传功能
+	@Bean
+	public CommonsMultipartResolver multipartResolver()
+	{
+		CommonsMultipartResolver resolver=new CommonsMultipartResolver();
+		resolver.setDefaultEncoding("utf-8");
+		return resolver;
 	}
 }
 

@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.springframework.web.multipart.MultipartFile;
 
 /*
  * 通过框架与json/xml间自动转换,实体类需用注释@XmlRootElement修饰,
@@ -26,6 +27,7 @@ public class Product implements Serializable
 	private long unitsInOrder;
 	private boolean discontinued;
 	private String condition;
+	private MultipartFile productImage;
 
 	public Product()
 	{
@@ -68,6 +70,9 @@ public class Product implements Serializable
 
 	public String getCondition(){return this.condition;}
 	public void setCondition(String condition){this.condition = condition;}
+
+	public MultipartFile getProductImage(){return this.productImage;}
+	public void setProductImage(MultipartFile productImage){this.productImage = productImage;}
 
 	@Override
 	public boolean equals(Object obj) {

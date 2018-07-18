@@ -2,6 +2,7 @@ package com.lxdmp.springtest.controller;
 
 import java.util.List;
 import java.math.BigDecimal;
+import java.io.File;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,6 +33,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.util.StringUtils;
 
 import org.apache.log4j.Logger;
+
+import org.springframework.web.multipart.MultipartFile;
+import com.lxdmp.springtest.utils.UploadUtils;
 
 @Controller
 public class ProductController
@@ -162,9 +166,10 @@ public class ProductController
 	@RequestMapping(value="/products/add", method=RequestMethod.POST)
 	public String processAddNewProductForm(
 		@ModelAttribute("newProduct") Product newProduct, 
-		BindingResult bindingResult
+		BindingResult bindingResult, HttpServletRequest request
 	)
 	{
+		// - 绑定的字段是否合法
 		String[] suppressedFields = bindingResult.getSuppressedFields();
 		if(suppressedFields.length>0)
 		{
@@ -174,6 +179,16 @@ public class ProductController
 			);
 		}
 
+		// - 另存提交的图片
+		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+		String[] paths = new String[] {
+			rootDirectory, "resources", "images", newProduct.getProductId() + ".png"
+		};
+		String imageSavePath = org.apache.commons.lang.StringUtils.join(paths, File.separator);
+		MultipartFile productImage = newProduct.getProductImage();
+		UploadUtils.saveProductImage(productImage, imageSavePath);
+
+		// - 重定向到新添加的产品页面
 		productService.addProduct(newProduct);
 		//return "redirect:/products";
 		String redirect_url = String.format("redirect:/product?id=%s", newProduct.getProductId());
