@@ -82,7 +82,7 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter
 		 */
 		registry.addInterceptor(new FileUploadInterceptor(
 			new String[] {"jpg", "jpeg", "png"}, 
-			/*(long)(3.1*1024*1024)*/5*1024
+			/*(long)(3.1*1024*1024)*/10*1024
 		)).addPathPatterns("/products/add");
 	}
 

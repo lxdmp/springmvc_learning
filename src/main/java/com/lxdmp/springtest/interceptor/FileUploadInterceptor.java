@@ -1,6 +1,8 @@
 package com.lxdmp.springtest.interceptor;
 
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Iterator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +23,7 @@ public class FileUploadInterceptor implements HandlerInterceptor
 	static private final long FILE_SIZE_DEFAULT_LIMIT = 1024*1024*1024; // 1G
 	private static final Logger logger = Logger.getLogger(FileUploadInterceptor.class);
 
-	private String[] fileTypesPermitted;
+	private List<String> fileTypesPermitted = new ArrayList<String>();
 	private long fileSizeLimit;
 
 	public FileUploadInterceptor(String[] fileTypesPermitted)
@@ -31,8 +33,32 @@ public class FileUploadInterceptor implements HandlerInterceptor
 
 	public FileUploadInterceptor(String[] fileTypesPermitted, long fileSizeLimit)
 	{
-		this.fileTypesPermitted = fileTypesPermitted;
+		for(int i=0; i<fileTypesPermitted.length; ++i)
+		{
+			String suffix = fileTypesPermitted[i];
+			int firstIndex = suffix.indexOf(".");
+			int lastIndex = suffix.lastIndexOf(".");
+			if(firstIndex>=0 && lastIndex>=0)
+			{
+				if(firstIndex!=lastIndex){
+					continue;
+				}else{
+					if(firstIndex>0)
+						continue;
+					else
+						suffix = suffix.substring(1, suffix.length());
+				}
+			}
+			this.fileTypesPermitted.add(suffix);
+		}
 		this.fileSizeLimit = fileSizeLimit;
+
+		{
+			String s = String.format("supported image types : %s.", 
+				StringUtils.arrayToCommaDelimitedString(this.fileTypesPermitted.toArray())
+			);
+			logger.info(s);
+		}
 	}
 
     @Override
@@ -58,7 +84,7 @@ public class FileUploadInterceptor implements HandlerInterceptor
 				{
 					invalidReqView = new ModelAndView();
 					invalidReqView.addObject("fileTypeInvalid", true);
-					String tips = StringUtils.arrayToCommaDelimitedString(this.fileTypesPermitted);
+					String tips = StringUtils.arrayToCommaDelimitedString(this.fileTypesPermitted.toArray());
 					invalidReqView.addObject("tips", tips);
 					validReq = false;
 					//logger.info("image format invalid");
@@ -89,9 +115,9 @@ public class FileUploadInterceptor implements HandlerInterceptor
     private boolean isFileTypeValid(MultipartFile multipartFile)
 	{
 		String fileName = multipartFile.getOriginalFilename();
-		for(int i=0; i<this.fileTypesPermitted.length; ++i)
+		for(int i=0; i<this.fileTypesPermitted.size(); ++i)
 		{
-			String fileTypePermitted = this.fileTypesPermitted[i];
+			String fileTypePermitted = this.fileTypesPermitted.get(i);
 			String suffix = fileName.substring(fileName.lastIndexOf(".")+1, fileName.length());
 			if(fileTypePermitted.equalsIgnoreCase(suffix))
 				return true;

@@ -6,6 +6,9 @@ import org.apache.log4j.Logger;
 
 public class UploadUtils
 {
+	/*
+	 * 依赖于ImageMagick包的convert来进行图片文件的格式转换,上传的图片都另存为png格式供后续使用.
+	 */
 	private static final Logger logger = Logger.getLogger(UploadUtils.class);
 
 	public static void saveProductImage(MultipartFile productImage, String imageSavePath)
@@ -20,7 +23,7 @@ public class UploadUtils
 			
 		try{
 			String suffix = fileName.substring(fileName.lastIndexOf(".")+1, fileName.length());
-			if(".png".equalsIgnoreCase(suffix))
+			if(suffix.equalsIgnoreCase("png"))
 			{
 				productImage.transferTo(new File(imageSavePath));
 			}else{
@@ -34,3 +37,4 @@ public class UploadUtils
 		}
 	}
 }
+
