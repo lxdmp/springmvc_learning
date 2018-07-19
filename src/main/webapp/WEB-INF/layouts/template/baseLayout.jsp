@@ -27,8 +27,8 @@
 
 	<section class="container">
 	<div class="pull-right" style="padding-right:50px">
+		<div style="float:left"><a href="?language=cn">中文</a>|</div>
 		<div style="float:left"><a href="?language=en">English</a>|</div>
-		<div style="float:left"><a href="?language=nl">Dutch</a>|</div>
 		<c:choose>
 			<%-- 登出 --%>
 			<c:when test="${isAuthenticated}">

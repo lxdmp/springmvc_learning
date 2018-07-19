@@ -44,6 +44,10 @@ import org.springframework.context.MessageSource;
 
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+
 @Configuration
 @EnableWebMvc
 @ComponentScan({
@@ -84,6 +88,10 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter
 			new String[] {"jpg", "jpeg", "png"}, 
 			/*(long)(3.1*1024*1024)*/10*1024
 		)).addPathPatterns("/products/add");
+
+		LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+		localeChangeInterceptor.setParamName("language");
+		registry.addInterceptor(localeChangeInterceptor);
 	}
 
 	// - 添加formatter
@@ -179,6 +187,15 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter
 	{
 		CommonsMultipartResolver resolver=new CommonsMultipartResolver();
 		resolver.setDefaultEncoding("utf-8");
+		return resolver;
+	}
+
+	// - 国际化
+	@Bean
+	public LocaleResolver localeResolver()
+	{
+		SessionLocaleResolver resolver = new SessionLocaleResolver();
+		resolver.setDefaultLocale(new Locale("cn"));
 		return resolver;
 	}
 }
