@@ -108,6 +108,8 @@ public class FileUploadInterceptor implements HandlerInterceptor
 			invalidReqView.addObject("jumpDelay", 5);
 			invalidReqView.setViewName("fileUploadError");
 			throw new ModelAndViewDefiningException(invalidReqView);
+
+			// 可通过ModelAndViewDefiningException在interceptor的preHandle中跳转到指定的页面.
 		}
 		return true;
     }
