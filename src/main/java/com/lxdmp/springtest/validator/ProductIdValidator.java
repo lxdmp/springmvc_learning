@@ -10,11 +10,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.lxdmp.springtest.domain.Product;
 import com.lxdmp.springtest.exception.ProductNotFoundException;
 import com.lxdmp.springtest.service.ProductService;
+import org.springframework.context.MessageSource;
+import javax.servlet.http.HttpServletRequest;
 
 public class ProductIdValidator implements ConstraintValidator<ProductId, String>
 {
 	@Autowired
 	private ProductService productService;
+
+	@Autowired
+	private MessageSource messageSource;
+
+	@Autowired
+	private  HttpServletRequest request;
 
 	public void initialize(ProductId constraintAnnotation)
 	{
@@ -28,7 +36,8 @@ public class ProductIdValidator implements ConstraintValidator<ProductId, String
 		if(product==null){
 			return true;
 		}else{
-			String s = MessageFormat.format(context.getDefaultConstraintMessageTemplate(), value);
+			String message_template = context.getDefaultConstraintMessageTemplate();
+			String s = messageSource.getMessage(message_template, new String[]{value}, request.getLocale());
 			context.disableDefaultConstraintViolation(); 
 			context.buildConstraintViolationWithTemplate(s).addConstraintViolation();
 			return false;
