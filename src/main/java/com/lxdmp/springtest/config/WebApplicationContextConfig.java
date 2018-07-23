@@ -17,7 +17,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import com.lxdmp.springtest.interceptor.ProcessTimeLogInterceptor;
 import com.lxdmp.springtest.interceptor.ProductsInXmlViewInterceptor;
-import com.lxdmp.springtest.interceptor.FileUploadInterceptor;
+//import com.lxdmp.springtest.interceptor.FileUploadInterceptor;
 
 import org.springframework.format.FormatterRegistry;
 import com.lxdmp.springtest.formatter.CustomFormatTestFormatter;
@@ -47,6 +47,9 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @Configuration
 @EnableWebMvc
@@ -84,10 +87,14 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter
 		/*
 		 * 另外,可以在Interceptor接口的preHandle()中进行请求的重定向(HttpServletRequest.sendRedirect()).
 		 */
+
+		// 后续使用validator机制来对上传文件进行验证,不再使用interceptor的方法.
+		/*
 		registry.addInterceptor(new FileUploadInterceptor(
 			new String[] {"jpg", "jpeg", "png"}, 
-			/*(long)(3.1*1024*1024)*/10*1024
+			10*1024
 		)).addPathPatterns("/products/add");
+		*/
 
 		LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
 		localeChangeInterceptor.setParamName("language");
@@ -197,6 +204,21 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter
 		SessionLocaleResolver resolver = new SessionLocaleResolver();
 		resolver.setDefaultLocale(new Locale("zh"));
 		return resolver;
+	}
+
+	// - Validator
+	@Bean(name = "validator")
+	public LocalValidatorFactoryBean validator()
+	{
+		LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
+		bean.setValidationMessageSource(messageSource());
+		return bean;
+	}
+
+	@Override
+	public Validator getValidator()
+	{
+		return validator();
 	}
 }
 

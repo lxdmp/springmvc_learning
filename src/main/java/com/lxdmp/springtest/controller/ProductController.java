@@ -37,6 +37,8 @@ import org.apache.log4j.Logger;
 import org.springframework.web.multipart.MultipartFile;
 import com.lxdmp.springtest.utils.UploadUtils;
 
+import javax.validation.Valid;
+
 @Controller
 public class ProductController
 {
@@ -165,11 +167,17 @@ public class ProductController
 
 	@RequestMapping(value="/products/add", method=RequestMethod.POST)
 	public String processAddNewProductForm(
-		@ModelAttribute("newProduct") Product newProduct, 
-		BindingResult bindingResult, HttpServletRequest request
+		@ModelAttribute("newProduct") @Valid Product newProduct, 
+		BindingResult bindingResult, 
+		HttpServletRequest request
 	)
 	{
 		// - 绑定的字段是否合法
+		if(bindingResult.hasErrors())
+		{
+			return "addProduct";
+		}
+
 		String[] suppressedFields = bindingResult.getSuppressedFields();
 		if(suppressedFields.length>0)
 		{

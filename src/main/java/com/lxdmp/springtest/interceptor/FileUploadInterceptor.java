@@ -1,3 +1,6 @@
+/*
+ * 后续使用validator机制来对上传文件进行验证,不再使用interceptor的方法.
+ */
 package com.lxdmp.springtest.interceptor;
 
 import java.util.Map;
