@@ -12,8 +12,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0">
 	<title><tiles:insertAttribute name="title" /></title>
-	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" type="text/css"/>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.1/angular.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.0.0/css/bootstrap.min.css" type="text/css"/>
+	<script src="https://cdn.bootcss.com/angular.js/1.5.1/angular-animate.min.js"></script>
 	<script src="https://cdn.bootcss.com/jquery/3.3.0/jquery.min.js"></script>
 </head>
 
@@ -27,7 +27,7 @@
 
 	<section class="container">
 	<div class="pull-right" style="padding-right:50px">
-		<div style="float:left"><a href="?language=cn">中文</a>|</div>
+		<div style="float:left"><a href="?language=zh">中文</a>|</div>
 		<div style="float:left"><a href="?language=en">English</a>|</div>
 		<c:choose>
 			<%-- 登出 --%>

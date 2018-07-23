@@ -195,7 +195,7 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter
 	public LocaleResolver localeResolver()
 	{
 		SessionLocaleResolver resolver = new SessionLocaleResolver();
-		resolver.setDefaultLocale(new Locale("cn"));
+		resolver.setDefaultLocale(new Locale("zh"));
 		return resolver;
 	}
 }
