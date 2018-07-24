@@ -28,7 +28,8 @@ public class Product implements Serializable
 	private static final long serialVersionUID = 1L;
 
 	@Pattern(regexp="P[1-9]+", message="{Pattern.Product.productId.validation}")
-	@ProductId(message="{ProductId.Product.productId.validation}")
+	//@ProductId(message="{ProductId.Product.productId.validation}")
+	@ProductId
 	private String productId;
 
 	@Size(min=4, max=50, message="{Size.Product.name.validation}")

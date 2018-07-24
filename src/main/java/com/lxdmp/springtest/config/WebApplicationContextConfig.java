@@ -39,7 +39,7 @@ import org.springframework.web.servlet.view.xml.MarshallingView;
 import com.lxdmp.springtest.domain.Product;
 import com.lxdmp.springtest.dto.ProductList;
 
-import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.context.MessageSource;
 
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -183,8 +183,9 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter
 	@Bean
 	public MessageSource messageSource()
 	{
-		ResourceBundleMessageSource resource = new ResourceBundleMessageSource();
-		resource.setBasename("messages");
+		ReloadableResourceBundleMessageSource resource = new ReloadableResourceBundleMessageSource();
+		//resource.setBasename("messages");
+		resource.setBasename("classpath:messages/messages");
 		return resource;
 	}
 

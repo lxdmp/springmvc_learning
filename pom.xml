@@ -168,7 +168,7 @@
 			<src>src/main/resources</src>
 			<dest>target/resources</dest>
 			<encoding>UTF8</encoding>
-			<includes>*.properties</includes>
+			<includes>messages/*.properties</includes>
 			<!--
 			<includes>*.properties, 指定的其他文件</includes>
 			-->
