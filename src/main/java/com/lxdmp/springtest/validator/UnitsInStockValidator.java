@@ -24,11 +24,15 @@ public class UnitsInStockValidator implements Validator
 		final int units_in_stock_threshold = 99;
 
 		Product product = (Product)target;
+		
+		if(product.getDescription().equals(product.getManufacturer()))
+		/*
 		if( product.getUnitPrice()!= null && 
 			new BigDecimal(unit_price_threshold).compareTo(product.getUnitPrice())<=0 &&
 			product.getUnitsInStock()>units_in_stock_threshold )
+		*/
 		{
-			errors.rejectValue("unitsInStock",
+			errors.rejectValue(/*"unitsInStock"*/"description",
 				"com.lxdmp.springtest.validator.UnitsInStockValidator.message", 
 				new String[]{""+unit_price_threshold, ""+units_in_stock_threshold}, 
 				this.getClass()+" validate failed"

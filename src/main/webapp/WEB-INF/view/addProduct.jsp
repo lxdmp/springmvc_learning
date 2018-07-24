@@ -76,6 +76,7 @@
 		<label class="control-label col-lg-2" for="description">Description</label>
 		<div class="col-lg-10">
 			<form:textarea id="description" path="description" rows = "3"/>
+			<form:errors path="description" cssClass="text-danger"/>
 		</div>
 	</div>
 
