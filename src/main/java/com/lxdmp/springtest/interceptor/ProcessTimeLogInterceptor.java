@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.apache.log4j.Logger;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 public class ProcessTimeLogInterceptor implements HandlerInterceptor
 {
@@ -14,6 +15,7 @@ public class ProcessTimeLogInterceptor implements HandlerInterceptor
 	public boolean preHandle(
 		HttpServletRequest request, HttpServletResponse response, Object handler)
 	{
+		//logger.info("Locale : "+RequestContextUtils.getLocaleResolver(request).resolveLocale(request).toString());
 		long startTime = System.currentTimeMillis();
 		request.setAttribute(key_name, startTime);
 		return true; // 若返回false,请求不会到达控制器(controller)和其他拦截器(interceptor).
