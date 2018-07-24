@@ -35,7 +35,6 @@ import org.apache.log4j.Logger;
 @ComponentScan({
 	"com.lxdmp.springtest.domain", 
 	"com.lxdmp.springtest.service", 
-	"com.lxdmp.springtest.dto", 
 	"com.lxdmp.springtest.schedule"
 })
 @EnableScheduling

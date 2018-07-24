@@ -55,9 +55,11 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @EnableWebMvc
 @ComponentScan({
 	"com.lxdmp.springtest.controller", 
+	"com.lxdmp.springtest.dto", 
 	"com.lxdmp.springtest.interceptor", 
 	"com.lxdmp.springtest.formatter", 
-	"com.lxdmp.springtest.exception"
+	"com.lxdmp.springtest.exception", 
+	"com.lxdmp.springtest.validator"
 })
 public class WebApplicationContextConfig extends WebMvcConfigurerAdapter
 {

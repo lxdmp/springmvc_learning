@@ -38,14 +38,19 @@ import org.springframework.web.multipart.MultipartFile;
 import com.lxdmp.springtest.utils.UploadUtils;
 
 import javax.validation.Valid;
+import org.springframework.validation.Validator;
+import com.lxdmp.springtest.validator.UnitsInStockValidator;
 
 @Controller
 public class ProductController
-{
+{ 
 	private static final Logger logger = Logger.getLogger(ProductController.class);
 
 	@Autowired
 	private ProductService productService;
+
+	@Autowired
+	private UnitsInStockValidator unitsInStockValidator;
 
 	@RequestMapping("/products")
 	public String list(Model model)
@@ -133,8 +138,8 @@ public class ProductController
 	}
 
 	// 添加product
-	@InitBinder
-	public void initializeBinder(WebDataBinder binder)
+	@InitBinder("newProduct")
+	public void initPostedProductBinder(WebDataBinder binder)
 	{
 		/*
 		// 设置允许绑定的字段
@@ -149,12 +154,16 @@ public class ProductController
 			"condition"
 		);
 		*/
-		// paginator也需要绑定,故只设置不允许绑定的字段.
+		// 设置不允许绑定的字段.
 		binder.setDisallowedFields(
 			"unitsInStock", 
 			"unitsInOrder", 
 			"discontinued"
 		);
+
+		binder.addValidators(new Validator[]{
+			unitsInStockValidator
+		});
 	}
 
 	@RequestMapping(value="/products/add", method=RequestMethod.GET)
