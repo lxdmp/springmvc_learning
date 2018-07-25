@@ -161,6 +161,10 @@ public class ProductController
 			"discontinued"
 		);
 
+		/*
+		 * setValidator会禁用JSR-303的各类Bean Validator
+		 */
+		//binder.setValidator(unitsInStockValidator);
 		binder.addValidators(new Validator[]{
 			unitsInStockValidator
 		});

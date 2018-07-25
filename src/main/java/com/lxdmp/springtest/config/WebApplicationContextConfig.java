@@ -197,6 +197,9 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter
 	{
 		CommonsMultipartResolver resolver=new CommonsMultipartResolver();
 		resolver.setDefaultEncoding("utf-8");
+		//resolver.setMaxInMemorySize(); // bytes,设定各项大小限制,或另外在validator中设定.
+		//resolver.setMaxUploadSize();
+		//resolver.setMaxUploadSizePerFile();
 		return resolver;
 	}
 

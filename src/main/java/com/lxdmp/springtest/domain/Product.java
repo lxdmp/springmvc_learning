@@ -16,6 +16,9 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import com.lxdmp.springtest.validator.ProductId;
+import com.lxdmp.springtest.validator.MultipartFileMax;
+import com.lxdmp.springtest.validator.MultipartFileNotEmpty;
+import com.lxdmp.springtest.validator.MultipartFileType;
 
 /*
  * 通过框架与json/xml间自动转换,实体类需用注释@XmlRootElement修饰,
@@ -49,6 +52,14 @@ public class Product implements Serializable
 	private long unitsInOrder;
 	private boolean discontinued;
 	private String condition;
+
+	@JsonIgnore
+	@MultipartFileNotEmpty(message="{MultipartFileNotEmpty.Product.productImage.validation}")
+	@MultipartFileMax(value=100*1024, message="{MultipartFileMax.Product.productImage.validation}")
+	@MultipartFileType(
+		value={"jpg", "jpeg", "png"}, 
+		message="{MultipartFileType.Product.productImage.validation}"
+	)
 	private MultipartFile productImage;
 
 	public Product()
@@ -92,7 +103,8 @@ public class Product implements Serializable
 
 	public String getCondition(){return this.condition;}
 	public void setCondition(String condition){this.condition = condition;}
-
+	
+	@XmlTransient
 	public MultipartFile getProductImage(){return this.productImage;}
 	public void setProductImage(MultipartFile productImage){this.productImage = productImage;}
 
