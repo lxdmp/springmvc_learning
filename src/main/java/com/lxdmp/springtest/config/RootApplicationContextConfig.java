@@ -31,7 +31,12 @@ import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
 import org.apache.log4j.Logger;
 
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+
 @Configuration
+@EnableTransactionManagement
 @ComponentScan({
 	"com.lxdmp.springtest.domain", 
 	"com.lxdmp.springtest.service", 
@@ -52,6 +57,12 @@ public class RootApplicationContextConfig implements SchedulingConfigurer
 	public NamedParameterJdbcTemplate getJdbcTemplate()
 	{
 		return new NamedParameterJdbcTemplate(this.dataSource);
+	}
+
+	@Bean
+	public PlatformTransactionManager txManager()
+	{
+		 return new DataSourceTransactionManager(this.dataSource);
 	}
 
 	@Bean(name={"hsqlDataSource"})
