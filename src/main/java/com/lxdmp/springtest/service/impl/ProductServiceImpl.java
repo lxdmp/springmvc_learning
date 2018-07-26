@@ -13,8 +13,8 @@ import com.lxdmp.springtest.utils.Paginator;
 public class ProductServiceImpl implements ProductService
 {
 	@Autowired
-	//@Qualifier("hsqlRepo")
-	@Qualifier("mysqlRepo")
+	//@Qualifier("hsqlProductRepo")
+	@Qualifier("mysqlProductRepo")
 	private ProductRepository productRepository;
 
 	@Override

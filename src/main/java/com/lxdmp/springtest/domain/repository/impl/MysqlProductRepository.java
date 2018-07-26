@@ -13,7 +13,7 @@ import org.springframework.dao.DataAccessException;
 import com.lxdmp.springtest.domain.Product;
 import com.lxdmp.springtest.domain.repository.ProductRepository;
 
-@Repository("mysqlRepo")
+@Repository("mysqlProductRepo")
 public class MysqlProductRepository extends InMemoryProductRepository
 {
 	@Override

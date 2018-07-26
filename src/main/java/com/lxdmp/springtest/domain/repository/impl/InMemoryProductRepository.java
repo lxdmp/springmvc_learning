@@ -12,7 +12,7 @@ import com.lxdmp.springtest.domain.Product;
 import com.lxdmp.springtest.domain.repository.ProductRepository;
 import com.lxdmp.springtest.utils.Paginator;
 
-@Repository("hsqlRepo")
+@Repository("hsqlProductRepo")
 public class InMemoryProductRepository extends BaseRepository implements ProductRepository
 {
 	@Override

@@ -19,7 +19,7 @@ import com.lxdmp.springtest.dto.CartDto;
 import com.lxdmp.springtest.dto.CartItemDto;
 import com.lxdmp.springtest.service.ProductService;
 
-@Repository("hsqlRepo")
+@Repository("hsqlCartRepo")
 public class InMemoryCartRepository extends BaseRepository implements CartRepository
 {
 	@Autowired
