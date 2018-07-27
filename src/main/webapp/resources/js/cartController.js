@@ -5,16 +5,12 @@ cartApp.controller(
 	function($scope, $http)
 	{
 		$scope.entireAppName = "springtest";
-		$scope.baseUrl = new Array($scope.entireAppName, 'api', 'cart').join('/')
+		$scope.baseUrl = new Array('/'+$scope.entireAppName, 'api', 'cart').join('/')
 		$scope.formatUrl = function(){
-			return arguments.join('/')
-			/*
 			var array = new Array(arguments.length)
 			for(var i=0; i<arguments.length;++i)
 				array[i] = arguments[i]
-			        sum += arguments[i];
-			return new Array(base, sub).join('/');
-			*/
+			return array.join('/');
 		}
 
 		$scope.initCartId = function(cartId) {
