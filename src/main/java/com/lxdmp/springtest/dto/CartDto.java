@@ -6,6 +6,10 @@ import java.util.List;
 
 public class CartDto implements Serializable
 {
+	/*
+	 * 需指定Cart的id与其中各项货物的货物id与数量.
+	 * 其中,前台提交中显示指定的只是货物的货物id与数量,Cart的id设定为session的id.
+	 */
 	private static final long serialVersionUID = 1L;
 	private String id;
 	private List<CartItemDto> cartItems;

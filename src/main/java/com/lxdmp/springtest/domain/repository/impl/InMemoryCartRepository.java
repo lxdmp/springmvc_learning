@@ -72,7 +72,7 @@ public class InMemoryCartRepository extends BaseRepository implements CartReposi
 		String SQL_DELETE_CART_ITEM = "DELETE FROM CART_ITEM WHERE CART_ID=:cartId";
 		jdbcTemplate.update(SQL_DELETE_CART_ITEM, params);
 
-		String SQL_DELETE_CART = "DELETE FROM CART WHERE ID = :id";
+		String SQL_DELETE_CART = "DELETE FROM CART WHERE ID = :cartId";
 		jdbcTemplate.update(SQL_DELETE_CART, params);
 	}
 	
