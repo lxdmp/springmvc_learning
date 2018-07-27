@@ -2,7 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 
-<section class="container">
+<section class="container" ng-app="cartApp">
 <div class="row">
 <div class="col-md-5">
 	<img src="<c:url value="/img/${product.productId}.png"></c:url>" alt="image" style = "width:100%"/>
@@ -24,15 +24,19 @@
 	</p>
 	<h4>${product.unitPrice} USD</h4>
 
-	<p>
+	<p ng-controller="cartCtrl">
 		<a href=" <spring:url value="/products"/> " class="btn btn-default">
 			<span class="glyphicon-hand-left glyphicon"></span>back
 		</a>
-		<a href="#" class="btn btn-warning btn-large">
+		<a href="#" class="btn btn-warning btn-large" click="addToCart('${product.productId}')">
 			<span class="glyphicon-shopping-cart glyphicon"></span>Order Now
+		</a>
+		<a href="<spring:url value="/cart" />" class="btn btn-default">
+			<span class="glyphicon-hand-right glyphicon"></span>View Cart
 		</a>
 	</p>
 </div>
 </div>
 </section>
 
+<script src="<spring:url value="/js/cartController.js" />"></script>

@@ -16,7 +16,6 @@
 		<put-attribute name="title" value="Products" />
 		<put-attribute name="heading" value="Products"/>
 		<put-attribute name="tagline" value="All the available products in our store" />
-		<!--<put-attribute name="content" value="/WEB-INF/view/products.jsp" />-->
 		<put-attribute name="content" value="/WEB-INF/view/welcome.jsp" />
 	</definition>
 
@@ -48,24 +47,6 @@
 		<put-attribute name="content" value="/WEB-INF/view/addProduct.jsp" />
 	</definition>
 
-	<!--
-	<definition name="login" extends="baseLayout">
-		<put-attribute name="title" value="Login" />
-		<put-attribute name="heading" value="Welcome to Web Store!" />
-		<put-attribute name="tagline" value="The one and only amazing web store" />
-		<put-attribute name="content" value="/WEB-INF/view/login.jsp" />
-	</definition>
-	-->
-
-	<!--
-	<definition name="cart" extends="baseLayout">
-		<put-attribute name="title" value="Shopping Cart" />
-		<put-attribute name="heading" value="Cart" />
-		<put-attribute name="tagline" value="All the selected products in your cart" />
-		<put-attribute name="content" value="/WEB-INF/view/cart.jsp" />
-	</definition>
-	-->
-
 	<definition name="productNotFound" extends="baseLayout">
 		<put-attribute name="title" value="Products" />
 		<put-attribute name="heading" value="Products"/>
@@ -85,6 +66,13 @@
 		<put-attribute name="heading" value="Products"/>
 		<put-attribute name="tagline" value="Upload Error" />
 		<put-attribute name="content" value="/WEB-INF/view/fileUploadError.jsp" />
+	</definition>
+
+	<definition name="cart" extends="baseLayout">
+		<put-attribute name="title" value="Products" />
+		<put-attribute name="heading" value="Cart"/>
+		<put-attribute name="tagline" value="All the Selected Products in Your Cart" />
+		<put-attribute name="content" value="/WEB-INF/view/cart.jsp" />
 	</definition>
 
 </tiles-definitions>
