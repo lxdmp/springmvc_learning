@@ -5,7 +5,10 @@ cartApp.controller(
 	function($scope, $http)
 	{
 		$scope.entireAppName = "springtest";
-		$scope.baseUrl = new Array('/'+$scope.entireAppName, 'api', 'cart').join('/')
+		$scope.baseUrl = new Array('/'+$scope.entireAppName, 'api', 'cart').join('/');
+		$scope.csrfHeader = document.getElementsByTagName('meta')['_csrf_header'].getAttribute('content');
+		$scope.csrfToken = document.getElementsByTagName('meta')['_csrf'].getAttribute('content');
+		
 		$scope.formatUrl = function(){
 			var array = new Array(arguments.length)
 			for(var i=0; i<arguments.length;++i)
@@ -30,7 +33,9 @@ cartApp.controller(
 		$scope.clearCart = function() {
 			var url = $scope.formatUrl($scope.baseUrl, $scope.cartId)
 			console.log(url)
-			$http.delete(url)
+			$http.delete(url, {
+					headers : {[$scope.csrfHeader] : $scope.csrfToken}
+				})
 				.success(function(data) {
 					$scope.refreshCart($scope.cartId);
 				});
@@ -39,7 +44,9 @@ cartApp.controller(
 		$scope.addToCart = function(productId) {
 			var url = $scope.formatUrl($scope.baseUrl, 'add', productId)
 			console.log(url)
-			$http.put(url)
+			$http.put(url, {}, {
+					headers : {[$scope.csrfHeader] : $scope.csrfToken}
+				})
 				.success(function(data) {
 					alert("Product Successfully added to the Cart!");
 					$scope.refreshCart($scope.cartId);
@@ -49,7 +56,9 @@ cartApp.controller(
 		$scope.removeFromCart = function(productId) {
 			var url = $scope.formatUrl($scope.baseUrl, 'remove', productId)
 			console.log(url)
-			$http.put(url)
+			$http.put(url, {}, {
+					headers : {[$scope.csrfHeader] : $scope.csrfToken}
+				})
 				.success(function(data) {
 					$scope.refreshCart($scope.cartId);
 				});

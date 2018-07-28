@@ -21,11 +21,13 @@ public class CartRestController
 	@Autowired
 	private CartService cartService;
 
+	/*
 	@RequestMapping(value = "/id", method=RequestMethod.GET)
 	public String myCartId(HttpSession session)
 	{
 		return session.getId();
 	}
+	*/
 
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)

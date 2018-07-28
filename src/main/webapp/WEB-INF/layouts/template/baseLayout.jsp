@@ -15,8 +15,8 @@
 	<meta name="_csrf" content="${_csrf.token}"/>
 	<title><tiles:insertAttribute name="title" /></title>
 	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.0.0/css/bootstrap.min.css" type="text/css"/>
-	<script src="https://cdn.bootcss.com/angular.js/1.0.1/angular.min.js"></script>
 	<script src="https://cdn.bootcss.com/jquery/3.3.0/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/angular.js/1.0.1/angular.min.js"></script>
 </head>
 
 <body>

@@ -28,7 +28,7 @@
 		<a href=" <spring:url value="/products"/> " class="btn btn-default">
 			<span class="glyphicon-hand-left glyphicon"></span>back
 		</a>
-		<a href="#" class="btn btn-warning btn-large" click="addToCart('${product.productId}')">
+		<a href="#" class="btn btn-warning btn-large" ng-click="addToCart('${product.productId}')">
 			<span class="glyphicon-shopping-cart glyphicon"></span>Order Now
 		</a>
 		<a href="<spring:url value="/cart" />" class="btn btn-default">
