@@ -8,7 +8,9 @@ import com.lxdmp.springtest.domain.Product;
 import com.lxdmp.springtest.domain.repository.ProductRepository;
 import com.lxdmp.springtest.service.ProductService;
 import com.lxdmp.springtest.utils.Paginator;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @Service
 public class ProductServiceImpl implements ProductService
 {

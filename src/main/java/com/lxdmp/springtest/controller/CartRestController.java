@@ -15,11 +15,14 @@ import com.lxdmp.springtest.dto.CartDto;
 import com.lxdmp.springtest.service.CartService;
 import com.lxdmp.springtest.utils.result.ajax.ReadResult;
 import com.lxdmp.springtest.utils.result.ajax.WriteResult;
+import org.apache.log4j.Logger;
 
 @RestController
 @RequestMapping(value = "/api/cart")
 public class CartRestController
 {
+	private static final Logger logger = Logger.getLogger(CartRestController.class);
+
 	private final String success = "success";
 	private final String failed = "failed";
 

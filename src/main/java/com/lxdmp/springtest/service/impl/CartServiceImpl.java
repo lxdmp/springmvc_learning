@@ -12,8 +12,8 @@ import com.lxdmp.springtest.domain.repository.CartRepository;
 import com.lxdmp.springtest.service.CartService;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
 @Transactional
+@Service
 public class CartServiceImpl implements CartService
 {
 	@Autowired
