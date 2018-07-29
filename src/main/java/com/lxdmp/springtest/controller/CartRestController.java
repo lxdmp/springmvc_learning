@@ -13,70 +13,80 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lxdmp.springtest.domain.Cart;
 import com.lxdmp.springtest.dto.CartDto;
 import com.lxdmp.springtest.service.CartService;
+import com.lxdmp.springtest.utils.result.ajax.ReadResult;
+import com.lxdmp.springtest.utils.result.ajax.WriteResult;
 
 @RestController
 @RequestMapping(value = "/api/cart")
 public class CartRestController
 {
+	private final String success = "success";
+	private final String failed = "failed";
+
 	@Autowired
 	private CartService cartService;
 
-	/*
-	@RequestMapping(value = "/id", method=RequestMethod.GET)
-	public String myCartId(HttpSession session)
-	{
-		return session.getId();
-	}
-	*/
-
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public void create(@RequestBody CartDto cartDto, HttpSession session)
+	public WriteResult create(@RequestBody CartDto cartDto, HttpSession session)
 	{
 		cartDto.setId(session.getId());
 		cartService.create(cartDto);
+		return new WriteResult(this.success);
 	}
 
 	@RequestMapping(value = "/{cartId}", method=RequestMethod.GET)
-	public Cart read(@PathVariable(value = "cartId") String cartId)
+	public ReadResult<Cart> read(@PathVariable(value = "cartId") String cartId)
 	{
-		return cartService.read(cartId);
+		Cart cart = cartService.read(cartId);
+		if(cart!=null)
+			return new ReadResult<Cart>(this.success, cart);
+		else
+			return new ReadResult<Cart>(
+				this.failed, 
+				String.format("No cart with id %s", cartId)
+			);
 	}
 
 	@RequestMapping(value = "/{cartId}", method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
-	public void update(@PathVariable(value = "cartId") String cartId, @RequestBody CartDto cartDto)
+	public WriteResult update(@PathVariable(value = "cartId") String cartId, @RequestBody CartDto cartDto)
 	{
 		cartDto.setId(cartId);
 		cartService.update(cartId, cartDto);
+		return new WriteResult(this.success);
 	}
 
 	@RequestMapping(value = "/{cartId}", method=RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.OK)
-	public void delete(@PathVariable(value = "cartId") String cartId)
+	public WriteResult delete(@PathVariable(value = "cartId") String cartId)
 	{
 		cartService.delete(cartId);
+		return new WriteResult(this.success);
 	}
 
 	@RequestMapping(value = "/add/{productId}", method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
-	public void addItem(@PathVariable String productId, HttpSession session)
+	public WriteResult addItem(@PathVariable String productId, HttpSession session)
 	{
 		cartService.modifyItem(session.getId(), productId, 1);
+		return new WriteResult(this.success);
 	}
 	
 	@RequestMapping(value = "/sub/{productId}", method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
-	public void subItem(@PathVariable String productId, HttpSession session)
+	public WriteResult subItem(@PathVariable String productId, HttpSession session)
 	{
 		cartService.modifyItem(session.getId(), productId, -1);
+		return new WriteResult(this.success);
 	}
 
 	@RequestMapping(value = "/remove/{productId}", method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
-	public void removeItem(@PathVariable String productId, HttpSession session)
+	public WriteResult removeItem(@PathVariable String productId, HttpSession session)
 	{
 		cartService.removeItem(session.getId(), productId);
+		return new WriteResult(this.success);
 	}
 }
 
