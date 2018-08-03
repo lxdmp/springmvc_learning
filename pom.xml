@@ -7,6 +7,12 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>springtest Maven Webapp</name>
   <url>http://maven.apache.org</url>
+  <repositories>
+	<repository>
+		<id>clojars.org</id>
+		<url>http://clojars.org/repo</url>
+	</repository>
+  </repositories>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -120,6 +126,12 @@
 		<groupId>org.hibernate</groupId>
 		<artifactId>hibernate-validator</artifactId>
 		<version>5.2.4.Final</version>
+	</dependency>
+	<!-- nanomsg -->
+	<dependency>
+		<groupId>jnanomsg</groupId>
+		<artifactId>jnanomsg</artifactId>
+		<version>0.3.1</version>
 	</dependency>
   </dependencies>
   <build>
