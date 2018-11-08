@@ -213,7 +213,7 @@ public class WebApplicationContextConfig extends WebMvcConfigurerAdapter
 	}
 
 	// - Validator
-	@Bean(name = "validator")
+	@Bean(name="validator")
 	public LocalValidatorFactoryBean validator()
 	{
 		LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();

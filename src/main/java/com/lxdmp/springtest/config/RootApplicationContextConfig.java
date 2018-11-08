@@ -51,7 +51,7 @@ public class RootApplicationContextConfig implements SchedulingConfigurer
 	@Autowired
 	//@Qualifier("hsqlDataSource")
 	@Qualifier("mysqlDataSource")
-	DataSource dataSource;
+	private DataSource dataSource;
 
 	@Bean
 	public NamedParameterJdbcTemplate getJdbcTemplate()
@@ -99,11 +99,14 @@ public class RootApplicationContextConfig implements SchedulingConfigurer
 		}
 		return mysqlDataSource;
 	}
-	
+
+	@Autowired
+	private Executor taskExecutor;
+
 	@Override
 	public void configureTasks(ScheduledTaskRegistrar taskRegistrar)
 	{
-		taskRegistrar.setScheduler(taskExecutor());
+		taskRegistrar.setScheduler(this.taskExecutor);
 	}
 
 	@Bean(destroyMethod="shutdown")
