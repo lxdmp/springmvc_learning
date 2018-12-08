@@ -35,18 +35,27 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import com.lxdmp.springtest.amqp.AmqpConfig;
+
 @Configuration
 @EnableTransactionManagement
 @ComponentScan({
 	"com.lxdmp.springtest.domain", 
 	"com.lxdmp.springtest.service", 
-	"com.lxdmp.springtest.schedule"
+	"com.lxdmp.springtest.schedule", 
 })
 @EnableScheduling
-@Import({ SecurityConfig.class })
+@Import({
+	SecurityConfig.class, 
+	AmqpConfig.class
+})
 public class RootApplicationContextConfig implements SchedulingConfigurer
 {
 	private static final Logger logger = Logger.getLogger(RootApplicationContextConfig.class);
+
+	/*
+	 * 数据源配置
+	 */
 
 	@Autowired
 	//@Qualifier("hsqlDataSource")
@@ -100,6 +109,9 @@ public class RootApplicationContextConfig implements SchedulingConfigurer
 		return mysqlDataSource;
 	}
 
+	/*
+	 * 计划任务配置
+	 */
 	@Autowired
 	private Executor taskExecutor;
 
