@@ -6,6 +6,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import com.lxdmp.springtest.auth.CustomUserDetailsService;
+
 
 @Configuration
 @EnableWebSecurity
@@ -18,7 +20,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 	 * 若要实现更灵活的人员、角色、功能三张表(可用功能代替默认约定的角色概念),
 	 * 使用authorities/hasAuthority代替上述的roles方法,这样的字串没有任何前缀或后缀.
 	 */
-
 	@Autowired
 	public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception
 	{
@@ -26,10 +27,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 		auth.inMemoryAuthentication().withUser("test").password("123").roles("USER");
 		auth.inMemoryAuthentication().withUser("admin").password("root123").roles("USER", "ADMIN");
 		*/
+
 		auth.inMemoryAuthentication().withUser("test").password("123").authorities("CUSTOM_FORMAT");
 		auth.inMemoryAuthentication().withUser("admin").password("root123").authorities(
 			"CUSTOM_FORMAT", "ADD_PRODUCT"
 		);
+		//auth.userDetailsService(new CustomUserDetailsService());
 	}
 
 	@Override
