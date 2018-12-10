@@ -13,7 +13,9 @@ public class CustomUserDetailsService implements UserDetailsService
 
 	public UserDetails loadUserByUsername(String username)
 	{
-		com.lxdmp.spring.domain.User user = userService.queryUserByName(username);
+		com.lxdmp.springtest.domain.User user = userService.queryUserByName(username);
+		if(user==null)
+			return new User("", "", null);
 		return new User(user.getUserName(), user.getUserPasswd(), user.getUserPriviledges());
 	}
 }

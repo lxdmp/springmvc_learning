@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.LinkedList;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowCallbackHandler;
@@ -11,13 +12,15 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.dao.DataAccessException;
 import com.lxdmp.springtest.domain.User;
+import com.lxdmp.springtest.domain.UserGroup;
+import com.lxdmp.springtest.domain.UserPriviledge;
 import com.lxdmp.springtest.domain.repository.UserRepository;
 
 @Repository("mysqlUserRepo")
 public class MysqlUserRepository extends BaseRepository implements UserRepository
 {
 	@Override
-	void addUser(User user)
+	public void addUser(User user)
 	{
 		// 增加用户
 		String SQL = "insert into User (" + 
@@ -31,7 +34,7 @@ public class MysqlUserRepository extends BaseRepository implements UserRepositor
 	}
 
 	@Override
-	void delUser(String userName)
+	public void delUser(String userName)
 	{	
 		// 删除用户
 		User user = this.queryUserByName(userName);
@@ -49,7 +52,7 @@ public class MysqlUserRepository extends BaseRepository implements UserRepositor
 	}
 
 	@Override
-	boolean updateUserPassword(String userName, String oldPassword, String newPassword)
+	public boolean updateUserPassword(String userName, String oldPassword, String newPassword)
 	{
 		// 修改用户密码
 		User user = this.queryUserByName(userName);
@@ -58,7 +61,7 @@ public class MysqlUserRepository extends BaseRepository implements UserRepositor
 		if(!user.getUserPasswd().equals(oldPassword))
 			return false;
 
-		SQL = "update User set password = :userPw WHERE id = :userId";
+		final String SQL = "update User set password = :userPw WHERE id = :userId";
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("userPw", newPassword);
 		params.put("userId", user.getUserId());
@@ -67,7 +70,7 @@ public class MysqlUserRepository extends BaseRepository implements UserRepositor
 	}
 
 	@Override
-	User queryUserByName(String userName)
+	public User queryUserByName(String userName)
 	{
 		// 查询用户
 		List<User> users = new LinkedList<User>();
@@ -77,7 +80,7 @@ public class MysqlUserRepository extends BaseRepository implements UserRepositor
 			"UserGroup.id as id2," + 
 			"UserGroup.name as name2," + 
 			"UserPriviledge.id as id3," + 
-			"UserPriviledge.name as name3"
+			"UserPriviledge.name as name3" + 
 			" from User " + 
 			"inner join UserWithGroup on User.id=UserWithGroup.userId " + 
 			"inner join UserGroup on UserWithGroup.groupId=UserGroup.id " + 
@@ -105,19 +108,32 @@ public class MysqlUserRepository extends BaseRepository implements UserRepositor
 
 				int userGroupId = rs.getInt("id2");
 				String userGroupName = rs.getString("name2");
-				if( user.getUserGroups()==null || 
-					user.getUserGroups().isEmpty() || 
+				if( user.getUserGroups().isEmpty() || 
 					user.getUserGroups().get(user.getUserGroups().size()-1).getGroupId()!=userGroupId)
 				{
 					UserGroup userGroup = new UserGroup();
 					userGroup.setGroupId(userGroupId);
 					userGroup.setGroupName(userGroupName);
+
+					List<UserGroup> userGroups = user.getUserGroups();
+					userGroups.add(userGroup);
+					user.setUserGroups(userGroups);
 				}
 				UserGroup userGroup = user.getUserGroups().get(user.getUserGroups().size()-1);
 
 				int priviledgeId = rs.getInt("id3");
 				String priviledgeName = rs.getString("name3");
-				
+				if( userGroup.getGroupPriviledges().isEmpty() || 
+					userGroup.getGroupPriviledges().get(userGroup.getGroupPriviledges().size()-1).getPriviledgeId()!=priviledgeId)
+				{
+					UserPriviledge userPriviledge = new UserPriviledge();
+					userPriviledge.setPriviledgeId(priviledgeId);
+					userPriviledge.setPriviledgeName(priviledgeName);
+
+					List<UserPriviledge> groupPriviledges = userGroup.getGroupPriviledges();
+					groupPriviledges.add(userPriviledge);
+					userGroup.setGroupPriviledges(groupPriviledges);
+				}
 			}
 		});
 		return (users.isEmpty()?null:users.get(0));

@@ -15,7 +15,7 @@ public final class User implements Serializable
 	private int userId;
 	private String userName;
 	private String userPasswd;
-	private List<UserGroup> userGroups; // 所属的用户组
+	private List<UserGroup> userGroups = new LinkedList<UserGroup>(); // 所属的用户组
 
 	public User()
 	{

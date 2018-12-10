@@ -2,6 +2,7 @@ package com.lxdmp.springtest.domain;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.LinkedList;
 import com.lxdmp.springtest.domain.UserPriviledge;
 
 public final class UserGroup implements Serializable
@@ -9,7 +10,7 @@ public final class UserGroup implements Serializable
 	private static final long serialVersionUID = 1L;
 	private int groupId;
 	private String groupName;
-	private List<UserPriviledge> groupPriviledges; // 该用户组具有的权限
+	private List<UserPriviledge> groupPriviledges = new LinkedList<UserPriviledge>(); // 该用户组具有的权限
 
 	public UserGroup()
 	{
