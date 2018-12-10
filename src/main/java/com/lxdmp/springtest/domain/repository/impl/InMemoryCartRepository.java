@@ -193,6 +193,7 @@ public class InMemoryCartRepository extends BaseRepository implements CartReposi
 			cartItemMapper = new CartItemMapper(productService);
 		}
 
+		@Override
 		public Cart mapRow(ResultSet rs, int rowNum) throws SQLException
 		{
 			String cartId = rs.getString("ID");

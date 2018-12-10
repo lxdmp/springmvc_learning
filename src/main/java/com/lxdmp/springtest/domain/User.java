@@ -3,6 +3,8 @@ package com.lxdmp.springtest.domain;
 import java.io.Serializable;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.List;
+import java.util.LinkedList;
 import java.util.Iterator;
 import com.lxdmp.springtest.domain.UserGroup;
 import com.lxdmp.springtest.domain.UserPriviledge;
@@ -13,7 +15,7 @@ public final class User implements Serializable
 	private int userId;
 	private String userName;
 	private String userPasswd;
-	private Set<UserGroup> userGroups; // 所属的用户组
+	private List<UserGroup> userGroups; // 所属的用户组
 
 	public User()
 	{
@@ -29,17 +31,19 @@ public final class User implements Serializable
 	public String getUserPasswd(){return this.userPasswd;}
 	public void setUserPasswd(String userPasswd){this.userPasswd=userPasswd;}
 
-	public Set<UserGroup> getUserGroups(){return this.userGroups;}
-	public void setUserGroups(Set<UserGroup> groups){this.userGroups=groups;}
+	public List<UserGroup> getUserGroups(){return this.userGroups;}
+	public void setUserGroups(List<UserGroup> groups){this.userGroups=groups;}
 
-	public Set<UserPriviledge> getUserPriviledges()
+	public List<UserPriviledge> getUserPriviledges()
 	{
-		Set<UserPriviledge> priviledges = new HashSet<UserPriviledge>();
+		List<UserPriviledge> priviledges = new LinkedList<UserPriviledge>();
+		Set<UserPriviledge> buf = new HashSet<UserPriviledge>();
 		Iterator<UserGroup> userGroupIter = this.userGroups.iterator();
 		while(userGroupIter.hasNext()){
 			UserGroup userGroup = userGroupIter.next();
-			priviledges.addAll(userGroup.getGroupPriviledges());
+			buf.addAll(userGroup.getGroupPriviledges());
 		}
+		priviledges.addAll(buf);
 		return priviledges;
 	}
 

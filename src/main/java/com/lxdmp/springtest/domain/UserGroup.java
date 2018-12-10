@@ -1,7 +1,7 @@
 package com.lxdmp.springtest.domain;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 import com.lxdmp.springtest.domain.UserPriviledge;
 
 public final class UserGroup implements Serializable
@@ -9,7 +9,7 @@ public final class UserGroup implements Serializable
 	private static final long serialVersionUID = 1L;
 	private int groupId;
 	private String groupName;
-	private Set<UserPriviledge> groupPriviledges; // 该用户组具有的权限
+	private List<UserPriviledge> groupPriviledges; // 该用户组具有的权限
 
 	public UserGroup()
 	{
@@ -22,8 +22,8 @@ public final class UserGroup implements Serializable
 	public String getGroupName(){return this.groupName;}
 	public void setGroupName(String groupName){this.groupName=groupName;}
 
-	public Set<UserPriviledge> getGroupPriviledges(){return this.groupPriviledges;}
-	public void setGroupPriviledges(Set<UserPriviledge> groupPriviledges){this.groupPriviledges=groupPriviledges;}
+	public List<UserPriviledge> getGroupPriviledges(){return this.groupPriviledges;}
+	public void setGroupPriviledges(List<UserPriviledge> groupPriviledges){this.groupPriviledges=groupPriviledges;}
 
 	@Override
 	public boolean equals(Object obj)
