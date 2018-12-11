@@ -13,11 +13,14 @@ import com.lxdmp.springtest.domain.repository.UserRepository;
 import com.lxdmp.springtest.domain.repository.UserAndGroupRepository;
 import com.lxdmp.springtest.domain.repository.UserGroupRepository;
 import com.lxdmp.springtest.service.UserService;
+import org.apache.log4j.Logger;
 
 @Transactional
 @Service
 public class UserServiceImpl implements UserService
 {
+	private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
+
 	@Autowired
 	@Qualifier("mysqlUserRepo")
 	private UserRepository userRepository;
@@ -69,6 +72,7 @@ public class UserServiceImpl implements UserService
 	@Override
 	public User queryUserByName(String userName)
 	{
+		logger.info(userName);
 		User user = userRepository.queryUserByName(userName);
 		if(user==null)
 			return null;

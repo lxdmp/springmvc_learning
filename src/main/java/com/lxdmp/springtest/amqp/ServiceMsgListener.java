@@ -17,8 +17,8 @@ public class ServiceMsgListener implements ChannelAwareMessageListener
 	{
 		String body = new String(message.getBody(), "UTF-8");
 		String queueName = message.getMessageProperties().getConsumerQueue();
-		logger.info("消息内容:"+body);
-		logger.info(queueName);
+		//logger.info("消息内容:"+body);
+		//logger.info(queueName);
 
 		boolean msgConsumed = false;
 		// 业务处理

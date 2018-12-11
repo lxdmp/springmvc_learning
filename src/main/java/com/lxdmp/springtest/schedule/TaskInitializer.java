@@ -17,48 +17,12 @@ public class TaskInitializer implements ApplicationListener<ContextRefreshedEven
 {
 	private static final Logger logger = Logger.getLogger(TaskInitializer.class);
 
-	@Autowired
-	private UserService userService;
-
-	@Autowired
-	private UserGroupService userGroupService;
-
-	@Autowired
-	private UserPriviledgeService userPriviledgeService;
-
 	@Override 
 	public void onApplicationEvent(ContextRefreshedEvent event)
 	{
 		if(event.getApplicationContext().getParent()!=null)
 			return;
 		//logger.info("execute some initialization...");
-		
-		/*
-		 * 用户 : admin
-		 * 密码 : admin
-		 * 用户组 : 管理员
-		 * 用户权限 : all
-		 */
-		final String username = "admin";
-		final String passwd = "admin";
-		final String group = "管理员";
-		final String priviledge = "all";
-
-		UserDto userDto = new UserDto();
-		userDto.setUserName(username);
-		userDto.setUserPasswd(passwd);
-		userService.addUser(userDto);
-
-		UserGroupDto userGroupDto = new UserGroupDto();
-		userGroupDto.setGroupName(group);
-		userGroupService.addUserGroup(userGroupDto);
-
-		UserPriviledgeDto userPriviledgeDto = new UserPriviledgeDto();
-		userPriviledgeDto.setPriviledgeName(priviledge);
-		userPriviledgeService.addUserPriviledge(userPriviledgeDto);
-
-		userService.userJoinGroup(username, group);
-		userGroupService.userGroupAddPriviledge(group, priviledge);
 	}
 }
 

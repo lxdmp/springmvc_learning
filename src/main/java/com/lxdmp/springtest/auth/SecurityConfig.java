@@ -6,13 +6,23 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import com.lxdmp.springtest.auth.CustomUserDetailsService;
-
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.BadCredentialsException;
+import com.lxdmp.springtest.service.UserService;
+import org.apache.log4j.Logger;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
+	private static final Logger logger = Logger.getLogger(SecurityConfig.class);
+
 	/*
 	 * Spring Security约定的权限是人员、角色两张表,
 	 * roles/hasRole方法默认有前缀"ROLE_"前缀.
@@ -20,6 +30,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 	 * 若要实现更灵活的人员、角色、功能三张表(可用功能代替默认约定的角色概念),
 	 * 使用authorities/hasAuthority代替上述的roles方法,这样的字串没有任何前缀或后缀.
 	 */
+	@Autowired
+	UserService userService;
+
 	@Autowired
 	public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception
 	{
@@ -34,7 +47,48 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 			"CUSTOM_FORMAT", "ADD_PRODUCT"
 		);
 		*/
-		auth.userDetailsService(new CustomUserDetailsService());
+
+		UserDetailsService userDetailsService = new UserDetailsService(){ // 授权
+			@Override
+			public UserDetails loadUserByUsername(String username)
+			{
+				com.lxdmp.springtest.domain.User user = userService.queryUserByName(username);
+				if(user==null)
+					return new User("", "", null);
+				return new User(
+					user.getUserName(), 
+					user.getUserPasswd(), 
+					user.getUserPriviledges()
+				);
+			}
+		};
+		auth.userDetailsService(userDetailsService);
+		auth.authenticationProvider(new AuthenticationProvider(){ // 验证
+			@Override
+			public Authentication authenticate(Authentication authentication) throws AuthenticationException
+			{
+				String username = authentication.getName();
+				String password = (String)authentication.getCredentials();
+
+				com.lxdmp.springtest.domain.User user = userService.queryUserByName(username);
+				if(user==null)
+					throw new BadCredentialsException("Username not found.");
+
+				if(!password.equals(user.getUserPasswd()))
+					throw new BadCredentialsException("Wrong password.");
+
+				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+				return new UsernamePasswordAuthenticationToken(
+					userDetails, password, userDetails.getAuthorities()
+				);
+			}
+		
+			@Override
+			public boolean supports(Class<?> arg0)
+			{
+				return true;
+			}
+		});
 	}
 
 	@Override
