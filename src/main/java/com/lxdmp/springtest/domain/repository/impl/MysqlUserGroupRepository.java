@@ -47,6 +47,17 @@ public class MysqlUserGroupRepository extends BaseRepository implements UserGrou
 		jdbcTemplate.update(SQL_DELETE_USER, params);
 	}
 
+	// 修改用户组名
+	@Override
+	public void updateUserGroup(int userGroupId, String userGroupName)
+	{	
+	final String SQL = "update UserGroup set name = :groupName WHERE id = :groupId";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("groupId", userGroupId);
+		params.put("groupName", userGroupName);
+		jdbcTemplate.update(SQL, params);
+	}
+
 	// 查询用户组
 	@Override
 	public UserGroup queryUserGroupByName(String userGroupName)
