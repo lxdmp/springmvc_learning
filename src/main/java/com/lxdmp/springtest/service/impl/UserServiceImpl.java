@@ -10,6 +10,8 @@ import com.lxdmp.springtest.dto.UserDto;
 import com.lxdmp.springtest.domain.UserGroup;
 import com.lxdmp.springtest.domain.UserPriviledge;
 import com.lxdmp.springtest.domain.repository.UserRepository;
+import com.lxdmp.springtest.domain.repository.UserAndGroupRepository;
+import com.lxdmp.springtest.domain.repository.UserGroupRepository;
 import com.lxdmp.springtest.service.UserService;
 
 @Transactional
@@ -20,7 +22,16 @@ public class UserServiceImpl implements UserService
 	@Qualifier("mysqlUserRepo")
 	private UserRepository userRepository;
 
+	@Autowired
+	@Qualifier("mysqlUserAndGroupRepo")
+	private UserAndGroupRepository userAndGroupRepository;
+
+	@Autowired
+	@Qualifier("mysqlUserGroupRepo")
+	private UserGroupRepository userGroupRepository;
+
 	// 增加用户
+	@Override
 	public boolean addUser(UserDto userDto)
 	{
 		User duplicateUser = userRepository.queryUserByName(userDto.getUserName());
@@ -31,6 +42,7 @@ public class UserServiceImpl implements UserService
 	}
 	
 	// 删除用户
+	@Override
 	public boolean delUser(String userName)
 	{
 		User existedUser = userRepository.queryUserByName(userName);
@@ -41,6 +53,7 @@ public class UserServiceImpl implements UserService
 	}
 
 	// 修改用户密码
+	@Override
 	public boolean updateUserPassword(String userName, String oldPassword, String newPassword)
 	{
 		User existedUser = userRepository.queryUserByName(userName);
@@ -53,19 +66,45 @@ public class UserServiceImpl implements UserService
 	}
 
 	// 查询用户
+	@Override
 	public User queryUserByName(String userName)
 	{
-		return userRepository.queryUserByName(userName);
+		User user = userRepository.queryUserByName(userName);
+		if(user==null)
+			return null;
+		return user;
 	}
 
 	// 用户加入某用户组
-	public void userJoinGroup(String userName, String userGroupName)
+	@Override
+	public boolean userJoinGroup(String userName, String userGroupName)
 	{
+		User user = userRepository.queryUserByName(userName);
+		if(user==null) // 没有该用户
+			return false;
+
+		UserGroup userGroup = userGroupRepository.queryUserGroupByName(userGroupName);
+		if(userGroup==null) // 没有该用户组
+			return false;
+
+		userAndGroupRepository.userJoinGroup(user.getUserId(), userGroup.getGroupId());
+		return true;
 	}
 
 	// 用户离开某用户组
-	public void userLeaveGroup(String userName, String userGroupName)
+	@Override
+	public boolean userLeaveGroup(String userName, String userGroupName)
 	{
+		User user = userRepository.queryUserByName(userName);
+		if(user==null) // 没有该用户
+			return false;
+
+		UserGroup userGroup = userGroupRepository.queryUserGroupByName(userGroupName);
+		if(userGroup==null) // 没有该用户组
+			return false;
+
+		userAndGroupRepository.userLeaveGroup(user.getUserId(), userGroup.getGroupId());
+		return true;
 	}
 }
 
