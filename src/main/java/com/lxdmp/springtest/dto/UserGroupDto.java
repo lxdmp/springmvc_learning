@@ -1,9 +1,6 @@
 package com.lxdmp.springtest.dto;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.LinkedList;
-import com.lxdmp.springtest.domain.UserPriviledge;
 
 public final class UserGroupDto implements Serializable
 {

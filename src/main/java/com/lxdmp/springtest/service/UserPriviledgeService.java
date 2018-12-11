@@ -1,17 +1,18 @@
 package com.lxdmp.springtest.service;
 
-import java.util.Set;
+import java.util.List;
 import com.lxdmp.springtest.domain.User;
 import com.lxdmp.springtest.domain.UserGroup;
 import com.lxdmp.springtest.domain.UserPriviledge;
+import com.lxdmp.springtest.dto.UserPriviledgeDto;
 
 public interface UserPriviledgeService
 {
-	void addUserPriviledge(UserPriviledge userPriviledge); // 增加用户权限
-	void delUserPriviledge(String userPriviledgeName); // 删除用户权限
-	void updateUserPriviledge(String userPriviledgeName, String newUserPriviledgeName); // 修改用户权限名称
+	boolean addUserPriviledge(UserPriviledgeDto userPriviledgeDto); // 增加用户权限
+	boolean delUserPriviledge(String userPriviledgeName); // 删除用户权限
+	boolean updateUserPriviledge(String userPriviledgeName, String newUserPriviledgeName); // 修改用户权限名称
 	UserPriviledge queryUserPriviledgeByName(String userPriviledgeName); // 查询用户权限
-	Set<UserGroup> userGroupsWithPriviledge(String userPriviledgeName); // 具有该权限的用户组
-	Set<User> usersWithPriviledge(String userPriviledgeName); // 具有该权限的用户
+	List<UserGroup> userGroupsWithPriviledge(String userPriviledgeName); // 具有该权限的用户组
+	List<User> usersWithPriviledge(String userPriviledgeName); // 具有该权限的用户
 }
 

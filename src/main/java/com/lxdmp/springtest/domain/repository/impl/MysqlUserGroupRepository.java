@@ -40,18 +40,22 @@ public class MysqlUserGroupRepository extends BaseRepository implements UserGrou
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("groupId", userGroupId);
 
-		String SQL_DELETE_USER_WITH_GROUP = "delete from UserWithGroup where groupId = :groupId";
-		jdbcTemplate.update(SQL_DELETE_USER_WITH_GROUP, params);
+		{
+			String SQL = "delete from UserWithGroup where groupId = :groupId";
+			jdbcTemplate.update(SQL, params);
+		}
 
-		String SQL_DELETE_USER = "delete from UserGroup where id = :groupId";
-		jdbcTemplate.update(SQL_DELETE_USER, params);
+		{
+			String SQL = "delete from UserGroup where id = :groupId";
+			jdbcTemplate.update(SQL, params);
+		}
 	}
 
 	// 修改用户组名
 	@Override
 	public void updateUserGroup(int userGroupId, String userGroupName)
 	{	
-	final String SQL = "update UserGroup set name = :groupName WHERE id = :groupId";
+		final String SQL = "update UserGroup set name = :groupName WHERE id = :groupId";
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("groupId", userGroupId);
 		params.put("groupName", userGroupName);

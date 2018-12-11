@@ -38,11 +38,15 @@ public class MysqlUserRepository extends BaseRepository implements UserRepositor
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("userId", userId);
 
-		String SQL_DELETE_USER_WITH_GROUP = "delete from UserWithGroup where userId=:userId";
-		jdbcTemplate.update(SQL_DELETE_USER_WITH_GROUP, params);
+		{
+			String SQL = "delete from UserWithGroup where userId=:userId";
+			jdbcTemplate.update(SQL, params);
+		}
 
-		String SQL_DELETE_USER = "delete from User where id = :userId";
-		jdbcTemplate.update(SQL_DELETE_USER, params);
+		{
+			String SQL = "delete from User where id = :userId";
+			jdbcTemplate.update(SQL, params);
+		}
 	}
 
 	// 修改用户密码

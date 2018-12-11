@@ -28,11 +28,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 		auth.inMemoryAuthentication().withUser("admin").password("root123").roles("USER", "ADMIN");
 		*/
 
+		/*
 		auth.inMemoryAuthentication().withUser("test").password("123").authorities("CUSTOM_FORMAT");
 		auth.inMemoryAuthentication().withUser("admin").password("root123").authorities(
 			"CUSTOM_FORMAT", "ADD_PRODUCT"
 		);
-		//auth.userDetailsService(new CustomUserDetailsService());
+		*/
+		auth.userDetailsService(new CustomUserDetailsService());
 	}
 
 	@Override

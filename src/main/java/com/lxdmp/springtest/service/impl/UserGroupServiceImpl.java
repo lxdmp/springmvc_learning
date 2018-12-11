@@ -9,9 +9,9 @@ import com.lxdmp.springtest.domain.User;
 import com.lxdmp.springtest.domain.UserGroup;
 import com.lxdmp.springtest.dto.UserGroupDto;
 import com.lxdmp.springtest.domain.UserPriviledge;
-import com.lxdmp.springtest.domain.repository.UserRepository;
-import com.lxdmp.springtest.domain.repository.UserAndGroupRepository;
 import com.lxdmp.springtest.domain.repository.UserGroupRepository;
+import com.lxdmp.springtest.domain.repository.GroupAndPriviledgeRepository;
+import com.lxdmp.springtest.domain.repository.UserPriviledgeRepository;
 import com.lxdmp.springtest.service.UserGroupService;
 
 @Transactional
@@ -19,16 +19,16 @@ import com.lxdmp.springtest.service.UserGroupService;
 public class UserGroupServiceImpl implements UserGroupService
 {
 	@Autowired
-	@Qualifier("mysqlUserRepo")
-	private UserRepository userRepository;
-
-	@Autowired
-	@Qualifier("mysqlUserAndGroupRepo")
-	private UserAndGroupRepository userAndGroupRepository;
-
-	@Autowired
 	@Qualifier("mysqlUserGroupRepo")
 	private UserGroupRepository userGroupRepository;
+
+	@Autowired
+	@Qualifier("mysqlGroupAndPriviledgeRepo")
+	private GroupAndPriviledgeRepository groupAndPriviledgeRepository;
+
+	@Autowired
+	@Qualifier("mysqlUserPriviledgeRepo")
+	private UserPriviledgeRepository userPriviledgeRepository;
 
 	// 增加用户组
 	public boolean addUserGroup(UserGroupDto userGroupDto)
@@ -79,11 +79,31 @@ public class UserGroupServiceImpl implements UserGroupService
 	// 用户组赋予某权限
 	public boolean userGroupAddPriviledge(String userGroupName, String userPriviledgeName)
 	{
+		UserGroup userGroup = userGroupRepository.queryUserGroupByName(userGroupName);
+		if(userGroup==null) // 没有该用户组
+			return false;
+
+		UserPriviledge userPriviledge = userPriviledgeRepository.queryUserPriviledgeByName(userPriviledgeName);
+		if(userPriviledge==null) // 没有该用户权限
+			return false;
+
+		groupAndPriviledgeRepository.addPriviledgeToGroup(userGroup.getGroupId(), userPriviledge.getPriviledgeId());
+		return true;
 	}
 
 	// 用户组取消某权限
 	public boolean userGroupDelPriviledge(String userGroupName, String userPriviledgeName)
 	{
+		UserGroup userGroup = userGroupRepository.queryUserGroupByName(userGroupName);
+		if(userGroup==null) // 没有该用户组
+			return false;
+
+		UserPriviledge userPriviledge = userPriviledgeRepository.queryUserPriviledgeByName(userPriviledgeName);
+		if(userPriviledge==null) // 没有该用户权限
+			return false;
+
+		groupAndPriviledgeRepository.delPriviledgeFromGroup(userGroup.getGroupId(), userPriviledge.getPriviledgeId());
+		return true;	
 	}
 }
 
