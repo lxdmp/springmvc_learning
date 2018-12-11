@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.stereotype.Repository;
 import org.springframework.dao.DataAccessException;
 import com.lxdmp.springtest.domain.User;
@@ -73,7 +72,8 @@ public class MysqlUserRepository extends BaseRepository implements UserRepositor
 			"inner join UserGroup on UserWithGroup.groupId=UserGroup.id " + 
 			"inner join GroupWithPriviledge on UserGroup.id=GroupWithPriviledge.groupId " + 
 			"inner join UserPriviledge on GroupWithPriviledge.priviledgeId=UserPriviledge.id " + 
-			"on User.name = :userName";
+			"where User.name = :userName " + 
+			"order by id1 asc, id2 asc, id3 asc";
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("userName", userName);

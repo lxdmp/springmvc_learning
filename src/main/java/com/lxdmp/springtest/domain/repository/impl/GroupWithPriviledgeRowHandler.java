@@ -23,8 +23,8 @@ public class GroupWithPriviledgeRowHandler implements RowCallbackHandler
 	{
 		int userGroupId = rs.getInt("id1");
 		String userGroupName = rs.getString("name1");
-		if( userGroups().isEmpty() || 
-			userGroups().get(userGroups().size()-1).getGroupId()!=userGroupId)
+		if( userGroups.isEmpty() || 
+			userGroups.get(userGroups.size()-1).getGroupId()!=userGroupId)
 		{
 			UserGroup userGroup = new UserGroup();
 			userGroup.setGroupId(userGroupId);
@@ -32,7 +32,7 @@ public class GroupWithPriviledgeRowHandler implements RowCallbackHandler
 
 			userGroups.add(userGroup);
 		}
-		UserGroup userGroup = userGroups().get(userGroups().size()-1);
+		UserGroup userGroup = userGroups.get(userGroups.size()-1);
 
 		int priviledgeId = rs.getInt("id2");
 		String priviledgeName = rs.getString("name2");

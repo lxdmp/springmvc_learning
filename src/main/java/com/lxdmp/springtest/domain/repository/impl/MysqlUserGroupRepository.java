@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.dao.DataAccessException;
@@ -16,6 +15,7 @@ import com.lxdmp.springtest.domain.UserGroup;
 import com.lxdmp.springtest.dto.UserGroupDto;
 import com.lxdmp.springtest.domain.UserPriviledge;
 import com.lxdmp.springtest.domain.repository.UserGroupRepository;
+import com.lxdmp.springtest.domain.repository.impl.GroupWithPriviledgeRowHandler;
 
 @Repository("mysqlUserGroupRepo")
 public class MysqlUserGroupRepository extends BaseRepository implements UserGroupRepository
@@ -51,7 +51,6 @@ public class MysqlUserGroupRepository extends BaseRepository implements UserGrou
 	@Override
 	public UserGroup queryUserGroupByName(String userGroupName)
 	{
-		List<UserGroup> userGroups = new LinkedList<UserGroup>();
 		final String SQL = "select UserGroup.id as id1," + 
 			"UserGroup.name as name1," + 
 			"UserPriviledge.id as id2," + 
@@ -59,16 +58,15 @@ public class MysqlUserGroupRepository extends BaseRepository implements UserGrou
 			" from UserGroup " + 
 			"inner join GroupWithPriviledge on UserGroup.id=GroupWithPriviledge.groupId " + 
 			"inner join UserPriviledge on GroupWithPriviledge.priviledgeId=UserPriviledge.id " + 
-			"on UserGroup.name = :groupName";
+			"where UserGroup.name = :groupName " + 
+			"order by id1 asc, id2 asc";
+
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("groupName", userGroupName);
-		jdbcTemplate.query(SQL, params, new RowCallbackHandler(){
-			@Override
-			public void processRow(ResultSet rs) throws SQLException
-			{
-				
-			}
-		});
+
+		GroupWithPriviledgeRowHandler handler = new GroupWithPriviledgeRowHandler();
+		jdbcTemplate.query(SQL, params, handler);
+		List<UserGroup> userGroups = handler.getUserGroups();
 		return (userGroups.isEmpty()?null:userGroups.get(0));
 	}
 
@@ -76,6 +74,28 @@ public class MysqlUserGroupRepository extends BaseRepository implements UserGrou
 	@Override
 	public List<User> queryUsersByName(String userGroupName)
 	{
+		final String SQL = "select User.id as id1," + 
+			"User.name as name1," + 
+			"User.password as password," + 
+			"UserGroup.id as id2," + 
+			"UserGroup.name as name2," + 
+			"UserPriviledge.id as id3," + 
+			"UserPriviledge.name as name3" + 
+			" from User " + 
+			"inner join UserWithGroup on User.id=UserWithGroup.userId " + 
+			"inner join UserGroup on UserWithGroup.groupId=UserGroup.id " + 
+			"inner join GroupWithPriviledge on UserGroup.id=GroupWithPriviledge.groupId " + 
+			"inner join UserPriviledge on GroupWithPriviledge.priviledgeId=UserPriviledge.id " + 
+			"where UserGroup.name = :userGroupNamae " + 
+			"order by id1 asc, id2 asc, id3 asc";
+
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("userGroupName", userGroupName);
+
+		UserWithGroupWithPriviledgeRowHandler handler = new UserWithGroupWithPriviledgeRowHandler();
+		jdbcTemplate.query(SQL, params, handler);
+		List<User> users = handler.getUsers();
+		return users;
 	}
 }
 
