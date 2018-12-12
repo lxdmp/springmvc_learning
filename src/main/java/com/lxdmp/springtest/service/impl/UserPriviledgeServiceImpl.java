@@ -13,6 +13,7 @@ import com.lxdmp.springtest.domain.repository.UserGroupRepository;
 import com.lxdmp.springtest.domain.repository.GroupAndPriviledgeRepository;
 import com.lxdmp.springtest.domain.repository.UserPriviledgeRepository;
 import com.lxdmp.springtest.service.UserPriviledgeService;
+import com.lxdmp.springtest.service.UserGroupService;
 
 @Transactional
 @Service
@@ -21,6 +22,9 @@ public class UserPriviledgeServiceImpl implements UserPriviledgeService
 	@Autowired
 	@Qualifier("mysqlUserPriviledgeRepo")
 	private UserPriviledgeRepository userPriviledgeRepository;
+
+	@Autowired
+	private UserGroupService userGroupService;
 	
 	// 增加用户权限
 	public boolean addUserPriviledge(UserPriviledgeDto userPriviledgeDto)
@@ -30,7 +34,10 @@ public class UserPriviledgeServiceImpl implements UserPriviledgeService
 		);
 		if(duplicateUserPriviledge!=null) // 已有同名的用户权限
 			return false;
+
+		// 加入权限,并将其加入到管理员用户组
 		userPriviledgeRepository.addUserPriviledge(userPriviledgeDto);
+		userGroupService.userGroupAddPriviledge("管理员", userPriviledgeDto.getPriviledgeName());
 		return true;
 	}
 
