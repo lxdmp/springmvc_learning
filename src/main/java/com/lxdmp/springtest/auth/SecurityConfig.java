@@ -1,5 +1,6 @@
 package com.lxdmp.springtest.auth;
 
+import java.util.Iterator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -48,13 +50,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 		);
 		*/
 
-		UserDetailsService userDetailsService = new UserDetailsService(){ // 授权
+		// 订制认证的用户信息来源
+		UserDetailsService userDetailsService = new UserDetailsService(){
 			@Override
 			public UserDetails loadUserByUsername(String username)
 			{
 				com.lxdmp.springtest.domain.User user = userService.queryUserByName(username);
 				if(user==null)
-					return new User("", "", null);
+					return null;
 				return new User(
 					user.getUserName(), 
 					user.getUserPasswd(), 
@@ -63,21 +66,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 			}
 		};
 		auth.userDetailsService(userDetailsService);
-		auth.authenticationProvider(new AuthenticationProvider(){ // 验证
+
+		// 订制认证的方式
+		auth.authenticationProvider(new AuthenticationProvider(){
 			@Override
 			public Authentication authenticate(Authentication authentication) throws AuthenticationException
 			{
 				String username = authentication.getName();
 				String password = (String)authentication.getCredentials();
 
-				com.lxdmp.springtest.domain.User user = userService.queryUserByName(username);
-				if(user==null)
-					throw new BadCredentialsException("Username not found.");
-
-				if(!password.equals(user.getUserPasswd()))
-					throw new BadCredentialsException("Wrong password.");
-
 				UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+				if(userDetails==null)
+					return null;
+
+				if( !username.equals(userDetails.getUsername()) || 
+					!password.equals(userDetails.getPassword()) )
+					return null;
+
 				return new UsernamePasswordAuthenticationToken(
 					userDetails, password, userDetails.getAuthorities()
 				);
@@ -116,8 +121,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 			.authorizeRequests()
 				//.antMatchers("/**/add").access("hasRole('ADMIN')") // url的权限匹配按照声明顺序进行,
 				//.antMatchers("/**/format").access("hasRole('USER')") // 故可按照由精确到模糊的顺序声明.
-				.antMatchers("/**/add").access("hasAuthority('ADD_PRODUCT')") // url的权限匹配按照声明顺序进行,
-				.antMatchers("/**/format").access("hasAuthority('CUSTOM_FORMAT')") // 故可按照由精确到模糊的顺序声明.
+				.antMatchers("/**/add").access("hasAnyAuthority('all', 'ADD_PRODUCT')") // url的权限匹配按照声明顺序进行,
+				.antMatchers("/**/format").access("hasAnyAuthority('all', 'CUSTOM_FORMAT')") // 故可按照由精确到模糊的顺序声明.
 				.antMatchers("/**").permitAll()
 				.and();
 			/*

@@ -72,7 +72,6 @@ public class UserServiceImpl implements UserService
 	@Override
 	public User queryUserByName(String userName)
 	{
-		logger.info(userName);
 		User user = userRepository.queryUserByName(userName);
 		if(user==null)
 			return null;
