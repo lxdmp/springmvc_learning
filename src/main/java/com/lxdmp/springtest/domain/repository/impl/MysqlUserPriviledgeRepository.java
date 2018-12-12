@@ -10,8 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.dao.DataAccessException;
 import com.lxdmp.springtest.domain.User;
 import com.lxdmp.springtest.domain.UserGroup;
 import com.lxdmp.springtest.domain.UserPriviledge;
@@ -23,15 +26,17 @@ import com.lxdmp.springtest.domain.repository.impl.UserWithGroupWithPriviledgeRo
 public class MysqlUserPriviledgeRepository extends BaseRepository implements UserPriviledgeRepository
 {
 	// 增加用户权限
-	public void addUserPriviledge(UserPriviledgeDto userPriviledgeDto)
+	public int addUserPriviledge(UserPriviledgeDto userPriviledgeDto)
 	{
 		String SQL = "insert into UserPriviledge (" + 
 			"name" +
 			") values (" + 
 			":name)";
-		Map<String, Object> params = new HashMap<>();
-		params.put("name", userPriviledgeDto.getPriviledgeName());
-		jdbcTemplate.update(SQL, params);
+		SqlParameterSource params = new MapSqlParameterSource()
+			.addValue("name", userPriviledgeDto.getPriviledgeName());
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		jdbcTemplate.update(SQL, params, keyHolder, new String[]{"id"});
+		return keyHolder.getKey().intValue();
 	}
 
 	// 删除用户权限
@@ -80,6 +85,25 @@ public class MysqlUserPriviledgeRepository extends BaseRepository implements Use
 			});
 		}catch(EmptyResultDataAccessException e) {
 			return null;
+		}
+	}
+
+	// 查询用户权限id
+	public int queryUserPriviledgeIdByName(String userPriviledgeName)
+	{
+		final String SQL = "select id from UserPriviledge where name = :priviledgeName";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("priviledgeName", userPriviledgeName);
+		try{
+			return jdbcTemplate.queryForObject(SQL, params, new RowMapper<Integer>(){
+				@Override
+				public Integer mapRow(ResultSet rs, int rowNum) throws SQLException
+				{
+					return new Integer(rs.getInt("id"));
+				}
+			}).intValue();
+		}catch(EmptyResultDataAccessException e) {
+			return -1;
 		}
 	}
 

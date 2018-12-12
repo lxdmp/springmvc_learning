@@ -174,8 +174,8 @@ public class ProductController
 		});
 	}
 
-	@Secured("ADD_PRODUCT")
-	//@PreAuthorize("hasAuthority('ADD_PRODUCT')")
+	//@Secured("ADD_PRODUCT")
+	@PreAuthorize("hasAuthority('ADD_PRODUCT')")
 	@RequestMapping(value="/products/add", method=RequestMethod.GET)
 	public String getAddNewProductForm(Model model)
 	{

@@ -8,8 +8,13 @@ import java.util.LinkedList;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import com.lxdmp.springtest.domain.User;
 import com.lxdmp.springtest.domain.UserGroup;
 import com.lxdmp.springtest.dto.UserGroupDto;
@@ -22,15 +27,17 @@ public class MysqlUserGroupRepository extends BaseRepository implements UserGrou
 {
 	// 增加用户组
 	@Override
-	public void addUserGroup(UserGroupDto userGroupDto)
+	public int addUserGroup(UserGroupDto userGroupDto)
 	{
 		String SQL = "insert into UserGroup (" + 
 			"name" +
 			") values (" + 
 			":name)";
-		Map<String, Object> params = new HashMap<>();
-		params.put("name", userGroupDto.getGroupName());
-		jdbcTemplate.update(SQL, params);
+		SqlParameterSource params = new MapSqlParameterSource()
+			.addValue("name", userGroupDto.getGroupName());
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		jdbcTemplate.update(SQL, params, keyHolder, new String[]{"id"});
+		return keyHolder.getKey().intValue();
 	}
 
 	// 删除用户组
@@ -111,6 +118,25 @@ public class MysqlUserGroupRepository extends BaseRepository implements UserGrou
 		jdbcTemplate.query(SQL, params, handler);
 		List<User> users = handler.getUsers();
 		return users;
+	}
+
+	// 查询用户组id
+	public int queryUserGroupIdByName(String userGroupName)
+	{
+		final String SQL = "select id from UserGroup where name = :groupName";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("groupName", userGroupName);
+		try{
+			return jdbcTemplate.queryForObject(SQL, params, new RowMapper<Integer>(){
+				@Override
+				public Integer mapRow(ResultSet rs, int rowNum) throws SQLException
+				{
+					return new Integer(rs.getInt("id"));
+				}
+			}).intValue();
+		}catch(EmptyResultDataAccessException e) {
+			return -1;
+		}
 	}
 }
 

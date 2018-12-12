@@ -53,9 +53,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 			@Override
 			public UserDetails loadUserByUsername(String username)
 			{
+				logger.debug("CustomUserDetailsService : try to get user details");
 				com.lxdmp.springtest.domain.User user = userService.queryUserByName(username);
 				if(user==null)
 					return null;
+				logger.debug("CustomUserDetailsService : get user details with success");
+
+				String s = String.format("CustomUserDetailsService : %s %s ", 
+					user.getUserName(), user.getUserPasswd()
+				);
+				Iterator<? extends GrantedAuthority> iter = user.getUserPriviledges().iterator();
+				while(iter.hasNext())
+					s += iter.next().getAuthority()+" ";
+				logger.debug(s);
+
 				return new User(
 					user.getUserName(), 
 					user.getUserPasswd(), 
@@ -74,14 +85,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 			{
 				String username = authentication.getName();
 				String password = (String)authentication.getCredentials();
+				logger.debug(String.format("CustomAuthenticationProvider : %s %s", username, password));
 
 				UserDetails userDetails = customUserDetailsService().loadUserByUsername(username);
 				if(userDetails==null)
+				{
+					logger.debug("CustomAuthenticationProvider : call customUserDetailsService with failure");
 					return null;
+				}
+				logger.debug("CustomAuthenticationProvider : call customUserDetailsService with success");
 
 				if( !username.equals(userDetails.getUsername()) || 
 					!password.equals(userDetails.getPassword()) )
+				{
+					logger.debug("CustomAuthenticationProvider : password check not passed");
 					return null;
+				}
+				logger.debug("CustomAuthenticationProvider : password check passed");
 
 				return new UsernamePasswordAuthenticationToken(
 					userDetails, password, userDetails.getAuthorities()

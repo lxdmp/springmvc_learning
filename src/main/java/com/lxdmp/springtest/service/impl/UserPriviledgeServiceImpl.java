@@ -24,40 +24,46 @@ public class UserPriviledgeServiceImpl implements UserPriviledgeService
 	private UserPriviledgeRepository userPriviledgeRepository;
 
 	@Autowired
-	private UserGroupService userGroupService;
+	@Qualifier("mysqlGroupAndPriviledgeRepo")
+	private GroupAndPriviledgeRepository groupAndPriviledgeRepository;
+
+	@Autowired
+	@Qualifier("mysqlUserGroupRepo")
+	private UserGroupRepository userGroupRepository;
 	
 	// 增加用户权限
 	public boolean addUserPriviledge(UserPriviledgeDto userPriviledgeDto)
 	{	
-		UserPriviledge duplicateUserPriviledge = userPriviledgeRepository.queryUserPriviledgeByName(
+		int duplicateUserPriviledgeId = userPriviledgeRepository.queryUserPriviledgeIdByName(
 			userPriviledgeDto.getPriviledgeName()
 		);
-		if(duplicateUserPriviledge!=null) // 已有同名的用户权限
+		if(duplicateUserPriviledgeId>=0) // 已有同名的用户权限
 			return false;
 
 		// 加入权限,并将其加入到管理员用户组
-		userPriviledgeRepository.addUserPriviledge(userPriviledgeDto);
-		userGroupService.userGroupAddPriviledge("管理员", userPriviledgeDto.getPriviledgeName());
+		int newPriviledgeId = userPriviledgeRepository.addUserPriviledge(userPriviledgeDto);
+		int adminGroupId = userGroupRepository.queryUserGroupIdByName("管理员");
+		groupAndPriviledgeRepository.addPriviledgeToGroup(adminGroupId, newPriviledgeId);
 		return true;
 	}
 
 	// 删除用户权限
 	public boolean delUserPriviledge(String userPriviledgeName)
 	{
-		UserPriviledge existedUserPriviledge = userPriviledgeRepository.queryUserPriviledgeByName(userPriviledgeName);
-		if(existedUserPriviledge==null) // 没有该用户权限
+		int existedUserPriviledgeId = userPriviledgeRepository.queryUserPriviledgeIdByName(userPriviledgeName);
+		if(existedUserPriviledgeId<0) // 没有该用户权限
 			return false;
-		userPriviledgeRepository.delUserPriviledge(existedUserPriviledge.getPriviledgeId());
+		userPriviledgeRepository.delUserPriviledge(existedUserPriviledgeId);
 		return true;
 	}
 
 	// 修改用户权限名称
 	public boolean updateUserPriviledge(String userPriviledgeName, String newUserPriviledgeName)
 	{
-		UserPriviledge existedUserPriviledge = userPriviledgeRepository.queryUserPriviledgeByName(userPriviledgeName);
-		if(existedUserPriviledge==null) // 没有该用户权限
+		int existedUserPriviledgeId = userPriviledgeRepository.queryUserPriviledgeIdByName(userPriviledgeName);
+		if(existedUserPriviledgeId<0) // 没有该用户权限
 			return false;
-		userPriviledgeRepository.updateUserPriviledge(existedUserPriviledge.getPriviledgeId(), newUserPriviledgeName);
+		userPriviledgeRepository.updateUserPriviledge(existedUserPriviledgeId, newUserPriviledgeName);
 		return true;
 	}
 

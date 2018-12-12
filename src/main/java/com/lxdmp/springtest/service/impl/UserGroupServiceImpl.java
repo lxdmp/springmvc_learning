@@ -33,30 +33,34 @@ public class UserGroupServiceImpl implements UserGroupService
 	// 增加用户组
 	public boolean addUserGroup(UserGroupDto userGroupDto)
 	{
-		UserGroup duplicateUserGroup = userGroupRepository.queryUserGroupByName(userGroupDto.getGroupName());
-		if(duplicateUserGroup!=null) // 已有同名的用户组
+		int duplicateUserGroupId = userGroupRepository.queryUserGroupIdByName(userGroupDto.getGroupName());
+		if(duplicateUserGroupId>=0) // 已有同名的用户组
 			return false;
-		userGroupRepository.addUserGroup(userGroupDto);
+
+		// 增加用户组,并赋予基本权限
+		int newGroupId = userGroupRepository.addUserGroup(userGroupDto);
+		int priviledgeId = userPriviledgeRepository.queryUserPriviledgeIdByName("基本权限");
+		groupAndPriviledgeRepository.addPriviledgeToGroup(newGroupId, priviledgeId);
 		return true;
 	}
 
 	// 删除用户组
 	public boolean delUserGroup(String userGroupName)
 	{
-		UserGroup existedUserGroup = userGroupRepository.queryUserGroupByName(userGroupName);
-		if(existedUserGroup==null) // 没有该用户组
+		int existedUserGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
+		if(existedUserGroupId<0) // 没有该用户组
 			return false;
-		userGroupRepository.delUserGroup(existedUserGroup.getGroupId());
+		userGroupRepository.delUserGroup(existedUserGroupId);
 		return true;
 	}
 
 	// 修改用户组名称
 	public boolean updateUserGroup(String userGroupName, String newUserGroupName)
 	{
-		UserGroup existedUserGroup = userGroupRepository.queryUserGroupByName(userGroupName);
-		if(existedUserGroup==null) // 没有该用户组
+		int existedUserGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
+		if(existedUserGroupId<0) // 没有该用户组
 			return false;
-		userGroupRepository.updateUserGroup(existedUserGroup.getGroupId(), newUserGroupName);
+		userGroupRepository.updateUserGroup(existedUserGroupId, newUserGroupName);
 		return true;
 	}
 
@@ -79,30 +83,30 @@ public class UserGroupServiceImpl implements UserGroupService
 	// 用户组赋予某权限
 	public boolean userGroupAddPriviledge(String userGroupName, String userPriviledgeName)
 	{
-		UserGroup userGroup = userGroupRepository.queryUserGroupByName(userGroupName);
-		if(userGroup==null) // 没有该用户组
+		int userGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
+		if(userGroupId<0) // 没有该用户组
 			return false;
 
-		UserPriviledge userPriviledge = userPriviledgeRepository.queryUserPriviledgeByName(userPriviledgeName);
-		if(userPriviledge==null) // 没有该用户权限
+		int userPriviledgeId = userPriviledgeRepository.queryUserPriviledgeIdByName(userPriviledgeName);
+		if(userPriviledgeId<0) // 没有该用户权限
 			return false;
 
-		groupAndPriviledgeRepository.addPriviledgeToGroup(userGroup.getGroupId(), userPriviledge.getPriviledgeId());
+		groupAndPriviledgeRepository.addPriviledgeToGroup(userGroupId, userPriviledgeId);
 		return true;
 	}
 
 	// 用户组取消某权限
 	public boolean userGroupDelPriviledge(String userGroupName, String userPriviledgeName)
 	{
-		UserGroup userGroup = userGroupRepository.queryUserGroupByName(userGroupName);
-		if(userGroup==null) // 没有该用户组
+		int userGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
+		if(userGroupId<0) // 没有该用户组
 			return false;
 
-		UserPriviledge userPriviledge = userPriviledgeRepository.queryUserPriviledgeByName(userPriviledgeName);
-		if(userPriviledge==null) // 没有该用户权限
+		int userPriviledgeId = userPriviledgeRepository.queryUserPriviledgeIdByName(userPriviledgeName);
+		if(userPriviledgeId<0) // 没有该用户权限
 			return false;
 
-		groupAndPriviledgeRepository.delPriviledgeFromGroup(userGroup.getGroupId(), userPriviledge.getPriviledgeId());
+		groupAndPriviledgeRepository.delPriviledgeFromGroup(userGroupId, userPriviledgeId);
 		return true;	
 	}
 }

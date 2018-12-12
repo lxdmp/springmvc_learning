@@ -37,8 +37,8 @@ public class UserServiceImpl implements UserService
 	@Override
 	public boolean addUser(UserDto userDto)
 	{
-		User duplicateUser = userRepository.queryUserByName(userDto.getUserName());
-		if(duplicateUser!=null) // 已有同名的用户
+		int duplicateUserId = userRepository.queryUserIdByName(userDto.getUserName());
+		if(duplicateUserId>=0) // 已有同名的用户
 			return false;
 		userRepository.addUser(userDto);
 		return true;
@@ -48,10 +48,10 @@ public class UserServiceImpl implements UserService
 	@Override
 	public boolean delUser(String userName)
 	{
-		User existedUser = userRepository.queryUserByName(userName);
-		if(existedUser==null) // 没有该用户
+		int existedUserId = userRepository.queryUserIdByName(userName);
+		if(existedUserId<0) // 没有该用户
 			return false;
-		userRepository.delUser(existedUser.getUserId());
+		userRepository.delUser(existedUserId);
 		return true;
 	}
 
@@ -82,15 +82,15 @@ public class UserServiceImpl implements UserService
 	@Override
 	public boolean userJoinGroup(String userName, String userGroupName)
 	{
-		User user = userRepository.queryUserByName(userName);
-		if(user==null) // 没有该用户
+		int userId = userRepository.queryUserIdByName(userName);
+		if(userId<0) // 没有该用户
 			return false;
 
-		UserGroup userGroup = userGroupRepository.queryUserGroupByName(userGroupName);
-		if(userGroup==null) // 没有该用户组
+		int userGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
+		if(userGroupId<0) // 没有该用户组
 			return false;
 
-		userAndGroupRepository.userJoinGroup(user.getUserId(), userGroup.getGroupId());
+		userAndGroupRepository.userJoinGroup(userId, userGroupId);
 		return true;
 	}
 
@@ -98,15 +98,15 @@ public class UserServiceImpl implements UserService
 	@Override
 	public boolean userLeaveGroup(String userName, String userGroupName)
 	{
-		User user = userRepository.queryUserByName(userName);
-		if(user==null) // 没有该用户
+		int userId = userRepository.queryUserIdByName(userName);
+		if(userId<0) // 没有该用户
 			return false;
 
-		UserGroup userGroup = userGroupRepository.queryUserGroupByName(userGroupName);
-		if(userGroup==null) // 没有该用户组
+		int userGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
+		if(userGroupId<0) // 没有该用户组
 			return false;
 
-		userAndGroupRepository.userLeaveGroup(user.getUserId(), userGroup.getGroupId());
+		userAndGroupRepository.userLeaveGroup(userId, userGroupId);
 		return true;
 	}
 }
