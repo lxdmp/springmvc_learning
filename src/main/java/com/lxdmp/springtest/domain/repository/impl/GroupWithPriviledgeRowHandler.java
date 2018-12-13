@@ -17,8 +17,8 @@ public class GroupWithPriviledgeRowHandler implements RowCallbackHandler
 			"UserPriviledge.id as id2," + 
 			"UserPriviledge.name as name2" + 
 			" from UserGroup " + 
-			"inner join GroupWithPriviledge on UserGroup.id=GroupWithPriviledge.groupId " + 
-			"inner join UserPriviledge on GroupWithPriviledge.priviledgeId=UserPriviledge.id " + 
+			"left join GroupWithPriviledge on UserGroup.id=GroupWithPriviledge.groupId " + 
+			"left join UserPriviledge on GroupWithPriviledge.priviledgeId=UserPriviledge.id " + 
 			"where %s " + 
 			"order by id1 asc, id2 asc";
 	private List<UserGroup> userGroups = new LinkedList<UserGroup>();

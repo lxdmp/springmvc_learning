@@ -1,6 +1,7 @@
 package com.lxdmp.springtest.service.impl;
 
 import java.util.List;
+import java.util.LinkedList;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,6 +10,7 @@ import com.lxdmp.springtest.domain.User;
 import com.lxdmp.springtest.domain.UserGroup;
 import com.lxdmp.springtest.domain.UserPriviledge;
 import com.lxdmp.springtest.dto.UserPriviledgeDto;
+import com.lxdmp.springtest.domain.repository.UserRepository;
 import com.lxdmp.springtest.domain.repository.UserGroupRepository;
 import com.lxdmp.springtest.domain.repository.GroupAndPriviledgeRepository;
 import com.lxdmp.springtest.domain.repository.UserPriviledgeRepository;
@@ -30,6 +32,10 @@ public class UserPriviledgeServiceImpl implements UserPriviledgeService
 	@Autowired
 	@Qualifier("mysqlUserGroupRepo")
 	private UserGroupRepository userGroupRepository;
+
+	@Autowired
+	@Qualifier("mysqlUserRepo")
+	private UserRepository userRepository;
 	
 	// 增加用户权限
 	public boolean addUserPriviledge(UserPriviledgeDto userPriviledgeDto)
@@ -75,15 +81,29 @@ public class UserPriviledgeServiceImpl implements UserPriviledgeService
 	// 具有该权限的用户组
 	public List<UserGroup> userGroupsWithPriviledge(String userPriviledgeName)
 	{
+		List<UserGroup> result = new LinkedList<UserGroup>();
 		List<UserGroup> userGroups = userPriviledgeRepository.queryUserGroupsByName(userPriviledgeName);
-		return userGroups;
+		for(UserGroup userGroup : userGroups)
+		{
+			UserGroup groupInDetail = userGroupRepository.queryUserGroupByName(userGroup.getGroupName());
+			if(groupInDetail!=null)
+				result.add(groupInDetail);
+		}
+		return result;
 	}
 
 	// 具有该权限的用户
 	public List<User> usersWithPriviledge(String userPriviledgeName)
 	{
+		List<User> result = new LinkedList<User>();
 		List<User> users = userPriviledgeRepository.queryUsersByName(userPriviledgeName);
-		return users;
+		for(User user : users)
+		{
+			User userInDetail = userRepository.queryUserByName(user.getUserName());
+			if(userInDetail!=null)
+				result.add(userInDetail);
+		}
+		return result;
 	}
 }
 

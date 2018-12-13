@@ -1,23 +1,33 @@
 package com.lxdmp.springtest.service.impl;
 
 import java.util.List;
+import java.util.LinkedList;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import com.lxdmp.springtest.domain.User;
 import com.lxdmp.springtest.domain.UserGroup;
 import com.lxdmp.springtest.dto.UserGroupDto;
 import com.lxdmp.springtest.domain.UserPriviledge;
+import com.lxdmp.springtest.domain.repository.UserRepository;
 import com.lxdmp.springtest.domain.repository.UserGroupRepository;
 import com.lxdmp.springtest.domain.repository.GroupAndPriviledgeRepository;
 import com.lxdmp.springtest.domain.repository.UserPriviledgeRepository;
 import com.lxdmp.springtest.service.UserGroupService;
+import org.apache.log4j.Logger;
 
 @Transactional
 @Service
 public class UserGroupServiceImpl implements UserGroupService
 {
+	private static final Logger logger = Logger.getLogger(UserGroupServiceImpl.class);
+	
+	@Autowired
+	@Qualifier("mysqlUserRepo")
+	private UserRepository userRepository;
+
 	@Autowired
 	@Qualifier("mysqlUserGroupRepo")
 	private UserGroupRepository userGroupRepository;
@@ -72,8 +82,15 @@ public class UserGroupServiceImpl implements UserGroupService
 	// 该用户组中的用户
 	public List<User> usersInThisGroup(String userGroupName)
 	{
+		List<User> result = new LinkedList<User>();
 		List<User> users = userGroupRepository.queryUsersByName(userGroupName);
-		return users;
+		for(User user : users)
+		{
+			User userInDetail = userRepository.queryUserByName(user.getUserName());
+			if(userInDetail!=null)
+				result.add(userInDetail);
+		}
+		return result;
 	}
 
 	// 用户组赋予某权限
@@ -87,7 +104,14 @@ public class UserGroupServiceImpl implements UserGroupService
 		if(userPriviledgeId<0) // 没有该用户权限
 			return false;
 
-		groupAndPriviledgeRepository.addPriviledgeToGroup(userGroupId, userPriviledgeId);
+		try{
+			groupAndPriviledgeRepository.addPriviledgeToGroup(userGroupId, userPriviledgeId);
+		}catch(DuplicateKeyException e){
+			logger.warn(String.format("group %s already with priviledge %s", 
+				userGroupName, userPriviledgeName
+			));
+			return false;
+		}
 		return true;
 	}
 

@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import com.lxdmp.springtest.domain.User;
 import com.lxdmp.springtest.dto.UserDto;
@@ -90,7 +91,12 @@ public class UserServiceImpl implements UserService
 		if(userGroupId<0) // 没有该用户组
 			return false;
 
-		userAndGroupRepository.userJoinGroup(userId, userGroupId);
+		try{
+			userAndGroupRepository.userJoinGroup(userId, userGroupId);
+		}catch(DuplicateKeyException e){
+			logger.warn(String.format("user %s already with group %s", userName, userGroupName));
+			return false;
+		}
 		return true;
 	}
 
