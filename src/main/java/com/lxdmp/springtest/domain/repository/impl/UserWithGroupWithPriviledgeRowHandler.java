@@ -8,9 +8,12 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 import com.lxdmp.springtest.domain.User;
 import com.lxdmp.springtest.domain.UserGroup;
 import com.lxdmp.springtest.domain.UserPriviledge;
+import org.apache.log4j.Logger;
 
 public class UserWithGroupWithPriviledgeRowHandler implements RowCallbackHandler
 {
+	private static final Logger logger = Logger.getLogger(UserWithGroupWithPriviledgeRowHandler.class);
+
 	// 联立用户/用户组/权限三张表查询,基于用户返回结果.
 	final private String SQL = "select User.id as id1," + 
 			"User.name as name1," + 
@@ -31,6 +34,12 @@ public class UserWithGroupWithPriviledgeRowHandler implements RowCallbackHandler
 	public List<User> getUsers()
 	{
 		return this.users;
+	}
+
+	public String queryAll()
+	{
+		String condition = "True";
+		return String.format(this.SQL, condition);
 	}
 
 	public String queryWithUserName(String userName)
@@ -57,6 +66,8 @@ public class UserWithGroupWithPriviledgeRowHandler implements RowCallbackHandler
 		int userId = rs.getInt("id1");
 		String userName = rs.getString("name1");
 		String userPasswd = rs.getString("password");
+		if(!checkValidity(userId, userName))
+			return;
 		if(users.isEmpty() || users.get(users.size()-1).getUserId()!=userId)
 		{
 			User user = new User();
@@ -69,6 +80,8 @@ public class UserWithGroupWithPriviledgeRowHandler implements RowCallbackHandler
 
 		int userGroupId = rs.getInt("id2");
 		String userGroupName = rs.getString("name2");
+		if(!checkValidity(userGroupId, userGroupName))
+			return;
 		if( user.getUserGroups().isEmpty() || 
 			user.getUserGroups().get(user.getUserGroups().size()-1).getGroupId()!=userGroupId)
 		{
@@ -84,6 +97,8 @@ public class UserWithGroupWithPriviledgeRowHandler implements RowCallbackHandler
 
 		int priviledgeId = rs.getInt("id3");
 		String priviledgeName = rs.getString("name3");
+		if(!checkValidity(priviledgeId, priviledgeName))
+			return;
 		if( userGroup.getGroupPriviledges().isEmpty() || 
 			userGroup.getGroupPriviledges().get(userGroup.getGroupPriviledges().size()-1).getPriviledgeId()!=priviledgeId)
 		{
@@ -95,6 +110,12 @@ public class UserWithGroupWithPriviledgeRowHandler implements RowCallbackHandler
 			groupPriviledges.add(userPriviledge);
 			userGroup.setGroupPriviledges(groupPriviledges);
 		}
+	}
+
+	private boolean checkValidity(int id, String name)
+	{
+		// 确认SQL字段不为NULL.
+		return (id>0 && name!=null);
 	}
 }
 

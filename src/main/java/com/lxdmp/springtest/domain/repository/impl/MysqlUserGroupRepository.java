@@ -70,6 +70,21 @@ public class MysqlUserGroupRepository extends BaseRepository implements UserGrou
 		jdbcTemplate.update(SQL, params);
 	}
 
+	// 查询所有用户组
+	@Override
+	public List<UserGroup> queryAllUserGroups()
+	{
+		GroupWithPriviledgeRowHandler handler = new GroupWithPriviledgeRowHandler();
+		String SQL = handler.queryAll();
+		Map<String, Object> params = new HashMap<String, Object>();
+		try{
+			jdbcTemplate.query(SQL, params, handler);
+		}catch(DataAccessException e){
+		}
+		List<UserGroup> userGroups = handler.getUserGroups();
+		return userGroups;
+	}
+
 	// 查询用户组
 	@Override
 	public UserGroup queryUserGroupByName(String userGroupName)

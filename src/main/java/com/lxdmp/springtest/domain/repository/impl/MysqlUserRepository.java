@@ -70,6 +70,21 @@ public class MysqlUserRepository extends BaseRepository implements UserRepositor
 		jdbcTemplate.update(SQL, params);
 	}
 
+	// 查询所有用户
+	@Override
+	public List<User> queryAllUsers()
+	{
+		UserWithGroupWithPriviledgeRowHandler handler = new UserWithGroupWithPriviledgeRowHandler();
+		String SQL = handler.queryAll();
+		Map<String, Object> params = new HashMap<String, Object>();
+		try{
+			jdbcTemplate.query(SQL, params, handler);
+		}catch(DataAccessException e){
+		}
+		List<User> users = handler.getUsers();
+		return users;
+	}
+
 	// 查询用户
 	@Override
 	public User queryUserByName(String userName)

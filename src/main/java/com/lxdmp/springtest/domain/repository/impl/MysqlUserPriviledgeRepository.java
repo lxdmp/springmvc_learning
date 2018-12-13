@@ -67,6 +67,29 @@ public class MysqlUserPriviledgeRepository extends BaseRepository implements Use
 		jdbcTemplate.update(SQL, params);
 	}
 
+	private class CustomUserPriviledgeRowMapper implements RowMapper<UserPriviledge>
+	{
+		@Override
+		public UserPriviledge mapRow(ResultSet rs, int rowNum) throws SQLException
+		{
+			UserPriviledge userPriviledge = new UserPriviledge();
+			userPriviledge.setPriviledgeId(rs.getInt("id"));
+			userPriviledge.setPriviledgeName(rs.getString("name"));
+			return userPriviledge;
+		}
+	}
+
+	// 查询所有用户权限
+	public List<UserPriviledge> queryAllUserPriviledges()
+	{
+		final String SQL = "select id,name from UserPriviledge";
+		try{
+			return jdbcTemplate.query(SQL, new CustomUserPriviledgeRowMapper());
+		}catch(DataAccessException e) {
+			return null;
+		}
+	}
+
 	// 查询用户权限
 	public UserPriviledge queryUserPriviledgeByName(String userPriviledgeName)
 	{
@@ -74,16 +97,7 @@ public class MysqlUserPriviledgeRepository extends BaseRepository implements Use
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("priviledgeName", userPriviledgeName);
 		try{
-			return jdbcTemplate.queryForObject(SQL, params, new RowMapper<UserPriviledge>(){
-				@Override
-				public UserPriviledge mapRow(ResultSet rs, int rowNum) throws SQLException
-				{
-					UserPriviledge userPriviledge = new UserPriviledge();
-					userPriviledge.setPriviledgeId(rs.getInt("id"));
-					userPriviledge.setPriviledgeName(rs.getString("name"));
-					return userPriviledge;
-				}
-			});
+			return jdbcTemplate.queryForObject(SQL, params, new CustomUserPriviledgeRowMapper());
 		}catch(EmptyResultDataAccessException e) {
 			return null;
 		}

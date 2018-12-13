@@ -41,6 +41,7 @@ public class UserGroupServiceImpl implements UserGroupService
 	private UserPriviledgeRepository userPriviledgeRepository;
 
 	// 增加用户组
+	@Override
 	public boolean addUserGroup(UserGroupDto userGroupDto)
 	{
 		int duplicateUserGroupId = userGroupRepository.queryUserGroupIdByName(userGroupDto.getGroupName());
@@ -51,6 +52,7 @@ public class UserGroupServiceImpl implements UserGroupService
 	}
 
 	// 删除用户组
+	@Override
 	public boolean delUserGroup(String userGroupName)
 	{
 		int existedUserGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
@@ -61,6 +63,7 @@ public class UserGroupServiceImpl implements UserGroupService
 	}
 
 	// 修改用户组名称
+	@Override
 	public boolean updateUserGroup(String userGroupName, String newUserGroupName)
 	{
 		int existedUserGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
@@ -70,7 +73,15 @@ public class UserGroupServiceImpl implements UserGroupService
 		return true;
 	}
 
+	// 查询所有用户组
+	@Override
+	public List<UserGroup> queryAllUserGroups()
+	{
+		return userGroupRepository.queryAllUserGroups();
+	}
+
 	// 查询用户组
+	@Override
 	public UserGroup queryUserGroupByName(String userGroupName)
 	{
 		UserGroup userGroup = userGroupRepository.queryUserGroupByName(userGroupName);
@@ -80,6 +91,7 @@ public class UserGroupServiceImpl implements UserGroupService
 	}
 
 	// 该用户组中的用户
+	@Override
 	public List<User> usersInThisGroup(String userGroupName)
 	{
 		List<User> result = new LinkedList<User>();
@@ -94,6 +106,7 @@ public class UserGroupServiceImpl implements UserGroupService
 	}
 
 	// 用户组赋予某权限
+	@Override
 	public boolean userGroupAddPriviledge(String userGroupName, String userPriviledgeName)
 	{
 		int userGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
@@ -116,6 +129,7 @@ public class UserGroupServiceImpl implements UserGroupService
 	}
 
 	// 用户组取消某权限
+	@Override
 	public boolean userGroupDelPriviledge(String userGroupName, String userPriviledgeName)
 	{
 		int userGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);

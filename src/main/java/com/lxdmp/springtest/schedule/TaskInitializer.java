@@ -79,6 +79,29 @@ public class TaskInitializer implements ApplicationListener<ContextRefreshedEven
 		{
 			logger.debug(String.valueOf(userHasPriviledge));
 		}
+		
+		/*
+		logger.info("all users:");
+		List<User> allUsers = userService.queryAllUsers();
+		for(User singleUser : allUsers)
+		{
+			logger.info(String.valueOf(singleUser));
+		}
+
+		logger.info("all groups:");
+		List<UserGroup> allUserGroups = groupService.queryAllUserGroups();
+		for(UserGroup singleGroup : allUserGroups)
+		{
+			logger.info(String.valueOf(singleGroup));
+		}
+
+		logger.info("all priviledges:");
+		List<UserPriviledge> allUserPriviledges = priviledgeService.queryAllUserPriviledges();
+		for(UserPriviledge singlePriviledge : allUserPriviledges)
+		{
+			logger.info(String.valueOf(singlePriviledge));
+		}
+		*/
 	}
 }
 

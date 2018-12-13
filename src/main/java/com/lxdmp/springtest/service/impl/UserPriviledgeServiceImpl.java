@@ -38,6 +38,7 @@ public class UserPriviledgeServiceImpl implements UserPriviledgeService
 	private UserRepository userRepository;
 	
 	// 增加用户权限
+	@Override
 	public boolean addUserPriviledge(UserPriviledgeDto userPriviledgeDto)
 	{	
 		int duplicateUserPriviledgeId = userPriviledgeRepository.queryUserPriviledgeIdByName(
@@ -50,6 +51,7 @@ public class UserPriviledgeServiceImpl implements UserPriviledgeService
 	}
 
 	// 删除用户权限
+	@Override
 	public boolean delUserPriviledge(String userPriviledgeName)
 	{
 		int existedUserPriviledgeId = userPriviledgeRepository.queryUserPriviledgeIdByName(userPriviledgeName);
@@ -60,6 +62,7 @@ public class UserPriviledgeServiceImpl implements UserPriviledgeService
 	}
 
 	// 修改用户权限名称
+	@Override
 	public boolean updateUserPriviledge(String userPriviledgeName, String newUserPriviledgeName)
 	{
 		int existedUserPriviledgeId = userPriviledgeRepository.queryUserPriviledgeIdByName(userPriviledgeName);
@@ -69,7 +72,15 @@ public class UserPriviledgeServiceImpl implements UserPriviledgeService
 		return true;
 	}
 
+	// 查询所有用户权限
+	@Override
+	public List<UserPriviledge> queryAllUserPriviledges()
+	{
+		return userPriviledgeRepository.queryAllUserPriviledges();
+	}
+
 	// 查询用户权限
+	@Override
 	public UserPriviledge queryUserPriviledgeByName(String userPriviledgeName)
 	{
 		UserPriviledge userPriviledge = userPriviledgeRepository.queryUserPriviledgeByName(userPriviledgeName);
@@ -79,6 +90,7 @@ public class UserPriviledgeServiceImpl implements UserPriviledgeService
 	}
 
 	// 具有该权限的用户组
+	@Override
 	public List<UserGroup> userGroupsWithPriviledge(String userPriviledgeName)
 	{
 		List<UserGroup> result = new LinkedList<UserGroup>();
@@ -93,6 +105,7 @@ public class UserPriviledgeServiceImpl implements UserPriviledgeService
 	}
 
 	// 具有该权限的用户
+	@Override
 	public List<User> usersWithPriviledge(String userPriviledgeName)
 	{
 		List<User> result = new LinkedList<User>();

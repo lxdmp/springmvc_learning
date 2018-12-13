@@ -10,6 +10,7 @@ public interface UserGroupService
 	boolean addUserGroup(UserGroupDto userGroupDto); // 增加用户组
 	boolean delUserGroup(String userGroupName); // 删除用户组
 	boolean updateUserGroup(String userGroupName, String newUserGroupName); // 修改用户组名称
+	List<UserGroup> queryAllUserGroups(); // 查询所有用户组
 	UserGroup queryUserGroupByName(String userGroupName); // 查询用户组
 	List<User> usersInThisGroup(String userGroupName); // 该用户组中的用户
 	boolean userGroupAddPriviledge(String userGroupName, String userPriviledgeName); // 用户组赋予某权限

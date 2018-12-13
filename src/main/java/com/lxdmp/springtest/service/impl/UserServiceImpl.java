@@ -69,6 +69,13 @@ public class UserServiceImpl implements UserService
 		return true;
 	}
 
+	// 查询所有用户
+	@Override
+	public List<User> queryAllUsers()
+	{
+		return userRepository.queryAllUsers();
+	}
+
 	// 查询用户
 	@Override
 	public User queryUserByName(String userName)

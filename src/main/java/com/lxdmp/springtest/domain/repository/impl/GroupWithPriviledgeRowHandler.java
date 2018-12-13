@@ -28,6 +28,12 @@ public class GroupWithPriviledgeRowHandler implements RowCallbackHandler
 		return this.userGroups;
 	}
 
+	public String queryAll()
+	{
+		String condition = "True";
+		return String.format(this.SQL, condition);
+	}
+
 	public String queryWithGroupName(String userGroupName)
 	{
 		String condition = String.format("UserGroup.name = :%s", userGroupName);
@@ -45,6 +51,8 @@ public class GroupWithPriviledgeRowHandler implements RowCallbackHandler
 	{
 		int userGroupId = rs.getInt("id1");
 		String userGroupName = rs.getString("name1");
+		if(!checkValidity(userGroupId, userGroupName))
+			return;
 		if( userGroups.isEmpty() || 
 			userGroups.get(userGroups.size()-1).getGroupId()!=userGroupId)
 		{
@@ -58,6 +66,8 @@ public class GroupWithPriviledgeRowHandler implements RowCallbackHandler
 
 		int priviledgeId = rs.getInt("id2");
 		String priviledgeName = rs.getString("name2");
+		if(!checkValidity(priviledgeId, priviledgeName))
+			return;
 		if( userGroup.getGroupPriviledges().isEmpty() || 
 			userGroup.getGroupPriviledges().get(userGroup.getGroupPriviledges().size()-1).getPriviledgeId()!=priviledgeId)
 		{
@@ -69,6 +79,12 @@ public class GroupWithPriviledgeRowHandler implements RowCallbackHandler
 			groupPriviledges.add(userPriviledge);
 			userGroup.setGroupPriviledges(groupPriviledges);
 		}
+	}
+
+	private boolean checkValidity(int id, String name)
+	{
+		// 确认SQL字段不为NULL.
+		return (id>0 && name!=null);
 	}
 }
 
