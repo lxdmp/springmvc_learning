@@ -2,6 +2,8 @@ package com.lxdmp.springtest.service.impl;
 
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Set;
+import java.util.HashSet;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -88,6 +90,23 @@ public class UserGroupServiceImpl implements UserGroupService
 		if(userGroup==null)
 			return null;
 		return userGroup;
+	}
+
+	// 查询用户组未被赋予的权限
+	@Override
+	public List<UserPriviledge> queryGroupNotAddedPriviledges(String userGroupName)
+	{
+		List<UserPriviledge> result = new LinkedList<UserPriviledge>();
+		UserGroup userGroup = userGroupRepository.queryUserGroupByName(userGroupName);
+		if(userGroup!=null)
+		{
+			List<UserPriviledge> allPriviledges = userPriviledgeRepository.queryAllUserPriviledges();
+			Set<UserPriviledge> resultSet = new HashSet<UserPriviledge>();
+			resultSet.addAll(allPriviledges);
+			resultSet.removeAll(userGroup.getGroupPriviledges());
+			result.addAll(resultSet);
+		}
+		return result;
 	}
 
 	// 该用户组中的用户

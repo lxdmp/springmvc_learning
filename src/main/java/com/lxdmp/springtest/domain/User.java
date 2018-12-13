@@ -8,13 +8,23 @@ import java.util.LinkedList;
 import java.util.Iterator;
 import com.lxdmp.springtest.domain.UserGroup;
 import com.lxdmp.springtest.domain.UserPriviledge;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
+@XmlRootElement(name="user")
 public final class User implements Serializable
 {
 	private static final long serialVersionUID = 1L;
+
+	@JsonIgnore
 	private int userId;
+
 	private String userName;
+
+	@JsonIgnore
 	private String userPasswd;
+
 	private List<UserGroup> userGroups = new LinkedList<UserGroup>(); // 所属的用户组
 
 	public User()
@@ -44,12 +54,14 @@ public final class User implements Serializable
 		return s;
 	}
 
+	@XmlTransient
 	public int getUserId(){return this.userId;}
 	public void setUserId(int userId){this.userId=userId;}
 
 	public String getUserName(){return this.userName;}
 	public void setUserName(String userName){this.userName=userName;}
 
+	@XmlTransient
 	public String getUserPasswd(){return this.userPasswd;}
 	public void setUserPasswd(String userPasswd){this.userPasswd=userPasswd;}
 

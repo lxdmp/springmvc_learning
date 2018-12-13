@@ -5,12 +5,20 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Iterator;
 import com.lxdmp.springtest.domain.UserPriviledge;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
+@XmlRootElement(name="group")
 public final class UserGroup implements Serializable
 {
 	private static final long serialVersionUID = 1L;
+
+	@JsonIgnore
 	private int groupId;
+
 	private String groupName;
+
 	private List<UserPriviledge> groupPriviledges = new LinkedList<UserPriviledge>(); // 该用户组具有的权限
 
 	public UserGroup()
@@ -39,6 +47,7 @@ public final class UserGroup implements Serializable
 		return s;
 	}
 
+	@XmlTransient
 	public int getGroupId(){return this.groupId;}
 	public void setGroupId(int groupId){this.groupId=groupId;}
 

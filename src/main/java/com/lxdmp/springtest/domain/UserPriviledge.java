@@ -2,11 +2,18 @@ package com.lxdmp.springtest.domain;
 
 import java.io.Serializable;
 import org.springframework.security.core.GrantedAuthority;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
+@XmlRootElement(name="priviledge")
 public final class UserPriviledge implements Serializable, GrantedAuthority
 {
 	private static final long serialVersionUID = 1L;
+
+	@JsonIgnore
 	private int priviledgeId;
+
 	private String priviledgeName;
 
 	public UserPriviledge()
@@ -19,6 +26,7 @@ public final class UserPriviledge implements Serializable, GrantedAuthority
 		return priviledgeName;
 	}
 
+	@XmlTransient
 	public int getPriviledgeId(){return this.priviledgeId;}
 	public void setPriviledgeId(int priviledgeId){this.priviledgeId=priviledgeId;}
 

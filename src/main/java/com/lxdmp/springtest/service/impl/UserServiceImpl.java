@@ -1,6 +1,9 @@
 package com.lxdmp.springtest.service.impl;
 
 import java.util.List;
+import java.util.LinkedList;
+import java.util.Set;
+import java.util.HashSet;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -84,6 +87,23 @@ public class UserServiceImpl implements UserService
 		if(user==null)
 			return null;
 		return user;
+	}
+
+	// 查询用户未加入的用户组
+	@Override
+	public List<UserGroup> queryUserNotJoinedGroups(String userName)
+	{
+		List<UserGroup> result = new LinkedList<UserGroup>();
+		User user = userRepository.queryUserByName(userName);
+		if(user!=null)
+		{
+			List<UserGroup> allGroups = userGroupRepository.queryAllUserGroups();
+			Set<UserGroup> resultSet = new HashSet<UserGroup>();
+			resultSet.addAll(allGroups);
+			resultSet.removeAll(user.getUserGroups());
+			result.addAll(resultSet);
+		}
+		return result;
 	}
 
 	// 用户加入某用户组
