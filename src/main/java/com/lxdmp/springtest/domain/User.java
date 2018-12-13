@@ -22,6 +22,28 @@ public final class User implements Serializable
 		super();
 	}
 
+	public String toString()
+	{
+		String s = "";
+		s += String.format("name : %s, ", this.userName);
+		s += String.format("password : %s, ", this.userPasswd);
+		if(userGroups.isEmpty()){
+			s += "no groups-joined.";
+		}else{
+			s += "groups-joined : ";
+			Iterator<UserGroup> iter = userGroups.iterator();
+			do{
+				if(!iter.hasNext())
+					break;
+				s += String.valueOf(iter.next());
+				while(iter.hasNext())
+					s += ", "+String.valueOf(iter.next());
+			}while(false);
+			s += ".";
+		}
+		return s;
+	}
+
 	public int getUserId(){return this.userId;}
 	public void setUserId(int userId){this.userId=userId;}
 

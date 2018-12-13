@@ -11,11 +11,33 @@ import com.lxdmp.springtest.domain.UserPriviledge;
 
 public class GroupWithPriviledgeRowHandler implements RowCallbackHandler
 {
+	// 联立用户组/权限两张表查询,基于用户组返回结果.
+	private final String SQL = "select UserGroup.id as id1," + 
+			"UserGroup.name as name1," + 
+			"UserPriviledge.id as id2," + 
+			"UserPriviledge.name as name2" + 
+			" from UserGroup " + 
+			"inner join GroupWithPriviledge on UserGroup.id=GroupWithPriviledge.groupId " + 
+			"inner join UserPriviledge on GroupWithPriviledge.priviledgeId=UserPriviledge.id " + 
+			"where %s " + 
+			"order by id1 asc, id2 asc";
 	private List<UserGroup> userGroups = new LinkedList<UserGroup>();
 
 	public List<UserGroup> getUserGroups()
 	{
 		return this.userGroups;
+	}
+
+	public String queryWithGroupName(String userGroupName)
+	{
+		String condition = String.format("UserGroup.name = :%s", userGroupName);
+		return String.format(this.SQL, condition);
+	}
+
+	public String queryWithPriviledgeName(String userPriviledgeName)
+	{
+		String condition = String.format("UserPriviledge.name = :%s", userPriviledgeName);
+		return String.format(this.SQL, condition);
 	}
 
 	@Override

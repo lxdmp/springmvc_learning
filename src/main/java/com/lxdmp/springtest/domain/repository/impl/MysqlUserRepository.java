@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import com.lxdmp.springtest.domain.User;
 import com.lxdmp.springtest.dto.UserDto;
@@ -73,26 +74,15 @@ public class MysqlUserRepository extends BaseRepository implements UserRepositor
 	@Override
 	public User queryUserByName(String userName)
 	{
-		final String SQL = "select User.id as id1," + 
-			"User.name as name1," + 
-			"User.password as password," + 
-			"UserGroup.id as id2," + 
-			"UserGroup.name as name2," + 
-			"UserPriviledge.id as id3," + 
-			"UserPriviledge.name as name3" + 
-			" from User " + 
-			"inner join UserWithGroup on User.id=UserWithGroup.userId " + 
-			"inner join UserGroup on UserWithGroup.groupId=UserGroup.id " + 
-			"inner join GroupWithPriviledge on UserGroup.id=GroupWithPriviledge.groupId " + 
-			"inner join UserPriviledge on GroupWithPriviledge.priviledgeId=UserPriviledge.id " + 
-			"where User.name = :userName " + 
-			"order by id1 asc, id2 asc, id3 asc";
-
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("userName", userName);
-
+		final String key = "userName";
 		UserWithGroupWithPriviledgeRowHandler handler = new UserWithGroupWithPriviledgeRowHandler();
-		jdbcTemplate.query(SQL, params, handler);
+		String SQL = handler.queryWithUserName(key);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put(key, userName);
+		try{
+			jdbcTemplate.query(SQL, params, handler);
+		}catch(DataAccessException e){
+		}
 		List<User> users = handler.getUsers();
 		return (users.isEmpty()?null:users.get(0));
 	}

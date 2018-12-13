@@ -3,6 +3,7 @@ package com.lxdmp.springtest.domain;
 import java.io.Serializable;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Iterator;
 import com.lxdmp.springtest.domain.UserPriviledge;
 
 public final class UserGroup implements Serializable
@@ -15,6 +16,27 @@ public final class UserGroup implements Serializable
 	public UserGroup()
 	{
 		super();
+	}
+
+	public String toString()
+	{
+		String s = "";
+		s += groupName;
+		s += "(";
+		if(groupPriviledges.isEmpty()){
+			s += "no-priviledge";
+		}else{
+			do{
+				Iterator<UserPriviledge> iter = groupPriviledges.iterator();
+				if(!iter.hasNext())
+					break;
+				s += String.valueOf(iter.next());
+				while(iter.hasNext())
+					s += ", "+String.valueOf(iter.next());
+			}while(false);
+		}
+		s += ")";
+		return s;
 	}
 
 	public int getGroupId(){return this.groupId;}

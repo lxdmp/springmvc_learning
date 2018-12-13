@@ -14,6 +14,11 @@ public final class UserPriviledge implements Serializable, GrantedAuthority
 		super();
 	}
 
+	public String toString()
+	{
+		return priviledgeName;
+	}
+
 	public int getPriviledgeId(){return this.priviledgeId;}
 	public void setPriviledgeId(int priviledgeId){this.priviledgeId=priviledgeId;}
 

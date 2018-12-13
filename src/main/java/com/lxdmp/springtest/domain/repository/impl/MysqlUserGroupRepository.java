@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import com.lxdmp.springtest.domain.User;
 import com.lxdmp.springtest.domain.UserGroup;
@@ -73,21 +74,15 @@ public class MysqlUserGroupRepository extends BaseRepository implements UserGrou
 	@Override
 	public UserGroup queryUserGroupByName(String userGroupName)
 	{
-		final String SQL = "select UserGroup.id as id1," + 
-			"UserGroup.name as name1," + 
-			"UserPriviledge.id as id2," + 
-			"UserPriviledge.name as name2" + 
-			" from UserGroup " + 
-			"inner join GroupWithPriviledge on UserGroup.id=GroupWithPriviledge.groupId " + 
-			"inner join UserPriviledge on GroupWithPriviledge.priviledgeId=UserPriviledge.id " + 
-			"where UserGroup.name = :groupName " + 
-			"order by id1 asc, id2 asc";
-
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("groupName", userGroupName);
-
+		final String key = "groupName";	
 		GroupWithPriviledgeRowHandler handler = new GroupWithPriviledgeRowHandler();
-		jdbcTemplate.query(SQL, params, handler);
+		String SQL = handler.queryWithGroupName(key);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put(key, userGroupName);
+		try{
+			jdbcTemplate.query(SQL, params, handler);
+		}catch(DataAccessException e){
+		}
 		List<UserGroup> userGroups = handler.getUserGroups();
 		return (userGroups.isEmpty()?null:userGroups.get(0));
 	}
@@ -96,26 +91,15 @@ public class MysqlUserGroupRepository extends BaseRepository implements UserGrou
 	@Override
 	public List<User> queryUsersByName(String userGroupName)
 	{
-		final String SQL = "select User.id as id1," + 
-			"User.name as name1," + 
-			"User.password as password," + 
-			"UserGroup.id as id2," + 
-			"UserGroup.name as name2," + 
-			"UserPriviledge.id as id3," + 
-			"UserPriviledge.name as name3" + 
-			" from User " + 
-			"inner join UserWithGroup on User.id=UserWithGroup.userId " + 
-			"inner join UserGroup on UserWithGroup.groupId=UserGroup.id " + 
-			"inner join GroupWithPriviledge on UserGroup.id=GroupWithPriviledge.groupId " + 
-			"inner join UserPriviledge on GroupWithPriviledge.priviledgeId=UserPriviledge.id " + 
-			"where UserGroup.name = :userGroupNamae " + 
-			"order by id1 asc, id2 asc, id3 asc";
-
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("userGroupName", userGroupName);
-
+		final String key = "userGroupName";
 		UserWithGroupWithPriviledgeRowHandler handler = new UserWithGroupWithPriviledgeRowHandler();
-		jdbcTemplate.query(SQL, params, handler);
+		String SQL = handler.queryWithGroupName(key);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put(key, userGroupName);
+		try{
+			jdbcTemplate.query(SQL, params, handler);
+		}catch(DataAccessException e){
+		}
 		List<User> users = handler.getUsers();
 		return users;
 	}

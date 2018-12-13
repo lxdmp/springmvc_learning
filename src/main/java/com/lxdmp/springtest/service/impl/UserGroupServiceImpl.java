@@ -36,11 +36,7 @@ public class UserGroupServiceImpl implements UserGroupService
 		int duplicateUserGroupId = userGroupRepository.queryUserGroupIdByName(userGroupDto.getGroupName());
 		if(duplicateUserGroupId>=0) // 已有同名的用户组
 			return false;
-
-		// 增加用户组,并赋予基本权限
 		int newGroupId = userGroupRepository.addUserGroup(userGroupDto);
-		int priviledgeId = userPriviledgeRepository.queryUserPriviledgeIdByName("基本权限");
-		groupAndPriviledgeRepository.addPriviledgeToGroup(newGroupId, priviledgeId);
 		return true;
 	}
 

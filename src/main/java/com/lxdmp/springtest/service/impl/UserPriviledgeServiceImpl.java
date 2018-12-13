@@ -39,11 +39,7 @@ public class UserPriviledgeServiceImpl implements UserPriviledgeService
 		);
 		if(duplicateUserPriviledgeId>=0) // 已有同名的用户权限
 			return false;
-
-		// 加入权限,并将其加入到管理员用户组
 		int newPriviledgeId = userPriviledgeRepository.addUserPriviledge(userPriviledgeDto);
-		int adminGroupId = userGroupRepository.queryUserGroupIdByName("管理员");
-		groupAndPriviledgeRepository.addPriviledgeToGroup(adminGroupId, newPriviledgeId);
 		return true;
 	}
 
