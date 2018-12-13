@@ -19,7 +19,14 @@
 <c:choose>
 <c:when test="${isAuthenticated}"> <%-- 当前已登录,不显示表单,显示一些提示 --%>
 <div>
-	<p class="alert alert-danger">Already login</p>
+	<c:choose>
+	<c:when test="${param.accessDenied!=null}">
+		<p class="alert alert-danger">No Priviledge to View this Page</p>
+	</c:when>
+	<c:otherwise>
+		<p class="alert alert-danger">Already Login</p>
+	</c:otherwise>
+	</c:choose>
 </div>
 </c:when>
 
