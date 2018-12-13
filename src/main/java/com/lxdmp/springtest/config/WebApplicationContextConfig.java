@@ -51,6 +51,8 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+
 @Configuration
 @EnableWebMvc
 @ComponentScan({
@@ -61,6 +63,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 	"com.lxdmp.springtest.exception", 
 	"com.lxdmp.springtest.validator"
 })
+@EnableGlobalMethodSecurity(securedEnabled=true, prePostEnabled=true)
 public class WebApplicationContextConfig extends WebMvcConfigurerAdapter
 {
 	@Override

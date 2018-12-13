@@ -41,7 +41,6 @@ import javax.validation.Valid;
 import org.springframework.validation.Validator;
 import com.lxdmp.springtest.validator.UnitsInStockValidator;
 
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 @Controller
@@ -123,7 +122,7 @@ public class ProductController
 		return model;
 	}
 
-	@Secured("CUSTOM_FORMAT")
+	@PreAuthorize("hasAuthority('CUSTOM_FORMAT')")
 	@RequestMapping("/format")
 	@ResponseBody
 	public String testFormat(
@@ -174,7 +173,6 @@ public class ProductController
 		});
 	}
 
-	//@Secured("ADD_PRODUCT")
 	@PreAuthorize("hasAuthority('ADD_PRODUCT')")
 	@RequestMapping(value="/products/add", method=RequestMethod.GET)
 	public String getAddNewProductForm(Model model)

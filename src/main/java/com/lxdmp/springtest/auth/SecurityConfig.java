@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled=true, prePostEnabled=true)
+//@EnableGlobalMethodSecurity(securedEnabled=true, prePostEnabled=true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
 	private static final Logger logger = Logger.getLogger(SecurityConfig.class);
