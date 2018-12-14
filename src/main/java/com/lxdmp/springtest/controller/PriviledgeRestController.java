@@ -41,7 +41,7 @@ public class PriviledgeRestController
 	@Autowired
 	private UserPriviledgeService priviledgeService;
 
-	//
+	// 创建用户
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public WriteResult create(@RequestBody UserDto userDto)
@@ -53,36 +53,44 @@ public class PriviledgeRestController
 			return new WriteResult(this.failed);
 	}
 
-	@RequestMapping(value = "/{cartId}", method=RequestMethod.GET)
-	public ReadResult<Cart> read(@PathVariable(value = "cartId") String cartId)
+	// 查询用户
+	@RequestMapping(value = "/user/{userName}", method=RequestMethod.GET)
+	public ReadResult<User> read(@PathVariable(value = "userName") String userName)
 	{
-		Cart cart = cartService.read(cartId);
-		if(cart!=null)
-			return new ReadResult<Cart>(this.success, cart);
+		User user = userService.queryUserByName(userName);
+		if(user!=null)
+			return new ReadResult<User>(this.success, user);
 		else
-			return new ReadResult<Cart>(
+			return new ReadResult<User>(
 				this.failed, 
-				String.format("No cart with id %s", cartId)
+				String.format("No user named with %s", userName)
 			);
 	}
 
-	@RequestMapping(value = "/{cartId}", method=RequestMethod.PUT)
+	// 更新用户信息
+	/*
+	@RequestMapping(value = "/user/{userName}", method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
-	public WriteResult update(@PathVariable(value = "cartId") String cartId, @RequestBody CartDto cartDto)
+	public WriteResult update(@PathVariable(value = "userName") String cartId, @RequestBody UserDto userDto)
 	{
 		cartDto.setId(cartId);
 		cartService.update(cartId, cartDto);
 		return new WriteResult(this.success);
 	}
+	*/
 
-	@RequestMapping(value = "/{cartId}", method=RequestMethod.DELETE)
+	// 删除用户
+	@RequestMapping(value = "/user/{userName}", method=RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.OK)
-	public WriteResult delete(@PathVariable(value = "cartId") String cartId)
+	public WriteResult delete(@PathVariable(value = "userName") String userName)
 	{
-		cartService.delete(cartId);
-		return new WriteResult(this.success);
+		if(userService.delUser(userName))
+			return new WriteResult(this.success);
+		else
+			return new WriteResult(this.failed);
 	}
 
+	/*
 	@RequestMapping(value = "/add/{productId}", method=RequestMethod.PUT)
 	@ResponseStatus(value = HttpStatus.OK)
 	public WriteResult addItem(@PathVariable String productId, HttpSession session)
@@ -106,4 +114,6 @@ public class PriviledgeRestController
 		cartService.removeItem(session.getId(), productId);
 		return new WriteResult(this.success);
 	}
+	*/
 }
+
