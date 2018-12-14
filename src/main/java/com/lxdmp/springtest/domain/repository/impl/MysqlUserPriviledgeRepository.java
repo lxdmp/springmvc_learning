@@ -27,7 +27,7 @@ import com.lxdmp.springtest.domain.repository.impl.UserWithGroupWithPriviledgeRo
 public class MysqlUserPriviledgeRepository extends BaseRepository implements UserPriviledgeRepository
 {
 	// 增加用户权限
-	public int addUserPriviledge(UserPriviledgeDto userPriviledgeDto)
+	public Integer addUserPriviledge(UserPriviledgeDto userPriviledgeDto)
 	{
 		String SQL = "insert into UserPriviledge (" + 
 			"name" +
@@ -41,7 +41,7 @@ public class MysqlUserPriviledgeRepository extends BaseRepository implements Use
 	}
 
 	// 删除用户权限
-	public void delUserPriviledge(int userPriviledgeId)
+	public void delUserPriviledge(Integer userPriviledgeId)
 	{
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("priviledgeId", userPriviledgeId);
@@ -58,7 +58,7 @@ public class MysqlUserPriviledgeRepository extends BaseRepository implements Use
 	}
 
 	// 修改用户权限名
-	public void updateUserPriviledge(int userPriviledgeId, String userPriviledgeName)
+	public void updateUserPriviledge(Integer userPriviledgeId, String userPriviledgeName)
 	{
 		final String SQL = "update UserPriviledge set name = :priviledgeName WHERE id = :priviledgeId";
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -104,7 +104,7 @@ public class MysqlUserPriviledgeRepository extends BaseRepository implements Use
 	}
 
 	// 查询用户权限id
-	public int queryUserPriviledgeIdByName(String userPriviledgeName)
+	public Integer queryUserPriviledgeIdByName(String userPriviledgeName)
 	{
 		final String SQL = "select id from UserPriviledge where name = :priviledgeName";
 		Map<String, Object> params = new HashMap<String, Object>();

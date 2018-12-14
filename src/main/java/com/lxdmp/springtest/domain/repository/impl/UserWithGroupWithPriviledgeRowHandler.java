@@ -63,7 +63,7 @@ public class UserWithGroupWithPriviledgeRowHandler implements RowCallbackHandler
 	@Override
 	public void processRow(ResultSet rs) throws SQLException
 	{
-		int userId = rs.getInt("id1");
+		Integer userId = rs.getInt("id1");
 		String userName = rs.getString("name1");
 		String userPasswd = rs.getString("password");
 		if(!checkValidity(userId, userName))
@@ -78,7 +78,7 @@ public class UserWithGroupWithPriviledgeRowHandler implements RowCallbackHandler
 		}
 		User user = users.get(users.size()-1);
 
-		int userGroupId = rs.getInt("id2");
+		Integer userGroupId = rs.getInt("id2");
 		String userGroupName = rs.getString("name2");
 		if(!checkValidity(userGroupId, userGroupName))
 			return;
@@ -95,7 +95,7 @@ public class UserWithGroupWithPriviledgeRowHandler implements RowCallbackHandler
 		}
 		UserGroup userGroup = user.getUserGroups().get(user.getUserGroups().size()-1);
 
-		int priviledgeId = rs.getInt("id3");
+		Integer priviledgeId = rs.getInt("id3");
 		String priviledgeName = rs.getString("name3");
 		if(!checkValidity(priviledgeId, priviledgeName))
 			return;
@@ -112,7 +112,7 @@ public class UserWithGroupWithPriviledgeRowHandler implements RowCallbackHandler
 		}
 	}
 
-	private boolean checkValidity(int id, String name)
+	private boolean checkValidity(Integer id, String name)
 	{
 		// 确认SQL字段不为NULL.
 		return (id>0 && name!=null);

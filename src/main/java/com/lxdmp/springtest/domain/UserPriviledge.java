@@ -12,7 +12,7 @@ public final class UserPriviledge implements Serializable, GrantedAuthority
 	private static final long serialVersionUID = 1L;
 
 	@JsonIgnore
-	private int priviledgeId;
+	private Integer priviledgeId;
 
 	private String priviledgeName;
 
@@ -27,8 +27,8 @@ public final class UserPriviledge implements Serializable, GrantedAuthority
 	}
 
 	@XmlTransient
-	public int getPriviledgeId(){return this.priviledgeId;}
-	public void setPriviledgeId(int priviledgeId){this.priviledgeId=priviledgeId;}
+	public Integer getPriviledgeId(){return this.priviledgeId;}
+	public void setPriviledgeId(Integer priviledgeId){this.priviledgeId=priviledgeId;}
 
 	public String getPriviledgeName(){return this.priviledgeName;}
 	public void setPriviledgeName(String priviledgeName){this.priviledgeName=priviledgeName;}

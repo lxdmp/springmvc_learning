@@ -15,7 +15,7 @@ public final class UserGroup implements Serializable
 	private static final long serialVersionUID = 1L;
 
 	@JsonIgnore
-	private int groupId;
+	private Integer groupId;
 
 	private String groupName;
 
@@ -48,8 +48,8 @@ public final class UserGroup implements Serializable
 	}
 
 	@XmlTransient
-	public int getGroupId(){return this.groupId;}
-	public void setGroupId(int groupId){this.groupId=groupId;}
+	public Integer getGroupId(){return this.groupId;}
+	public void setGroupId(Integer groupId){this.groupId=groupId;}
 
 	public String getGroupName(){return this.groupName;}
 	public void setGroupName(String groupName){this.groupName=groupName;}

@@ -21,7 +21,7 @@ import com.lxdmp.springtest.domain.repository.GroupAndPriviledgeRepository;
 public class MysqlGroupAndPriviledgeRepository extends BaseRepository implements GroupAndPriviledgeRepository
 {
 	// 用户组给予某权限
-	public void addPriviledgeToGroup(int userGroupId, int priviledgeId)
+	public void addPriviledgeToGroup(Integer userGroupId, Integer priviledgeId)
 	{
 		final String SQL = "insert into GroupWithPriviledge (" + 
 			"groupId, priviledgeId" +
@@ -34,7 +34,7 @@ public class MysqlGroupAndPriviledgeRepository extends BaseRepository implements
 	}
 
 	// 用户组去除某权限
-	public void delPriviledgeFromGroup(int userGroupId, int priviledgeId)
+	public void delPriviledgeFromGroup(Integer userGroupId, Integer priviledgeId)
 	{
 		final String SQL = "delete from GroupWithPriviledge where groupId = :groupId and priviledgeId = :priviledgeId";
 		Map<String, Object> params = new HashMap<>();

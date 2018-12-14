@@ -41,12 +41,12 @@ public class UserPriviledgeServiceImpl implements UserPriviledgeService
 	@Override
 	public boolean addUserPriviledge(UserPriviledgeDto userPriviledgeDto)
 	{	
-		int duplicateUserPriviledgeId = userPriviledgeRepository.queryUserPriviledgeIdByName(
+		Integer duplicateUserPriviledgeId = userPriviledgeRepository.queryUserPriviledgeIdByName(
 			userPriviledgeDto.getPriviledgeName()
 		);
 		if(duplicateUserPriviledgeId>=0) // 已有同名的用户权限
 			return false;
-		int newPriviledgeId = userPriviledgeRepository.addUserPriviledge(userPriviledgeDto);
+		Integer newPriviledgeId = userPriviledgeRepository.addUserPriviledge(userPriviledgeDto);
 		return true;
 	}
 
@@ -54,7 +54,7 @@ public class UserPriviledgeServiceImpl implements UserPriviledgeService
 	@Override
 	public boolean delUserPriviledge(String userPriviledgeName)
 	{
-		int existedUserPriviledgeId = userPriviledgeRepository.queryUserPriviledgeIdByName(userPriviledgeName);
+		Integer existedUserPriviledgeId = userPriviledgeRepository.queryUserPriviledgeIdByName(userPriviledgeName);
 		if(existedUserPriviledgeId<0) // 没有该用户权限
 			return false;
 		userPriviledgeRepository.delUserPriviledge(existedUserPriviledgeId);
@@ -65,7 +65,7 @@ public class UserPriviledgeServiceImpl implements UserPriviledgeService
 	@Override
 	public boolean updateUserPriviledge(String userPriviledgeName, String newUserPriviledgeName)
 	{
-		int existedUserPriviledgeId = userPriviledgeRepository.queryUserPriviledgeIdByName(userPriviledgeName);
+		Integer existedUserPriviledgeId = userPriviledgeRepository.queryUserPriviledgeIdByName(userPriviledgeName);
 		if(existedUserPriviledgeId<0) // 没有该用户权限
 			return false;
 		userPriviledgeRepository.updateUserPriviledge(existedUserPriviledgeId, newUserPriviledgeName);

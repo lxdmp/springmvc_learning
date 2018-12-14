@@ -27,7 +27,7 @@ public class MysqlUserRepository extends BaseRepository implements UserRepositor
 {
 	// 增加用户
 	@Override
-	public int addUser(UserDto userDto)
+	public Integer addUser(UserDto userDto)
 	{
 		String SQL = "insert into User (" + 
 			"name, password" +
@@ -43,7 +43,7 @@ public class MysqlUserRepository extends BaseRepository implements UserRepositor
 
 	// 删除用户
 	@Override
-	public void delUser(int userId)
+	public void delUser(Integer userId)
 	{	
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("userId", userId);
@@ -103,7 +103,7 @@ public class MysqlUserRepository extends BaseRepository implements UserRepositor
 	}
 
 	// 查询用户id
-	public int queryUserIdByName(String userName)
+	public Integer queryUserIdByName(String userName)
 	{
 		final String SQL = "select id from User where name = :userName";
 		Map<String, Object> params = new HashMap<String, Object>();

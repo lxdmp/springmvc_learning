@@ -22,7 +22,7 @@ public class MysqlUserAndGroupRepository extends BaseRepository implements UserA
 {
 	// 用户加入某用户组
 	@Override
-	public void userJoinGroup(int userId, int userGroupId)
+	public void userJoinGroup(Integer userId, Integer userGroupId)
 	{
 		final String SQL = "insert into UserWithGroup (" + 
 			"userId, groupId" +
@@ -36,7 +36,7 @@ public class MysqlUserAndGroupRepository extends BaseRepository implements UserA
 
 	// 用户离开某用户组
 	@Override
-	public void userLeaveGroup(int userId, int userGroupId)
+	public void userLeaveGroup(Integer userId, Integer userGroupId)
 	{
 		final String SQL = "delete from UserWithGroup where userId = :userId and groupId = :groupId";
 		Map<String, Object> params = new HashMap<>();

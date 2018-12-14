@@ -28,7 +28,7 @@ public class MysqlUserGroupRepository extends BaseRepository implements UserGrou
 {
 	// 增加用户组
 	@Override
-	public int addUserGroup(UserGroupDto userGroupDto)
+	public Integer addUserGroup(UserGroupDto userGroupDto)
 	{
 		String SQL = "insert into UserGroup (" + 
 			"name" +
@@ -43,7 +43,7 @@ public class MysqlUserGroupRepository extends BaseRepository implements UserGrou
 
 	// 删除用户组
 	@Override
-	public void delUserGroup(int userGroupId)
+	public void delUserGroup(Integer userGroupId)
 	{
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("groupId", userGroupId);
@@ -61,7 +61,7 @@ public class MysqlUserGroupRepository extends BaseRepository implements UserGrou
 
 	// 修改用户组名
 	@Override
-	public void updateUserGroup(int userGroupId, String userGroupName)
+	public void updateUserGroup(Integer userGroupId, String userGroupName)
 	{	
 		final String SQL = "update UserGroup set name = :groupName WHERE id = :groupId";
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -120,7 +120,7 @@ public class MysqlUserGroupRepository extends BaseRepository implements UserGrou
 	}
 
 	// 查询用户组id
-	public int queryUserGroupIdByName(String userGroupName)
+	public Integer queryUserGroupIdByName(String userGroupName)
 	{
 		final String SQL = "select id from UserGroup where name = :groupName";
 		Map<String, Object> params = new HashMap<String, Object>();

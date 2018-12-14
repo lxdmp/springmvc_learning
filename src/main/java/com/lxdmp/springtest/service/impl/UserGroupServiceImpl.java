@@ -46,10 +46,10 @@ public class UserGroupServiceImpl implements UserGroupService
 	@Override
 	public boolean addUserGroup(UserGroupDto userGroupDto)
 	{
-		int duplicateUserGroupId = userGroupRepository.queryUserGroupIdByName(userGroupDto.getGroupName());
+		Integer duplicateUserGroupId = userGroupRepository.queryUserGroupIdByName(userGroupDto.getGroupName());
 		if(duplicateUserGroupId>=0) // 已有同名的用户组
 			return false;
-		int newGroupId = userGroupRepository.addUserGroup(userGroupDto);
+		Integer newGroupId = userGroupRepository.addUserGroup(userGroupDto);
 		return true;
 	}
 
@@ -57,7 +57,7 @@ public class UserGroupServiceImpl implements UserGroupService
 	@Override
 	public boolean delUserGroup(String userGroupName)
 	{
-		int existedUserGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
+		Integer existedUserGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
 		if(existedUserGroupId<0) // 没有该用户组
 			return false;
 		userGroupRepository.delUserGroup(existedUserGroupId);
@@ -68,7 +68,7 @@ public class UserGroupServiceImpl implements UserGroupService
 	@Override
 	public boolean updateUserGroup(String userGroupName, String newUserGroupName)
 	{
-		int existedUserGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
+		Integer existedUserGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
 		if(existedUserGroupId<0) // 没有该用户组
 			return false;
 		userGroupRepository.updateUserGroup(existedUserGroupId, newUserGroupName);
@@ -128,11 +128,11 @@ public class UserGroupServiceImpl implements UserGroupService
 	@Override
 	public boolean userGroupAddPriviledge(String userGroupName, String userPriviledgeName)
 	{
-		int userGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
+		Integer userGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
 		if(userGroupId<0) // 没有该用户组
 			return false;
 
-		int userPriviledgeId = userPriviledgeRepository.queryUserPriviledgeIdByName(userPriviledgeName);
+		Integer userPriviledgeId = userPriviledgeRepository.queryUserPriviledgeIdByName(userPriviledgeName);
 		if(userPriviledgeId<0) // 没有该用户权限
 			return false;
 
@@ -151,11 +151,11 @@ public class UserGroupServiceImpl implements UserGroupService
 	@Override
 	public boolean userGroupDelPriviledge(String userGroupName, String userPriviledgeName)
 	{
-		int userGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
+		Integer userGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
 		if(userGroupId<0) // 没有该用户组
 			return false;
 
-		int userPriviledgeId = userPriviledgeRepository.queryUserPriviledgeIdByName(userPriviledgeName);
+		Integer userPriviledgeId = userPriviledgeRepository.queryUserPriviledgeIdByName(userPriviledgeName);
 		if(userPriviledgeId<0) // 没有该用户权限
 			return false;
 

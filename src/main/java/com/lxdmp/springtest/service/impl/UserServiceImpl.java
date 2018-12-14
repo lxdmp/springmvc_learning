@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService
 	@Override
 	public boolean addUser(UserDto userDto)
 	{
-		int duplicateUserId = userRepository.queryUserIdByName(userDto.getUserName());
+		Integer duplicateUserId = userRepository.queryUserIdByName(userDto.getUserName());
 		if(duplicateUserId>=0) // 已有同名的用户
 			return false;
 		userRepository.addUser(userDto);
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService
 	@Override
 	public boolean delUser(String userName)
 	{
-		int existedUserId = userRepository.queryUserIdByName(userName);
+		Integer existedUserId = userRepository.queryUserIdByName(userName);
 		if(existedUserId<0) // 没有该用户
 			return false;
 		userRepository.delUser(existedUserId);
@@ -110,11 +110,11 @@ public class UserServiceImpl implements UserService
 	@Override
 	public boolean userJoinGroup(String userName, String userGroupName)
 	{
-		int userId = userRepository.queryUserIdByName(userName);
+		Integer userId = userRepository.queryUserIdByName(userName);
 		if(userId<0) // 没有该用户
 			return false;
 
-		int userGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
+		Integer userGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
 		if(userGroupId<0) // 没有该用户组
 			return false;
 
@@ -131,11 +131,11 @@ public class UserServiceImpl implements UserService
 	@Override
 	public boolean userLeaveGroup(String userName, String userGroupName)
 	{
-		int userId = userRepository.queryUserIdByName(userName);
+		Integer userId = userRepository.queryUserIdByName(userName);
 		if(userId<0) // 没有该用户
 			return false;
 
-		int userGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
+		Integer userGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
 		if(userGroupId<0) // 没有该用户组
 			return false;
 

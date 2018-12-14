@@ -18,7 +18,7 @@ public final class User implements Serializable
 	private static final long serialVersionUID = 1L;
 
 	@JsonIgnore
-	private int userId;
+	private Integer userId;
 
 	private String userName;
 
@@ -55,8 +55,8 @@ public final class User implements Serializable
 	}
 
 	@XmlTransient
-	public int getUserId(){return this.userId;}
-	public void setUserId(int userId){this.userId=userId;}
+	public Integer getUserId(){return this.userId;}
+	public void setUserId(Integer userId){this.userId=userId;}
 
 	public String getUserName(){return this.userName;}
 	public void setUserName(String userName){this.userName=userName;}
