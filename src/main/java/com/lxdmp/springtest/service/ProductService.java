@@ -1,7 +1,7 @@
 package com.lxdmp.springtest.service;
 
 import java.util.List;
-import com.lxdmp.springtest.domain.Product;
+import com.lxdmp.springtest.entity.Product;
 import com.lxdmp.springtest.utils.Paginator;
 
 public interface ProductService

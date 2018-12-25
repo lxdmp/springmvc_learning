@@ -1,4 +1,4 @@
-package com.lxdmp.springtest.domain.repository.impl;
+package com.lxdmp.springtest.entity.repository.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,11 +11,11 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.dao.DataAccessException;
-import com.lxdmp.springtest.domain.User;
+import com.lxdmp.springtest.entity.User;
 import com.lxdmp.springtest.dto.UserDto;
-import com.lxdmp.springtest.domain.UserGroup;
-import com.lxdmp.springtest.domain.UserPriviledge;
-import com.lxdmp.springtest.domain.repository.UserAndGroupRepository;
+import com.lxdmp.springtest.entity.UserGroup;
+import com.lxdmp.springtest.entity.UserPriviledge;
+import com.lxdmp.springtest.entity.repository.UserAndGroupRepository;
 
 @Repository("mysqlUserAndGroupRepo")
 public class MysqlUserAndGroupRepository extends BaseRepository implements UserAndGroupRepository

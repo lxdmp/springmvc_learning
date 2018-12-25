@@ -4,11 +4,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import com.lxdmp.springtest.domain.Cart;
-import com.lxdmp.springtest.domain.CartItem;
+import com.lxdmp.springtest.entity.Cart;
+import com.lxdmp.springtest.entity.CartItem;
 import com.lxdmp.springtest.dto.CartDto;
 import com.lxdmp.springtest.dto.CartItemDto;
-import com.lxdmp.springtest.domain.repository.CartRepository;
+import com.lxdmp.springtest.entity.repository.CartRepository;
 import com.lxdmp.springtest.service.CartService;
 import org.springframework.transaction.annotation.Transactional;
 

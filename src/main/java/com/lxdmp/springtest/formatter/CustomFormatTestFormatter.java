@@ -2,7 +2,7 @@ package com.lxdmp.springtest.formatter;
 
 import org.apache.log4j.Logger;
 import org.springframework.format.Formatter;
-import com.lxdmp.springtest.domain.CustomFormatTestObj;
+import com.lxdmp.springtest.entity.CustomFormatTestObj;
 
 public class CustomFormatTestFormatter implements Formatter<CustomFormatTestObj>
 {

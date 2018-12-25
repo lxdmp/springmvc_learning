@@ -163,6 +163,12 @@
 			<artifactId>spring-retry</artifactId>
 			<version>1.2.2.RELEASE</version>
 		</dependency>
+		<!-- mybatis -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.4.6</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>springtest</finalName>

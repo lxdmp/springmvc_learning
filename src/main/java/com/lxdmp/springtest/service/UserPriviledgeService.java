@@ -1,9 +1,9 @@
 package com.lxdmp.springtest.service;
 
 import java.util.List;
-import com.lxdmp.springtest.domain.User;
-import com.lxdmp.springtest.domain.UserGroup;
-import com.lxdmp.springtest.domain.UserPriviledge;
+import com.lxdmp.springtest.entity.User;
+import com.lxdmp.springtest.entity.UserGroup;
+import com.lxdmp.springtest.entity.UserPriviledge;
 import com.lxdmp.springtest.dto.UserPriviledgeDto;
 
 public interface UserPriviledgeService

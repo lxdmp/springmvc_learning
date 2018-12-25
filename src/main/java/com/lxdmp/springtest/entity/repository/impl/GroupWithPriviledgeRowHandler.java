@@ -1,13 +1,13 @@
-package com.lxdmp.springtest.domain.repository.impl;
+package com.lxdmp.springtest.entity.repository.impl;
 
 import java.util.List;
 import java.util.LinkedList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.jdbc.core.RowCallbackHandler;
-import com.lxdmp.springtest.domain.User;
-import com.lxdmp.springtest.domain.UserGroup;
-import com.lxdmp.springtest.domain.UserPriviledge;
+import com.lxdmp.springtest.entity.User;
+import com.lxdmp.springtest.entity.UserGroup;
+import com.lxdmp.springtest.entity.UserPriviledge;
 
 public class GroupWithPriviledgeRowHandler implements RowCallbackHandler
 {

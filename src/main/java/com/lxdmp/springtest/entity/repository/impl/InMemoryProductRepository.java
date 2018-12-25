@@ -1,4 +1,4 @@
-package com.lxdmp.springtest.domain.repository.impl;
+package com.lxdmp.springtest.entity.repository.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,8 +8,8 @@ import java.util.Map;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.dao.DataAccessException;
-import com.lxdmp.springtest.domain.Product;
-import com.lxdmp.springtest.domain.repository.ProductRepository;
+import com.lxdmp.springtest.entity.Product;
+import com.lxdmp.springtest.entity.repository.ProductRepository;
 import com.lxdmp.springtest.utils.Paginator;
 
 @Repository("hsqlProductRepo")

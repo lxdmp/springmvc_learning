@@ -1,7 +1,7 @@
 package com.lxdmp.springtest.service;
 
-import com.lxdmp.springtest.domain.Cart;
-import com.lxdmp.springtest.domain.CartItem;
+import com.lxdmp.springtest.entity.Cart;
+import com.lxdmp.springtest.entity.CartItem;
 import com.lxdmp.springtest.dto.CartDto;
 import com.lxdmp.springtest.dto.CartItemDto;
 

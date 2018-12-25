@@ -1,6 +1,6 @@
-package com.lxdmp.springtest.domain.repository;
+package com.lxdmp.springtest.entity.repository;
 
-import com.lxdmp.springtest.domain.Cart;
+import com.lxdmp.springtest.entity.Cart;
 import com.lxdmp.springtest.dto.CartDto;
 
 public interface CartRepository

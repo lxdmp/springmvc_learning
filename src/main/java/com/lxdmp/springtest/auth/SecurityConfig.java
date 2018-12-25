@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 			public UserDetails loadUserByUsername(String username)
 			{
 				logger.debug("CustomUserDetailsService : try to get user details");
-				com.lxdmp.springtest.domain.User user = userService.queryUserByName(username);
+				com.lxdmp.springtest.entity.User user = userService.queryUserByName(username);
 				if(user==null)
 					return null;
 				logger.debug("CustomUserDetailsService : get user details with success");

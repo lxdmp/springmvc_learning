@@ -1,6 +1,8 @@
 package com.lxdmp.springtest.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import org.springframework.web.filter.CharacterEncodingFilter;
+import javax.servlet.Filter;
 
 public class DispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer
 {
@@ -24,6 +26,17 @@ public class DispatcherServletInitializer extends AbstractAnnotationConfigDispat
 	protected String[] getServletMappings()
 	{
 		return new String[] {"/"};
+	}
+
+	@Override
+	protected Filter[] getServletFilters()
+	{
+		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+		characterEncodingFilter.setEncoding("UTF-8");
+		characterEncodingFilter.setForceEncoding(true);
+		return new Filter[] {
+			characterEncodingFilter
+		};
 	}
 }
 
