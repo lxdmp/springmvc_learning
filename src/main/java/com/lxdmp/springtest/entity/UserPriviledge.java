@@ -1,4 +1,4 @@
-package com.lxdmp.springtest.domain;
+package com.lxdmp.springtest.entity;
 
 import java.io.Serializable;
 import org.springframework.security.core.GrantedAuthority;

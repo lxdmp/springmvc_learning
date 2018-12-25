@@ -1,6 +1,6 @@
-package com.lxdmp.springtest.domain.repository;
+package com.lxdmp.springtest.entity.repository;
 
-import com.lxdmp.springtest.domain.User;
+import com.lxdmp.springtest.entity.User;
 
 public interface UserAndGroupRepository
 {

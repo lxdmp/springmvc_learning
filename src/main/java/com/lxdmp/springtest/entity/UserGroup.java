@@ -1,10 +1,10 @@
-package com.lxdmp.springtest.domain;
+package com.lxdmp.springtest.entity;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Iterator;
-import com.lxdmp.springtest.domain.UserPriviledge;
+import com.lxdmp.springtest.entity.UserPriviledge;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import org.codehaus.jackson.annotate.JsonIgnore;

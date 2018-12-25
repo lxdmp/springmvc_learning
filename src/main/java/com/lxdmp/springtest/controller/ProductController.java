@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.lxdmp.springtest.domain.Product;
+import com.lxdmp.springtest.entity.Product;
 import com.lxdmp.springtest.service.ProductService;
 
-import com.lxdmp.springtest.domain.CustomFormatTestObj;
+import com.lxdmp.springtest.entity.CustomFormatTestObj;
 import com.lxdmp.springtest.formatter.CustomFormatTestFormatter;
 
 import com.lxdmp.springtest.utils.Paginator;

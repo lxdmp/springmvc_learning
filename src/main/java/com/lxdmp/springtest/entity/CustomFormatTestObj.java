@@ -1,4 +1,4 @@
-package com.lxdmp.springtest.domain;
+package com.lxdmp.springtest.entity;
 
 public class CustomFormatTestObj
 {

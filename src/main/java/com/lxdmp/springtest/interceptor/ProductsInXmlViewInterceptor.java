@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.apache.log4j.Logger;
-import com.lxdmp.springtest.domain.Product;
+import com.lxdmp.springtest.entity.Product;
 import com.lxdmp.springtest.dto.ProductList;
 
 public class ProductsInXmlViewInterceptor implements HandlerInterceptor

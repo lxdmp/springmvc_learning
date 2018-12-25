@@ -1,4 +1,4 @@
-package com.lxdmp.springtest.domain.repository.impl;
+package com.lxdmp.springtest.entity.repository.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,12 +16,12 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import com.lxdmp.springtest.domain.User;
-import com.lxdmp.springtest.domain.UserGroup;
-import com.lxdmp.springtest.domain.UserPriviledge;
+import com.lxdmp.springtest.entity.User;
+import com.lxdmp.springtest.entity.UserGroup;
+import com.lxdmp.springtest.entity.UserPriviledge;
 import com.lxdmp.springtest.dto.UserPriviledgeDto;
-import com.lxdmp.springtest.domain.repository.UserPriviledgeRepository;
-import com.lxdmp.springtest.domain.repository.impl.UserWithGroupWithPriviledgeRowHandler;
+import com.lxdmp.springtest.entity.repository.UserPriviledgeRepository;
+import com.lxdmp.springtest.entity.repository.impl.UserWithGroupWithPriviledgeRowHandler;
 
 @Repository("mysqlUserPriviledgeRepo")
 public class MysqlUserPriviledgeRepository extends BaseRepository implements UserPriviledgeRepository

@@ -1,4 +1,4 @@
-package com.lxdmp.springtest.domain.repository.impl;
+package com.lxdmp.springtest.entity.repository.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,10 +11,10 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
-import com.lxdmp.springtest.domain.Cart;
-import com.lxdmp.springtest.domain.CartItem;
-import com.lxdmp.springtest.domain.Product;
-import com.lxdmp.springtest.domain.repository.CartRepository;
+import com.lxdmp.springtest.entity.Cart;
+import com.lxdmp.springtest.entity.CartItem;
+import com.lxdmp.springtest.entity.Product;
+import com.lxdmp.springtest.entity.repository.CartRepository;
 import com.lxdmp.springtest.dto.CartDto;
 import com.lxdmp.springtest.dto.CartItemDto;
 import com.lxdmp.springtest.service.ProductService;

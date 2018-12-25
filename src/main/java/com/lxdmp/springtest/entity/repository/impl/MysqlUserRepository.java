@@ -1,4 +1,4 @@
-package com.lxdmp.springtest.domain.repository.impl;
+package com.lxdmp.springtest.entity.repository.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,12 +15,12 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import com.lxdmp.springtest.domain.User;
+import com.lxdmp.springtest.entity.User;
 import com.lxdmp.springtest.dto.UserDto;
-import com.lxdmp.springtest.domain.UserGroup;
-import com.lxdmp.springtest.domain.UserPriviledge;
-import com.lxdmp.springtest.domain.repository.UserRepository;
-import com.lxdmp.springtest.domain.repository.impl.UserWithGroupWithPriviledgeRowHandler;
+import com.lxdmp.springtest.entity.UserGroup;
+import com.lxdmp.springtest.entity.UserPriviledge;
+import com.lxdmp.springtest.entity.repository.UserRepository;
+import com.lxdmp.springtest.entity.repository.impl.UserWithGroupWithPriviledgeRowHandler;
 
 @Repository("mysqlUserRepo")
 public class MysqlUserRepository extends BaseRepository implements UserRepository

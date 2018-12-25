@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import com.lxdmp.springtest.domain.Cart;
+import com.lxdmp.springtest.entity.Cart;
 import com.lxdmp.springtest.dto.CartDto;
 import com.lxdmp.springtest.service.CartService;
 import com.lxdmp.springtest.utils.result.ajax.ReadResult;

@@ -1,7 +1,7 @@
-package com.lxdmp.springtest.domain.repository;
+package com.lxdmp.springtest.entity.repository;
 
 import java.util.List;
-import com.lxdmp.springtest.domain.User;
+import com.lxdmp.springtest.entity.User;
 import com.lxdmp.springtest.dto.UserDto;
 
 public interface UserRepository

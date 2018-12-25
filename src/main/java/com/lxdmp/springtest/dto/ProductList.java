@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
-import com.lxdmp.springtest.domain.Product;
+import com.lxdmp.springtest.entity.Product;
 
 @XmlRootElement(name="products")
 public class ProductList implements Serializable

@@ -40,7 +40,7 @@ import com.lxdmp.springtest.amqp.AmqpConfig;
 @Configuration
 @EnableTransactionManagement
 @ComponentScan({
-	"com.lxdmp.springtest.domain", 
+	"com.lxdmp.springtest.entity", 
 	"com.lxdmp.springtest.service", 
 	"com.lxdmp.springtest.schedule", 
 })

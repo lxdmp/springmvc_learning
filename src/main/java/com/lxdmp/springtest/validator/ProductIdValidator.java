@@ -8,7 +8,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.lxdmp.springtest.domain.Product;
+import com.lxdmp.springtest.entity.Product;
 import com.lxdmp.springtest.exception.ProductNotFoundException;
 import com.lxdmp.springtest.service.ProductService;
 import org.springframework.context.MessageSource;

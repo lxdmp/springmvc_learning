@@ -21,7 +21,7 @@ import com.lxdmp.springtest.interceptor.ProductsInXmlViewInterceptor;
 
 import org.springframework.format.FormatterRegistry;
 import com.lxdmp.springtest.formatter.CustomFormatTestFormatter;
-import com.lxdmp.springtest.domain.CustomFormatTestObj;
+import com.lxdmp.springtest.entity.CustomFormatTestObj;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,7 +36,7 @@ import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.web.servlet.view.xml.MarshallingView;
-import com.lxdmp.springtest.domain.Product;
+import com.lxdmp.springtest.entity.Product;
 import com.lxdmp.springtest.dto.ProductList;
 
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
