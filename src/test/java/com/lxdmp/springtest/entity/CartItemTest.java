@@ -1,4 +1,4 @@
-package com.lxdmp.springtest.domain;
+package com.lxdmp.springtest.entity;
 
 import java.math.BigDecimal;
 import org.junit.Assert;

@@ -37,6 +37,10 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import com.lxdmp.springtest.amqp.AmqpConfig;
 
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.annotation.MapperScan;
+
 @Configuration
 @EnableTransactionManagement
 @ComponentScan({
@@ -49,6 +53,7 @@ import com.lxdmp.springtest.amqp.AmqpConfig;
 	SecurityConfig.class, 
 	AmqpConfig.class
 })
+@MapperScan(value="com.lxdmp.springtest.dao")
 public class RootApplicationContextConfig implements SchedulingConfigurer
 {
 	private static final Logger logger = Logger.getLogger(RootApplicationContextConfig.class);
@@ -61,6 +66,14 @@ public class RootApplicationContextConfig implements SchedulingConfigurer
 	//@Qualifier("hsqlDataSource")
 	@Qualifier("mysqlDataSource")
 	private DataSource dataSource;
+
+	@Bean
+	public SqlSessionFactory sqlSessionFactory() throws Exception
+	{
+		SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
+		sessionFactory.setDataSource(this.dataSource);
+		return sessionFactory.getObject();
+	}
 
 	@Bean
 	public NamedParameterJdbcTemplate getJdbcTemplate()
