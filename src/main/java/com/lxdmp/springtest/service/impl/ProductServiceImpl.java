@@ -1,6 +1,7 @@
 package com.lxdmp.springtest.service.impl;
 
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -8,16 +9,20 @@ import com.lxdmp.springtest.entity.Product;
 import com.lxdmp.springtest.entity.repository.ProductRepository;
 import com.lxdmp.springtest.service.ProductService;
 import com.lxdmp.springtest.utils.Paginator;
-import org.springframework.transaction.annotation.Transactional;
+import com.lxdmp.springtest.dao.ProductDao;
 
 @Transactional
 @Service
 public class ProductServiceImpl implements ProductService
 {
+	/*
 	@Autowired
 	//@Qualifier("hsqlProductRepo")
 	@Qualifier("mysqlProductRepo")
 	private ProductRepository productRepository;
+	*/
+	@Autowired
+	private ProductDao productRepository;
 
 	@Override
 	public List<Product> getAllProducts()
@@ -38,9 +43,9 @@ public class ProductServiceImpl implements ProductService
 	}
 
 	@Override
-	public List<Product> getProductsByPage(Paginator<Product> paginator)
+	public List<Product> getProductsByPage(Integer pageNo, Integer pageSize)
 	{
-		return productRepository.getProductsByPage(paginator);
+		return productRepository.getProductsByPage(pageNo, pageSize);
 	}
 
 	@Override

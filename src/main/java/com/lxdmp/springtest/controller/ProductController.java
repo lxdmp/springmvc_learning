@@ -75,7 +75,10 @@ public class ProductController
 		//logger.info(paginator.toString());
 
 		// 分页显示Product
-		List<Product> products = productService.getProductsByPage(paginator);
+		List<Product> products = productService.getProductsByPage(
+			paginator.getCurrentPage(), 
+			paginator.getPageSize()
+		);
 		if(products==null || products.isEmpty())
 			throw new NoProductsFoundException();
 		paginator.setItems(products);

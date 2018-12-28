@@ -1,29 +1,19 @@
 package com.lxdmp.springtest.dao;
- 
-import java.util.List;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.Update;
+
 import com.lxdmp.springtest.entity.Cart;
 import com.lxdmp.springtest.dto.CartDto;
- 
-public interface PersonDao
+
+public interface CartRepository
 {
-	@Insert(value="insert into t_person(name, nick) values (#{name}, #{nick})")
-	void add(Person person);
+	@Insert("insert into CART(ID) values #{id}")
+	void create(CartDto cartDto); // 创建购物车
 
-	@Delete(value="delete from t_person where id=#{id}")
-	void delete(long id);
-	
-	@Update(value="update t_person set name=#{name}, nick=#{nick} where id=#{id}")
-	void update(Person person);
-	
-	@Select(value="select * from t_person where id=#{id}")
-	Person select(long id);
+	@Select("")
+	Cart read(String cartId); // 获取购物车
+	void delete(String cartId); // 删除购物车
+
+	void update(String cartId, CartDto cartDto); // 更新购物车
+	void updateItem(String cartId, String productId, int updatedNum); // 购物车中设置某种货物
+	void modifyItem(String cartId, String productId, int modifiedNum); // 购物车中调整某种货物
+	void removeItem(String cartId, String productId); // 购物车中删除某种货物
 }
-

@@ -9,7 +9,7 @@ public interface ProductRepository
 	List<Product> getAllProducts();
 	int getAllProductsNum();
 	List<Product> getProductsByCategory(String category);
-	List<Product> getProductsByPage(Paginator<Product> paginator);
+	List<Product> getProductsByPage(Integer pageNo, Integer pageSize);
 	Product getProductById(String productId);
 
 	void updateStock(String productId, long noOfUnits);

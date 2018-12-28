@@ -27,7 +27,7 @@ public class InMemoryProductRepository extends BaseRepository implements Product
 	@Override
 	public int getAllProductsNum()
 	{
-		String SQL = "SELECT count(*) FROM PRODUCTS";
+		String SQL = "SELECT count(0) FROM PRODUCTS";
 		Map<String, Object> params = new HashMap<String, Object>();
 		try{
 			return jdbcTemplate.queryForObject(SQL, params, Integer.class);
@@ -46,12 +46,12 @@ public class InMemoryProductRepository extends BaseRepository implements Product
 	}
 
 	@Override
-	public List<Product> getProductsByPage(Paginator<Product> paginator)
+	public List<Product> getProductsByPage(Integer pageNo, Integer pageSize)
 	{
 		String SQL = "SELECT * FROM PRODUCTS limit :start,:num";
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("start", (paginator.getCurrentPage()-1)*paginator.getPageSize());
-		params.put("num", paginator.getPageSize());
+		params.put("start", (pageNo-1)*pageSize);
+		params.put("num", pageSize);
 		return jdbcTemplate.query(SQL, params, new ProductMapper());
 	}
 
