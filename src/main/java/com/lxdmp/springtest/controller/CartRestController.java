@@ -56,7 +56,7 @@ public class CartRestController
 	public WriteResult update(@PathVariable(value = "cartId") String cartId, @RequestBody CartDto cartDto)
 	{
 		cartDto.setId(cartId);
-		cartService.update(cartId, cartDto);
+		cartService.update(cartDto);
 		return new WriteResult(this.success);
 	}
 

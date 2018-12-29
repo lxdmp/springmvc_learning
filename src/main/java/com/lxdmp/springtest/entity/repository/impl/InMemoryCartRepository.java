@@ -32,21 +32,6 @@ public class InMemoryCartRepository extends BaseRepository implements CartReposi
 		Map<String, Object> cartParams = new HashMap<String, Object>();
 		cartParams.put("id", cartDto.getId());
 		jdbcTemplate.update(INSERT_CART_SQL, cartParams);
-
-		Iterator<CartItemDto> iterator = cartDto.getCartItems().iterator();
-		while(iterator.hasNext())
-		{
-			CartItemDto cartItemDto = iterator.next();
-			Product productById = productService.getProductById(cartItemDto.getProductId());
-			String INSERT_CART_ITEM_SQL =
-				"INSERT INTO CART_ITEM(PRODUCT_ID,CART_ID,QUANTITY) " + 
-				"VALUES (:product_id, :cartId, :quantity)";
-			Map<String, Object> cartItemsParams = new HashMap<String, Object>();
-			cartItemsParams.put("product_id", productById.getProductId());
-			cartItemsParams.put("cartId", cartDto.getId());
-			cartItemsParams.put("quantity", cartItemDto.getQuantity());
-			jdbcTemplate.update(INSERT_CART_ITEM_SQL, cartItemsParams);
-		}
 	}
 
 	@Override
@@ -69,54 +54,38 @@ public class InMemoryCartRepository extends BaseRepository implements CartReposi
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("cartId", cartId);
 
-		String SQL_DELETE_CART_ITEM = "DELETE FROM CART_ITEM WHERE CART_ID=:cartId";
-		jdbcTemplate.update(SQL_DELETE_CART_ITEM, params);
-
 		String SQL_DELETE_CART = "DELETE FROM CART WHERE ID = :cartId";
 		jdbcTemplate.update(SQL_DELETE_CART, params);
 	}
-	
+
 	@Override
-	public void update(String cartId, CartDto cartDto) // 更新购物车
+	public void deleteItems(String cartId) // 删除购物车项
 	{
-		List<CartItemDto> cartItems = cartDto.getCartItems();
-		for(CartItemDto cartItemDto :cartItems)
-			this.updateItem(cartId, cartItemDto.getProductId(), cartItemDto.getQuantity());
+		String SQL_DELETE_CART_ITEM = "DELETE FROM CART_ITEM WHERE CART_ID=:cartId";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("cartId", cartId);
+		jdbcTemplate.update(SQL_DELETE_CART_ITEM, params);
 	}
 
-	@Override
-	public void updateItem(String cartId, String productId, int updatedNum) // 购物车中设置某种货物
-	{
-		String SQL=null;
-		Cart cart = read(cartId);
-		if(cart==null)
-		{
-			this.modifyItem(cartId, productId, updatedNum);
-			return;
-		}
 
+	@Override
+	public void deleteItem(String cartId, String productId) // 删除(某个)购物车项
+	{
+		String SQL_DELETE_CART_ITEM = "delete from CART_ITEM where CART_ID:=cartId and PRODUCT_ID:=productId";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("cartId", cartId);
+		params.put("productId", productId);
+		jdbcTemplate.update(SQL_DELETE_CART_ITEM, params);
+	}
+	
+	@Override
+	public void updateItem(String cartId, String productId, int updatedNum) // 购物车中加入某种货物
+	{
+		String SQL = 
+			"INSERT INTO CART_ITEM (PRODUCT_ID, CART_ID, QUANTITY) VALUES " + 
+			"(:productId, :cartId, :quantity)";
 		Map<String, Object> cartItemsParams = new HashMap<String, Object>();
-		CartItem cartItem = cart.getItemByProductId(productId);
-		if(cartItem==null)
-		{
-			if(updatedNum<=0)
-				return;
-			SQL = 
-				"INSERT INTO CART_ITEM (PRODUCT_ID, CART_ID, QUANTITY) VALUES " + 
-				"(:productId, :cartId, :quantity)";
-			cartItemsParams.put("quantity", updatedNum);
-		}else{
-			int newQuantity = updatedNum;
-			if(newQuantity>0)
-			{
-				if(newQuantity==cartItem.getQuantity())
-					return;
-				SQL = "UPDATE CART_ITEM SET QUANTITY = :quantity WHERE CART_ID = :cartId AND PRODUCT_ID = :productId";
-				cartItemsParams.put("quantity", newQuantity);
-			}else{
-				SQL = "DELETE FROM CART_ITEM WHERE CART_ID=:cartId AND PRODUCT_ID=:productId";
-			}
-		}
+		cartItemsParams.put("quantity", updatedNum);
 		cartItemsParams.put("productId", productId);
 		cartItemsParams.put("cartId", cartId);
 		jdbcTemplate.update(SQL, cartItemsParams);
@@ -125,46 +94,9 @@ public class InMemoryCartRepository extends BaseRepository implements CartReposi
 	@Override
 	public void modifyItem(String cartId, String productId, int modifiedNum) // 购物车中调整某种货物
 	{
-		String SQL=null;
-		Cart cart = read(cartId);
-		if(cart==null)
-		{
-			if(modifiedNum>0)
-			{
-				CartItemDto newCartItemDto = new CartItemDto();
-				newCartItemDto.setCartId(cartId);
-				newCartItemDto.setProductId(productId);
-				newCartItemDto.setQuantity(modifiedNum);
-
-				CartDto newCartDto = new CartDto(cartId);
-				newCartDto.addCartItem(newCartItemDto);
-				create(newCartDto);
-			}
-			return;
-		}
-
+		String SQL = "UPDATE CART_ITEM SET QUANTITY = :quantity WHERE CART_ID = :cartId AND PRODUCT_ID = :productId";
 		Map<String, Object> cartItemsParams = new HashMap<String, Object>();
-		CartItem cartItem = cart.getItemByProductId(productId);
-		if(cartItem==null)
-		{
-			if(modifiedNum<=0)
-				return;
-			SQL = 
-				"INSERT INTO CART_ITEM (PRODUCT_ID, CART_ID, QUANTITY) VALUES " + 
-				"(:productId, :cartId, :quantity)";
-			cartItemsParams.put("quantity", modifiedNum);
-		}else{
-			int newQuantity = cartItem.getQuantity()+modifiedNum;
-			if(newQuantity>0)
-			{
-				if(newQuantity==cartItem.getQuantity())
-					return;
-				SQL = "UPDATE CART_ITEM SET QUANTITY = :quantity WHERE CART_ID = :cartId AND PRODUCT_ID = :productId";
-				cartItemsParams.put("quantity", newQuantity);
-			}else{
-				SQL = "DELETE FROM CART_ITEM WHERE CART_ID=:cartId AND PRODUCT_ID=:productId";
-			}
-		}
+		cartItemsParams.put("quantity", modifiedNum);
 		cartItemsParams.put("productId", productId);
 		cartItemsParams.put("cartId", cartId);
 		jdbcTemplate.update(SQL, cartItemsParams);

@@ -37,6 +37,7 @@ public class TaskInitializer implements ApplicationListener<ContextRefreshedEven
 			return;
 		//logger.info("execute some initialization...");
 		
+		org.apache.ibatis.logging.LogFactory.useLog4JLogging();
 		this.loadDefaultAdmin();
 	}
 

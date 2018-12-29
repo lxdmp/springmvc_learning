@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import com.lxdmp.springtest.entity.Product;
+import com.lxdmp.springtest.dao.ProductDaoProvider;
 
 public interface ProductDao
 {
@@ -47,7 +48,7 @@ public interface ProductDao
 	})
 	List<Product> getProductsByCategory(String category);
 
-	@SelectProvider(type=ProductSqlProvider.class, method="getProductsByPage")
+	@SelectProvider(type=ProductDaoProvider.class, method="getProductsByPage")
 	@Results({
 		@Result(id=true, property="productId", column="ID"), 
 		@Result(property="name", column="NAME"), 
@@ -80,7 +81,7 @@ public interface ProductDao
 	@Update("update PRODUCTS set UNITS_IN_STOCK = #{unitsInStock} WHERE ID = #{id}")
 	void updateStock(@Param("id") String productId, @Param("unitsInStock") long noOfUnits);
 
-	@InsertProvider(type=ProductSqlProvider.class, method="addProduct")
+	@InsertProvider(type=ProductDaoProvider.class, method="addProduct")
 	void addProduct(Product product);
 }
 
