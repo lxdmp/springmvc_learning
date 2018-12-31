@@ -8,6 +8,7 @@ import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.MessageListener;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
@@ -88,6 +89,7 @@ public class AmqpConfig
 		for(int i=0; i<queues.length; ++i)
 			queues[i] = new Queue(queueNames[i]);
 		container.setQueues(queues);
+		container.setAcknowledgeMode(AcknowledgeMode.MANUAL);
 		return container;
 	}
 	//rabbitTemplate.setRoutingKey(env.getProperty("rabbitmq.routingkey"));

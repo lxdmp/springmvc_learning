@@ -21,13 +21,14 @@ import com.lxdmp.springtest.service.UserGroupService;
 import com.lxdmp.springtest.service.UserPriviledgeService;
 import com.lxdmp.springtest.utils.result.ajax.ReadResult;
 import com.lxdmp.springtest.utils.result.ajax.WriteResult;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping(value = "/api/priviledges")
 public class PriviledgeRestController
 {
-	private static final Logger logger = Logger.getLogger(PriviledgeRestController.class);
+	private static final Logger logger = LoggerFactory.getLogger(PriviledgeRestController.class);
 
 	private final String success = "success";
 	private final String failed = "failed";

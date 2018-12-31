@@ -2,14 +2,15 @@ package com.lxdmp.springtest.utils;
 
 import java.io.File;
 import org.springframework.web.multipart.MultipartFile;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UploadUtils
 {
 	/*
 	 * 依赖于ImageMagick包的convert来进行图片文件的格式转换,上传的图片都另存为png格式供后续使用.
 	 */
-	private static final Logger logger = Logger.getLogger(UploadUtils.class);
+	private static final Logger logger = LoggerFactory.getLogger(UploadUtils.class);
 
 	public static void saveProductImage(MultipartFile productImage, String imageSavePath)
 	{

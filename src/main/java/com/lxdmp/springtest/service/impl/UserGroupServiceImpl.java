@@ -18,13 +18,14 @@ import com.lxdmp.springtest.entity.repository.UserGroupRepository;
 import com.lxdmp.springtest.entity.repository.GroupAndPriviledgeRepository;
 import com.lxdmp.springtest.entity.repository.UserPriviledgeRepository;
 import com.lxdmp.springtest.service.UserGroupService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Transactional
 @Service
 public class UserGroupServiceImpl implements UserGroupService
 {
-	private static final Logger logger = Logger.getLogger(UserGroupServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserGroupServiceImpl.class);
 	
 	@Autowired
 	@Qualifier("mysqlUserRepo")

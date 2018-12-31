@@ -12,13 +12,14 @@ import com.lxdmp.springtest.service.CartService;
 import org.springframework.transaction.annotation.Transactional;
 import com.lxdmp.springtest.entity.repository.CartRepository;
 import com.lxdmp.springtest.dao.CartDao;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Transactional
 @Service
 public class CartServiceImpl implements CartService
 {
-	private static final Logger logger = Logger.getLogger(CartServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(CartServiceImpl.class);
 	/*
 	@Autowired
 	//@Qualifier("hsqlCartRepo")

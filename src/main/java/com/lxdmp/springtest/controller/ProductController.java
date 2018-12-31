@@ -32,7 +32,8 @@ import org.springframework.validation.BindingResult;
 //import org.apache.commons.lang.StringUtils;
 import org.springframework.util.StringUtils;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.web.multipart.MultipartFile;
 import com.lxdmp.springtest.utils.UploadUtils;
@@ -45,8 +46,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 @Controller
 public class ProductController
-{ 
-	private static final Logger logger = Logger.getLogger(ProductController.class);
+{
+	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
 	@Autowired
 	private ProductService productService;
@@ -210,7 +211,7 @@ public class ProductController
 		// - 另存提交的图片
 		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
 		String[] paths = new String[] {
-			rootDirectory, "resources", "images", newProduct.getProductId() + ".png"
+			rootDirectory, "resources", "images", newProduct.getProductId()+".png"
 		};
 		String imageSavePath = org.apache.commons.lang.StringUtils.join(paths, File.separator);
 		MultipartFile productImage = newProduct.getProductImage();

@@ -8,11 +8,12 @@ import org.springframework.jdbc.core.RowCallbackHandler;
 import com.lxdmp.springtest.entity.User;
 import com.lxdmp.springtest.entity.UserGroup;
 import com.lxdmp.springtest.entity.UserPriviledge;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UserWithGroupWithPriviledgeRowHandler implements RowCallbackHandler
 {
-	private static final Logger logger = Logger.getLogger(UserWithGroupWithPriviledgeRowHandler.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserWithGroupWithPriviledgeRowHandler.class);
 
 	// 联立用户/用户组/权限三张表查询,基于用户返回结果.
 	final private String SQL = "select User.id as id1," + 

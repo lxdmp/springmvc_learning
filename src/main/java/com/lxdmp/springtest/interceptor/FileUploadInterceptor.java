@@ -11,12 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.apache.log4j.Logger;
 //import org.apache.commons.lang.StringUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class FileUploadInterceptor implements HandlerInterceptor
 {
@@ -24,7 +25,7 @@ public class FileUploadInterceptor implements HandlerInterceptor
 	 * 限制上传文件的类型与大小.
 	 */
 	static private final long FILE_SIZE_DEFAULT_LIMIT = 1024*1024*1024; // 1G
-	private static final Logger logger = Logger.getLogger(FileUploadInterceptor.class);
+	private static final Logger logger = LoggerFactory.getLogger(FileUploadInterceptor.class);
 
 	private List<String> fileTypesPermitted = new ArrayList<String>();
 	private long fileSizeLimit;

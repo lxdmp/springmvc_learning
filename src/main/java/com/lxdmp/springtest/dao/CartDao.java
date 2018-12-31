@@ -20,7 +20,7 @@ import com.lxdmp.springtest.dao.ProductDao;
 
 public interface CartDao
 {
-	@Insert("insert into CART(ID) values #{id}")
+	@Insert("insert into CART(ID) values (#{id})")
 	void create(CartDto cartDto); // 创建购物车
 
 	@Select("select * from CART where ID = #{cartId}")
@@ -51,13 +51,24 @@ public interface CartDao
 	@Delete("delete from CART_ITEM where CART_ID=#{cartId} and PRODUCT_ID=#{productId}")
 	void deleteItem(String cartId, String productId); // 删除(某个)购物车项
 
-	@Insert("insert into CART_ITEM (PRODUCT_ID, CART_ID, QUANTITY) VALUES (#{productId}, #{cartId}, #{updatedNum})")
-	void updateItem(String cartId, String productId, int updatedNum); // 购物车中设置某种货物
+	@Insert("insert into CART_ITEM(PRODUCT_ID, CART_ID, QUANTITY) VALUES (#{productId}, #{cartId}, #{updatedNum})")
+	void updateItem(
+		@Param("cartId") String cartId, 
+		@Param("productId") String productId, 
+		@Param("updatedNum") int updatedNum
+	); // 购物车中设置某种货物
 
 	@Update("update CART_ITEM set QUANTITY = #{modifiedNum} WHERE CART_ID = #{cartId} AND PRODUCT_ID = #{productId}")
-	void modifyItem(String cartId, String productId, int modifiedNum); // 购物车中调整某种货物
+	void modifyItem(
+		@Param("cartId") String cartId, 
+		@Param("productId") String productId, 
+		@Param("modifiedNum") int modifiedNum
+	); // 购物车中调整某种货物
 
 	@Delete("delete FROM CART_ITEM WHERE CART_ID=#{cartId} AND PRODUCT_ID=#{productId}")
-	void removeItem(String cartId, String productId); // 购物车中删除某种货物
+	void removeItem(
+		@Param("cartId") String cartId, 
+		@Param("productId") String productId
+	); // 购物车中删除某种货物
 }
 

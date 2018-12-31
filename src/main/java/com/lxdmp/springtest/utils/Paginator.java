@@ -4,18 +4,18 @@
  * 实例化时,需要指定"总条数","一页的条数","第几页(从1开始)".
  */
 package com.lxdmp.springtest.utils;
- 
+
 import java.io.Serializable;
 import java.util.List;
- 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
- 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Paginator<T> implements Serializable
 {
-	private static final Logger logger = Logger.getLogger(Paginator.class);
+	private static final Logger logger = LoggerFactory.getLogger(Paginator.class);
+
 	private final static long serialVersionUID = 1L;
 	private final static int DEFAULT_NAVIGATOR_SIZE = 3;
 	

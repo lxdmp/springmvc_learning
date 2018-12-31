@@ -4,12 +4,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.apache.log4j.Logger;
 import org.springframework.web.servlet.support.RequestContextUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ProcessTimeLogInterceptor implements HandlerInterceptor
 {
-	private static final Logger logger = Logger.getLogger(ProcessTimeLogInterceptor.class);
+	private static final Logger logger = LoggerFactory.getLogger(ProcessTimeLogInterceptor.class);
 	private static final String key_name = "startTime";
 	
 	public boolean preHandle(

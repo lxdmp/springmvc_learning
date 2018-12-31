@@ -1,13 +1,14 @@
 package com.lxdmp.springtest.formatter;
 
-import org.apache.log4j.Logger;
 import org.springframework.format.Formatter;
 import com.lxdmp.springtest.entity.CustomFormatTestObj;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CustomFormatTestFormatter implements Formatter<CustomFormatTestObj>
 {
+	private static final Logger logger = LoggerFactory.getLogger(CustomFormatTestFormatter.class);
 	public static final String dummy = "_dummy";
-	private static final Logger logger = Logger.getLogger(CustomFormatTestFormatter.class);
 	private final String internal_sep = "_";
 	private final String external_sep = ";";
 

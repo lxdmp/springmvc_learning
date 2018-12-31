@@ -5,12 +5,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import com.lxdmp.springtest.entity.Product;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
 public class UnitsInStockValidator implements Validator
 {
-	private static final Logger logger = Logger.getLogger(UnitsInStockValidator.class);
+	private static final Logger logger = LoggerFactory.getLogger(UnitsInStockValidator.class);
 
 	public boolean supports(Class<?> clazz)
 	{

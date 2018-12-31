@@ -29,7 +29,8 @@ import java.util.Properties;
 import java.io.IOException;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -56,7 +57,7 @@ import org.mybatis.spring.annotation.MapperScan;
 @MapperScan(value="com.lxdmp.springtest.dao")
 public class RootApplicationContextConfig implements SchedulingConfigurer
 {
-	private static final Logger logger = Logger.getLogger(RootApplicationContextConfig.class);
+	private static final Logger logger = LoggerFactory.getLogger(RootApplicationContextConfig.class);
 
 	/*
 	 * 数据源配置
@@ -117,7 +118,7 @@ public class RootApplicationContextConfig implements SchedulingConfigurer
 			mysqlDataSource.setUsername(props.getProperty("dbUsr"));
 			mysqlDataSource.setPassword(props.getProperty("dbPw"));
 		}catch(Exception e){
-			logger.error(e);
+			logger.error(e.toString());
 		}
 		return mysqlDataSource;
 	}

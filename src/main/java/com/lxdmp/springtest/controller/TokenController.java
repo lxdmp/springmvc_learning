@@ -8,13 +8,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.security.web.csrf.CsrfToken;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Controller
 @RequestMapping(value = "/token")
 public class TokenController
 { 
-	private static final Logger logger = Logger.getLogger(ProductController.class);
+	private static final Logger logger = LoggerFactory.getLogger(TokenController.class);
 
 	@RequestMapping(value="/csrf", method=RequestMethod.GET)
 	@ResponseBody

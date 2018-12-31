@@ -5,12 +5,13 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.ChannelAwareMessageListener;
 import org.springframework.stereotype.Component;
 import com.rabbitmq.client.Channel;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
 public class ServiceMsgListener implements ChannelAwareMessageListener
 {
-	private static final Logger logger = Logger.getLogger(ServiceMsgListener.class);
+	private static final Logger logger = LoggerFactory.getLogger(ServiceMsgListener.class);
 
 	@Override
 	public void onMessage(Message message, Channel channel) throws Exception

@@ -5,13 +5,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.apache.log4j.Logger;
 import com.lxdmp.springtest.entity.Product;
 import com.lxdmp.springtest.dto.ProductList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ProductsInXmlViewInterceptor implements HandlerInterceptor
 {
-	private static final Logger logger = Logger.getLogger(ProductsInXmlViewInterceptor.class);
+	private static final Logger logger = LoggerFactory.getLogger(ProductsInXmlViewInterceptor.class);
 	
 	@SuppressWarnings("unchecked")
 	private static <T> T reinterpret_cast(Object obj)

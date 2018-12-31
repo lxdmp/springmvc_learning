@@ -17,13 +17,14 @@ import com.lxdmp.springtest.entity.repository.UserRepository;
 import com.lxdmp.springtest.entity.repository.UserAndGroupRepository;
 import com.lxdmp.springtest.entity.repository.UserGroupRepository;
 import com.lxdmp.springtest.service.UserService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Transactional
 @Service
 public class UserServiceImpl implements UserService
 {
-	private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	@Autowired
 	@Qualifier("mysqlUserRepo")
