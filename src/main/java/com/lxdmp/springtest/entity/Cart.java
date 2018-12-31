@@ -52,12 +52,15 @@ public class Cart implements Serializable
 
 	public CartItem getItemByProductId(String productId)
 	{
-		Iterator<CartItem> iterator = this.cartItems.iterator();
-		while(iterator.hasNext())
+		if(getCartItems()!=null) // 使用getter,mybatis的懒加载导致字段可能没有被载入.
 		{
-			CartItem cartItem = iterator.next();
-			if(cartItem.getProduct().getProductId().equals(productId))
-				return cartItem;
+			Iterator<CartItem> iterator = getCartItems().iterator();
+			while(iterator.hasNext())
+			{
+				CartItem cartItem = iterator.next();
+				if(cartItem.getProduct().getProductId().equals(productId))
+					return cartItem;
+			}
 		}
 		return null;
 	}
