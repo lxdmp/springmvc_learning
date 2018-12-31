@@ -148,7 +148,7 @@ public class InMemoryCartRepository extends BaseRepository implements CartReposi
 		@Override
 		public CartItem mapRow(ResultSet rs, int rowNum) throws SQLException
 		{
-			CartItem cartItem = new CartItem(rs.getString("ID"));
+			CartItem cartItem = new CartItem(rs.getInt("ID"));
 			cartItem.setProduct(productService.getProductById(rs.getString("PRODUCT_ID")));
 			cartItem.setQuantity(rs.getInt("QUANTITY"));
 			return cartItem;

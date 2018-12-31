@@ -16,7 +16,6 @@ import org.apache.ibatis.mapping.FetchType;
 import com.lxdmp.springtest.entity.Cart;
 import com.lxdmp.springtest.entity.CartItem;
 import com.lxdmp.springtest.dto.CartDto;
-import com.lxdmp.springtest.dao.ProductDao;
 
 public interface CartDao
 {
@@ -27,7 +26,7 @@ public interface CartDao
 	@Results({
 		@Result(id=true, property="id", column="ID"), 
 		@Result(property="cartItems", column="ID", 
-			many=@Many(select="CartDao.readItems", fetchType=FetchType.LAZY)
+			many=@Many(select="com.lxdmp.springtest.dao.CartDao.readItems", fetchType=FetchType.LAZY)
 		)
 	})
 	Cart read(String cartId); // 获取购物车
@@ -37,7 +36,7 @@ public interface CartDao
 		@Result(id=true, property="id", column="ID"), 
 		@Result(property="quantity", column="QUANTITY"), 
 		@Result(property="product", column="PRODUCT_ID", 
-			one=@One(select="ProductDao.getProductById", fetchType=FetchType.LAZY)
+			one=@One(select="com.lxdmp.springtest.dao.ProductDao.getProductById", fetchType=FetchType.LAZY)
 		)
 	})
 	List<CartItem> readItems(String cartId); // 获取购物车项

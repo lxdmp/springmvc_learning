@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.codehaus.jackson.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.springframework.web.multipart.MultipartFile;
 

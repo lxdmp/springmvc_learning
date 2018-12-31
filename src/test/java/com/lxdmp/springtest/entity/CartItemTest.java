@@ -12,7 +12,7 @@ public class CartItemTest
 	@Before
 	public void setup()
 	{
-		cartItem = new CartItem("1");
+		cartItem = new CartItem(1);
 		cartItem.setQuantity(1);
 	}
 

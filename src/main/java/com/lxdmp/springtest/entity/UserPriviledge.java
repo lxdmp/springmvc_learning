@@ -4,7 +4,7 @@ import java.io.Serializable;
 import org.springframework.security.core.GrantedAuthority;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.codehaus.jackson.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @XmlRootElement(name="priviledge")
 public final class UserPriviledge implements Serializable, GrantedAuthority

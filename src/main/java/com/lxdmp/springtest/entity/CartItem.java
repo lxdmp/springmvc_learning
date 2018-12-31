@@ -2,24 +2,35 @@ package com.lxdmp.springtest.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(value={"handler"})
 public class CartItem implements Serializable
 {
-	private static final long serialVersionUID = 1L;
-	private String id;
+	private static final long serialVersionUID = 2L;
+	private Integer id;
 	private Product product;
-	private int quantity;
+	private Integer quantity;
 	private BigDecimal totalPrice;
 	
-	public CartItem(String id)
+	public CartItem()
 	{
-		super();
-		this.id = id;
 	}
 
-	public String getId()
+	public CartItem(Integer id)
+	{
+		super();
+		this.setId(id);
+	}
+
+	public Integer getId()
 	{
 		return id;
+	}
+
+	public void setId(Integer id)
+	{
+		this.id = id;
 	}
 
 	public Product getProduct()
@@ -33,12 +44,12 @@ public class CartItem implements Serializable
 		this.updateTotalPrice();
 	}
 
-	public int getQuantity()
+	public Integer getQuantity()
 	{
 		return quantity;
 	}
 
-	public void setQuantity(int quantity)
+	public void setQuantity(Integer quantity)
 	{
 		this.quantity = quantity;
 	}
@@ -49,19 +60,20 @@ public class CartItem implements Serializable
 		return totalPrice;
 	}
 
+	public void setTotalPrice(BigDecimal price)
+	{
+		this.totalPrice = price;
+	}
+
 	public void updateTotalPrice()
 	{
-		totalPrice = this.product.getUnitPrice().multiply(new BigDecimal(this.quantity));
+		this.setTotalPrice(this.product.getUnitPrice().multiply(new BigDecimal(this.quantity)));
 	}
 
 	@Override
 	public int hashCode()
 	{
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 :
-				id.hashCode());
-		return result;
+		return id%1024;
 	}
 
 	@Override
@@ -74,16 +86,7 @@ public class CartItem implements Serializable
 		if (getClass() != obj.getClass())
 			return false;
 		CartItem other = (CartItem) obj;
-		if (id == null)
-		{
-			if (other.id != null)
-				return false;
-		}
-		else if (!id.equals(other.id))
-		{
-			return false;
-		}
-		return true;
+		return id==other.id;
 	}
 }
 

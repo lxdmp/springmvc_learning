@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Iterator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(value={"handler"})
 public class Cart implements Serializable
 {
 	private static final long serialVersionUID = 1L;
@@ -14,12 +16,17 @@ public class Cart implements Serializable
 
 	public Cart(String id)
 	{
-		this.id = id;
+		this.setId(id);
 	}
 
 	public String getId()
 	{
 		return id;
+	}
+
+	public void setId(String id)
+	{
+		this.id = id;
 	}
 
 	public BigDecimal getGrandTotal()

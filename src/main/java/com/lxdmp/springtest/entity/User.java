@@ -10,7 +10,7 @@ import com.lxdmp.springtest.entity.UserGroup;
 import com.lxdmp.springtest.entity.UserPriviledge;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.codehaus.jackson.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @XmlRootElement(name="user")
 public final class User implements Serializable
