@@ -31,7 +31,7 @@ public interface UserPriviledgeDao
 	@Update("update UserPriviledge set name=#{userPriviledgeName} where id=#{userPriviledgeId}")
 	void updateUserPriviledge(
 		@Param("userPriviledgeId") Integer userPriviledgeId, 
-		@param("userPriviledgeName") String userPriviledgeName
+		@Param("userPriviledgeName") String userPriviledgeName
 	); // 修改用户权限名
 
 	@Select("select * from UserPriviledge")
