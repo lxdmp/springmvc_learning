@@ -19,7 +19,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import com.lxdmp.springtest.entity.User;
 import com.lxdmp.springtest.entity.UserGroup;
 import com.lxdmp.springtest.entity.UserPriviledge;
-import com.lxdmp.springtest.dto.UserPriviledgeDto;
 import com.lxdmp.springtest.entity.repository.UserPriviledgeRepository;
 import com.lxdmp.springtest.entity.repository.impl.UserWithGroupWithPriviledgeRowHandler;
 
@@ -27,17 +26,17 @@ import com.lxdmp.springtest.entity.repository.impl.UserWithGroupWithPriviledgeRo
 public class MysqlUserPriviledgeRepository extends BaseRepository implements UserPriviledgeRepository
 {
 	// 增加用户权限
-	public Integer addUserPriviledge(UserPriviledgeDto userPriviledgeDto)
+	public void addUserPriviledge(UserPriviledge userPriviledge)
 	{
 		String SQL = "insert into UserPriviledge (" + 
 			"name" +
 			") values (" + 
 			":name)";
 		SqlParameterSource params = new MapSqlParameterSource()
-			.addValue("name", userPriviledgeDto.getPriviledgeName());
+			.addValue("name", userPriviledge.getPriviledgeName());
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(SQL, params, keyHolder, new String[]{"id"});
-		return keyHolder.getKey().intValue();
+		userPriviledge.setPriviledgeId(keyHolder.getKey().intValue());
 	}
 
 	// 删除用户权限

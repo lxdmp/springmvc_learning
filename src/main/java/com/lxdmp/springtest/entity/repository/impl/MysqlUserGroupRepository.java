@@ -18,7 +18,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import com.lxdmp.springtest.entity.User;
 import com.lxdmp.springtest.entity.UserGroup;
-import com.lxdmp.springtest.dto.UserGroupDto;
 import com.lxdmp.springtest.entity.UserPriviledge;
 import com.lxdmp.springtest.entity.repository.UserGroupRepository;
 import com.lxdmp.springtest.entity.repository.impl.GroupWithPriviledgeRowHandler;
@@ -28,17 +27,17 @@ public class MysqlUserGroupRepository extends BaseRepository implements UserGrou
 {
 	// 增加用户组
 	@Override
-	public Integer addUserGroup(UserGroupDto userGroupDto)
+	public void addUserGroup(UserGroup userGroup)
 	{
 		String SQL = "insert into UserGroup (" + 
 			"name" +
 			") values (" + 
 			":name)";
 		SqlParameterSource params = new MapSqlParameterSource()
-			.addValue("name", userGroupDto.getGroupName());
+			.addValue("name", userGroup.getGroupName());
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(SQL, params, keyHolder, new String[]{"id"});
-		return keyHolder.getKey().intValue();
+		userGroup.setGroupId(keyHolder.getKey().intValue());
 	}
 
 	// 删除用户组

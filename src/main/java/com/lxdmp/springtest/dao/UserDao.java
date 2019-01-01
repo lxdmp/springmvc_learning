@@ -15,14 +15,13 @@ import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.mapping.FetchType;
 import com.lxdmp.springtest.entity.User;
-import com.lxdmp.springtest.dto.UserDto;
 import com.lxdmp.springtest.entity.UserGroup;
 
 public interface UserDao
 {
 	@Insert("insert into User(name, password) values (#{userName}, #{userPasswd})")
-	@Options(useGeneratedKeys=true, keyProperty="id")
-	Integer addUser(UserDto user); // 增加用户
+	@Options(useGeneratedKeys=true, keyProperty="userId")
+	void addUser(User user); // 增加用户
 
 	@Delete("delete from UserWithGroup where userId=#{userId}; delete from User where id=#{userId};")
 	void delUser(Integer userId); // 删除用户

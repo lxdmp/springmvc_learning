@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @XmlRootElement(name="user")
-public final class User implements Serializable
+public class User implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 

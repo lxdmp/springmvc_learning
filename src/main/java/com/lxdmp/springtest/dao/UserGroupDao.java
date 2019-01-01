@@ -16,14 +16,13 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.mapping.FetchType;
 import com.lxdmp.springtest.entity.User;
 import com.lxdmp.springtest.entity.UserGroup;
-import com.lxdmp.springtest.dto.UserGroupDto;
 import com.lxdmp.springtest.entity.UserPriviledge;
 
 public interface UserGroupDao
 {
 	@Insert("insert into UserGroup(name) values(#{groupName})")
-	@Options(useGeneratedKeys=true, keyProperty="id")
-	Integer addUserGroup(UserGroupDto userGroupDto); // 增加用户组
+	@Options(useGeneratedKeys=true, keyProperty="groupId")
+	void addUserGroup(UserGroup userGroup); // 增加用户组
 
 	@Delete("delete from GroupWithPriviledge where groupId=#{userGroupId}; delete from UserWithGroup where groupId=#{userGroupId}; delete from UserGroup where id=#{userGroupId};")
 	void delUserGroup(Integer userGroupId); // 删除用户组

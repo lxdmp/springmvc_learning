@@ -17,13 +17,12 @@ import org.apache.ibatis.mapping.FetchType;
 import com.lxdmp.springtest.entity.User;
 import com.lxdmp.springtest.entity.UserGroup;
 import com.lxdmp.springtest.entity.UserPriviledge;
-import com.lxdmp.springtest.dto.UserPriviledgeDto;
 
 public interface UserPriviledgeDao
 {
 	@Insert("insert into UserPriviledge(name) values(#{priviledgeName})")
-	@Options(useGeneratedKeys=true, keyProperty="id")
-	Integer addUserPriviledge(UserPriviledgeDto userPriviledgeDto); // 增加用户权限
+	@Options(useGeneratedKeys=true, keyProperty="priviledgeId")
+	void addUserPriviledge(UserPriviledge userPriviledge); // 增加用户权限
 
 	@Delete("delete from GroupWithPriviledge where priviledgeId=#{userPriviledgeId}; delete from UserPriviledge where id=#{userPriviledgeId};")
 	void delUserPriviledge(Integer userPriviledgeId); // 删除用户权限

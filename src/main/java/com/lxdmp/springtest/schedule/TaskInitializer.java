@@ -75,12 +75,14 @@ public class TaskInitializer implements ApplicationListener<ContextRefreshedEven
 		logger.debug(String.valueOf(priviledge));
 
 		// "管理员组"赋予"权限管理"权限
+		/*
 		groupService.userGroupAddPriviledge(adminGroupName, priviledgeName);
 		List<User> usersHasPriviledge = priviledgeService.usersWithPriviledge(priviledgeName);
 		for(User userHasPriviledge : usersHasPriviledge)
 		{
 			logger.debug(String.valueOf(userHasPriviledge));
 		}
+		*/
 		
 		/*
 		logger.info("all users:");

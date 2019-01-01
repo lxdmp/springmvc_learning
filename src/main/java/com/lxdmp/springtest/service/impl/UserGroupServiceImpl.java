@@ -13,62 +13,39 @@ import com.lxdmp.springtest.entity.User;
 import com.lxdmp.springtest.entity.UserGroup;
 import com.lxdmp.springtest.dto.UserGroupDto;
 import com.lxdmp.springtest.entity.UserPriviledge;
-//import com.lxdmp.springtest.entity.repository.UserRepository;
-//import com.lxdmp.springtest.entity.repository.UserGroupRepository;
-//import com.lxdmp.springtest.entity.repository.GroupAndPriviledgeRepository;
-//import com.lxdmp.springtest.entity.repository.UserPriviledgeRepository;
+/*
+import com.lxdmp.springtest.entity.repository.UserRepository;
+import com.lxdmp.springtest.entity.repository.UserAndGroupRepository;
+import com.lxdmp.springtest.entity.repository.UserGroupRepository;
+import com.lxdmp.springtest.entity.repository.GroupAndPriviledgeRepository;
+import com.lxdmp.springtest.entity.repository.UserPriviledgeRepository;
+*/
 import com.lxdmp.springtest.dao.UserDao;
 import com.lxdmp.springtest.dao.UserGroupDao;
 import com.lxdmp.springtest.dao.GroupAndPriviledgeDao;
 import com.lxdmp.springtest.dao.UserPriviledgeDao;
 import com.lxdmp.springtest.service.UserGroupService;
+import com.lxdmp.springtest.service.impl.UserServiceBaseImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Transactional
 @Service
-public class UserGroupServiceImpl implements UserGroupService
+public class UserGroupServiceImpl extends UserServiceBaseImpl implements UserGroupService
 {
 	private static final Logger logger = LoggerFactory.getLogger(UserGroupServiceImpl.class);
 	
-	/*
-	@Autowired
-	@Qualifier("mysqlUserRepo")
-	private UserRepository userRepository;
-
-	@Autowired
-	@Qualifier("mysqlUserGroupRepo")
-	private UserGroupRepository userGroupRepository;
-
-	@Autowired
-	@Qualifier("mysqlGroupAndPriviledgeRepo")
-	private GroupAndPriviledgeRepository groupAndPriviledgeRepository;
-
-	@Autowired
-	@Qualifier("mysqlUserPriviledgeRepo")
-	private UserPriviledgeRepository userPriviledgeRepository;
-	*/
-
-	@Autowired
-	private UserDao userRepository;
-
-	@Autowired
-	private UserGroupDao userGroupRepository;
-
-	@Autowired
-	private GroupAndPriviledgeDao groupAndPriviledgeRepository;
-
-	@Autowired
-	private UserPriviledgeDao userPriviledgeRepository;
-
 	// 增加用户组
 	@Override
 	public boolean addUserGroup(UserGroupDto userGroupDto)
 	{
 		Integer duplicateUserGroupId = userGroupRepository.queryUserGroupIdByName(userGroupDto.getGroupName());
-		if(duplicateUserGroupId>=0) // 已有同名的用户组
+		if(isIdValid(duplicateUserGroupId)) // 已有同名的用户组
 			return false;
-		Integer newGroupId = userGroupRepository.addUserGroup(userGroupDto);
+		UserGroup group = new UserGroup();
+		group.setGroupName(userGroupDto.getGroupName());
+		userGroupRepository.addUserGroup(group);
+		logger.debug(String.format("group \"%s\" added with id %d", group.getGroupName(), group.getGroupId()));
 		return true;
 	}
 
@@ -77,7 +54,7 @@ public class UserGroupServiceImpl implements UserGroupService
 	public boolean delUserGroup(String userGroupName)
 	{
 		Integer existedUserGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
-		if(existedUserGroupId<0) // 没有该用户组
+		if(!isIdValid(existedUserGroupId)) // 没有该用户组
 			return false;
 		userGroupRepository.delUserGroup(existedUserGroupId);
 		return true;
@@ -88,7 +65,7 @@ public class UserGroupServiceImpl implements UserGroupService
 	public boolean updateUserGroup(String userGroupName, String newUserGroupName)
 	{
 		Integer existedUserGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
-		if(existedUserGroupId<0) // 没有该用户组
+		if(!isIdValid(existedUserGroupId)) // 没有该用户组
 			return false;
 		userGroupRepository.updateUserGroup(existedUserGroupId, newUserGroupName);
 		return true;
@@ -148,11 +125,11 @@ public class UserGroupServiceImpl implements UserGroupService
 	public boolean userGroupAddPriviledge(String userGroupName, String userPriviledgeName)
 	{
 		Integer userGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
-		if(userGroupId<0) // 没有该用户组
+		if(!isIdValid(userGroupId)) // 没有该用户组
 			return false;
 
 		Integer userPriviledgeId = userPriviledgeRepository.queryUserPriviledgeIdByName(userPriviledgeName);
-		if(userPriviledgeId<0) // 没有该用户权限
+		if(!isIdValid(userPriviledgeId)) // 没有该用户权限
 			return false;
 
 		try{
@@ -171,11 +148,11 @@ public class UserGroupServiceImpl implements UserGroupService
 	public boolean userGroupDelPriviledge(String userGroupName, String userPriviledgeName)
 	{
 		Integer userGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
-		if(userGroupId<0) // 没有该用户组
+		if(!isIdValid(userGroupId)) // 没有该用户组
 			return false;
 
 		Integer userPriviledgeId = userPriviledgeRepository.queryUserPriviledgeIdByName(userPriviledgeName);
-		if(userPriviledgeId<0) // 没有该用户权限
+		if(!isIdValid(userPriviledgeId)) // 没有该用户权限
 			return false;
 
 		groupAndPriviledgeRepository.delPriviledgeFromGroup(userGroupId, userPriviledgeId);

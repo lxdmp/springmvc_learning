@@ -16,7 +16,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import com.lxdmp.springtest.entity.User;
-import com.lxdmp.springtest.dto.UserDto;
 import com.lxdmp.springtest.entity.UserGroup;
 import com.lxdmp.springtest.entity.UserPriviledge;
 import com.lxdmp.springtest.entity.repository.UserRepository;
@@ -27,18 +26,18 @@ public class MysqlUserRepository extends BaseRepository implements UserRepositor
 {
 	// 增加用户
 	@Override
-	public Integer addUser(UserDto userDto)
+	public void addUser(User user)
 	{
 		String SQL = "insert into User (" + 
 			"name, password" +
 			") values (" + 
 			":name, :password)";
 		SqlParameterSource params = new MapSqlParameterSource()
-			.addValue("name", userDto.getUserName())
-			.addValue("password", userDto.getUserPasswd());
+			.addValue("name", user.getUserName())
+			.addValue("password", user.getUserPasswd());
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(SQL, params, keyHolder, new String[]{"id"});
-		return keyHolder.getKey().intValue();
+		user.setUserId(keyHolder.getKey().intValue());
 	}
 
 	// 删除用户

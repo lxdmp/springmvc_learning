@@ -13,53 +13,39 @@ import com.lxdmp.springtest.entity.User;
 import com.lxdmp.springtest.dto.UserDto;
 import com.lxdmp.springtest.entity.UserGroup;
 import com.lxdmp.springtest.entity.UserPriviledge;
-//import com.lxdmp.springtest.entity.repository.UserRepository;
-//import com.lxdmp.springtest.entity.repository.UserAndGroupRepository;
-//import com.lxdmp.springtest.entity.repository.UserGroupRepository;
+/*
+import com.lxdmp.springtest.entity.repository.UserRepository;
+import com.lxdmp.springtest.entity.repository.UserAndGroupRepository;
+import com.lxdmp.springtest.entity.repository.UserGroupRepository;
+import com.lxdmp.springtest.entity.repository.GroupAndPriviledgeRepository;
+import com.lxdmp.springtest.entity.repository.UserPriviledgeRepository;
+*/
 import com.lxdmp.springtest.dao.UserDao;
 import com.lxdmp.springtest.dao.UserAndGroupDao;
 import com.lxdmp.springtest.dao.UserGroupDao;
 import com.lxdmp.springtest.service.UserService;
+import com.lxdmp.springtest.service.impl.UserServiceBaseImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Transactional
 @Service
-public class UserServiceImpl implements UserService
+public class UserServiceImpl extends UserServiceBaseImpl implements UserService
 {
 	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-
-	/*
-	@Autowired
-	@Qualifier("mysqlUserRepo")
-	private UserRepository userRepository;
-
-	@Autowired
-	@Qualifier("mysqlUserAndGroupRepo")
-	private UserAndGroupRepository userAndGroupRepository;
-
-	@Autowired
-	@Qualifier("mysqlUserGroupRepo")
-	private UserGroupRepository userGroupRepository;
-	*/
-
-	@Autowired
-	private UserDao userRepository;
-
-	@Autowired
-	private UserAndGroupDao userAndGroupRepository;
-
-	@Autowired
-	private UserGroupDao userGroupRepository;
 
 	// 增加用户
 	@Override
 	public boolean addUser(UserDto userDto)
 	{
 		Integer duplicateUserId = userRepository.queryUserIdByName(userDto.getUserName());
-		if(duplicateUserId>=0) // 已有同名的用户
+		if(isIdValid(duplicateUserId)) // 已有同名的用户
 			return false;
-		userRepository.addUser(userDto);
+		User user = new User();
+		user.setUserName(userDto.getUserName());
+		user.setUserPasswd(userDto.getUserPasswd());
+		userRepository.addUser(user);
+		logger.debug(String.format("user \"%s\" added with id %d", user.getUserName(), user.getUserId()));
 		return true;
 	}
 	
@@ -68,7 +54,7 @@ public class UserServiceImpl implements UserService
 	public boolean delUser(String userName)
 	{
 		Integer existedUserId = userRepository.queryUserIdByName(userName);
-		if(existedUserId<0) // 没有该用户
+		if(!isIdValid(existedUserId)) // 没有该用户
 			return false;
 		userRepository.delUser(existedUserId);
 		return true;
@@ -126,11 +112,11 @@ public class UserServiceImpl implements UserService
 	public boolean userJoinGroup(String userName, String userGroupName)
 	{
 		Integer userId = userRepository.queryUserIdByName(userName);
-		if(userId<0) // 没有该用户
+		if(!isIdValid(userId)) // 没有该用户
 			return false;
 
 		Integer userGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
-		if(userGroupId<0) // 没有该用户组
+		if(!isIdValid(userGroupId)) // 没有该用户组
 			return false;
 
 		try{
@@ -147,11 +133,11 @@ public class UserServiceImpl implements UserService
 	public boolean userLeaveGroup(String userName, String userGroupName)
 	{
 		Integer userId = userRepository.queryUserIdByName(userName);
-		if(userId<0) // 没有该用户
+		if(!isIdValid(userId)) // 没有该用户
 			return false;
 
 		Integer userGroupId = userGroupRepository.queryUserGroupIdByName(userGroupName);
-		if(userGroupId<0) // 没有该用户组
+		if(!isIdValid(userGroupId)) // 没有该用户组
 			return false;
 
 		userAndGroupRepository.userLeaveGroup(userId, userGroupId);

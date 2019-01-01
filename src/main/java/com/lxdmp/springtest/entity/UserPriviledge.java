@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @XmlRootElement(name="priviledge")
-public final class UserPriviledge implements Serializable, GrantedAuthority
+public class UserPriviledge implements Serializable, GrantedAuthority
 {
 	private static final long serialVersionUID = 1L;
 
