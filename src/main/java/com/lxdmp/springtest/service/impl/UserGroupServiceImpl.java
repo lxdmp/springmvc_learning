@@ -13,10 +13,14 @@ import com.lxdmp.springtest.entity.User;
 import com.lxdmp.springtest.entity.UserGroup;
 import com.lxdmp.springtest.dto.UserGroupDto;
 import com.lxdmp.springtest.entity.UserPriviledge;
-import com.lxdmp.springtest.entity.repository.UserRepository;
-import com.lxdmp.springtest.entity.repository.UserGroupRepository;
-import com.lxdmp.springtest.entity.repository.GroupAndPriviledgeRepository;
-import com.lxdmp.springtest.entity.repository.UserPriviledgeRepository;
+//import com.lxdmp.springtest.entity.repository.UserRepository;
+//import com.lxdmp.springtest.entity.repository.UserGroupRepository;
+//import com.lxdmp.springtest.entity.repository.GroupAndPriviledgeRepository;
+//import com.lxdmp.springtest.entity.repository.UserPriviledgeRepository;
+import com.lxdmp.springtest.dao.UserDao;
+import com.lxdmp.springtest.dao.UserGroupDao;
+import com.lxdmp.springtest.dao.GroupAndPriviledgeDao;
+import com.lxdmp.springtest.dao.UserPriviledgeDao;
 import com.lxdmp.springtest.service.UserGroupService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +31,7 @@ public class UserGroupServiceImpl implements UserGroupService
 {
 	private static final Logger logger = LoggerFactory.getLogger(UserGroupServiceImpl.class);
 	
+	/*
 	@Autowired
 	@Qualifier("mysqlUserRepo")
 	private UserRepository userRepository;
@@ -42,6 +47,19 @@ public class UserGroupServiceImpl implements UserGroupService
 	@Autowired
 	@Qualifier("mysqlUserPriviledgeRepo")
 	private UserPriviledgeRepository userPriviledgeRepository;
+	*/
+
+	@Autowired
+	private UserDao userRepository;
+
+	@Autowired
+	private UserGroupDao userGroupRepository;
+
+	@Autowired
+	private GroupAndPriviledgeDao groupAndPriviledgeRepository;
+
+	@Autowired
+	private UserPriviledgeDao userPriviledgeRepository;
 
 	// 增加用户组
 	@Override

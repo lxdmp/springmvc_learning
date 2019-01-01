@@ -10,10 +10,14 @@ import com.lxdmp.springtest.entity.User;
 import com.lxdmp.springtest.entity.UserGroup;
 import com.lxdmp.springtest.entity.UserPriviledge;
 import com.lxdmp.springtest.dto.UserPriviledgeDto;
-import com.lxdmp.springtest.entity.repository.UserRepository;
-import com.lxdmp.springtest.entity.repository.UserGroupRepository;
-import com.lxdmp.springtest.entity.repository.GroupAndPriviledgeRepository;
-import com.lxdmp.springtest.entity.repository.UserPriviledgeRepository;
+//import com.lxdmp.springtest.entity.repository.UserRepository;
+//import com.lxdmp.springtest.entity.repository.UserGroupRepository;
+//import com.lxdmp.springtest.entity.repository.GroupAndPriviledgeRepository;
+//import com.lxdmp.springtest.entity.repository.UserPriviledgeRepository;
+import com.lxdmp.springtest.dao.UserDao;
+import com.lxdmp.springtest.dao.UserGroupDao;
+import com.lxdmp.springtest.dao.GroupAndPriviledgeDao;
+import com.lxdmp.springtest.dao.UserPriviledgeDao;
 import com.lxdmp.springtest.service.UserPriviledgeService;
 import com.lxdmp.springtest.service.UserGroupService;
 
@@ -21,6 +25,7 @@ import com.lxdmp.springtest.service.UserGroupService;
 @Service
 public class UserPriviledgeServiceImpl implements UserPriviledgeService
 {
+	/*
 	@Autowired
 	@Qualifier("mysqlUserPriviledgeRepo")
 	private UserPriviledgeRepository userPriviledgeRepository;
@@ -36,7 +41,20 @@ public class UserPriviledgeServiceImpl implements UserPriviledgeService
 	@Autowired
 	@Qualifier("mysqlUserRepo")
 	private UserRepository userRepository;
-	
+	*/
+
+	@Autowired
+	private UserPriviledgeDao userPriviledgeRepository;
+
+	@Autowired
+	private GroupAndPriviledgeDao groupAndPriviledgeRepository;
+
+	@Autowired
+	private UserGroupDao userGroupRepository;
+
+	@Autowired
+	private UserDao userRepository;
+
 	// 增加用户权限
 	@Override
 	public boolean addUserPriviledge(UserPriviledgeDto userPriviledgeDto)
