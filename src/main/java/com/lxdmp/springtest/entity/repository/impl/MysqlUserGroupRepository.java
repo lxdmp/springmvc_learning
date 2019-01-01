@@ -49,6 +49,11 @@ public class MysqlUserGroupRepository extends BaseRepository implements UserGrou
 		params.put("groupId", userGroupId);
 
 		{
+			String SQL = "delete from GroupWithPriviledge where groupId = :groupId";
+			jdbcTemplate.update(SQL, params);
+		}
+
+		{
 			String SQL = "delete from UserWithGroup where groupId = :groupId";
 			jdbcTemplate.update(SQL, params);
 		}

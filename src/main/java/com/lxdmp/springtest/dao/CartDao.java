@@ -41,11 +41,8 @@ public interface CartDao
 	})
 	List<CartItem> readItems(String cartId); // 获取购物车项
 
-	@Delete("delete from CART where ID = #{cartId}")
+	@Delete("delete from CART_ITEM where CART_ID = #{cartId}; delete from CART where ID = #{cartId};")
 	void delete(String cartId); // 删除购物车
-
-	@Delete("delete from CART_ITEM where CART_ID = #{cartId}")
-	void deleteItems(String cartId); // 删除(所有)购物车项
 
 	@Delete("delete from CART_ITEM where CART_ID=#{cartId} and PRODUCT_ID=#{productId}")
 	void deleteItem(String cartId, String productId); // 删除(某个)购物车项

@@ -54,19 +54,16 @@ public class InMemoryCartRepository extends BaseRepository implements CartReposi
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("cartId", cartId);
 
-		String SQL_DELETE_CART = "DELETE FROM CART WHERE ID = :cartId";
-		jdbcTemplate.update(SQL_DELETE_CART, params);
-	}
+		{
+			String SQL_DELETE_CART_ITEM = "DELETE FROM CART_ITEM WHERE CART_ID=:cartId";
+			jdbcTemplate.update(SQL_DELETE_CART_ITEM, params);
+		}
 
-	@Override
-	public void deleteItems(String cartId) // 删除购物车项
-	{
-		String SQL_DELETE_CART_ITEM = "DELETE FROM CART_ITEM WHERE CART_ID=:cartId";
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("cartId", cartId);
-		jdbcTemplate.update(SQL_DELETE_CART_ITEM, params);
+		{
+			String SQL_DELETE_CART = "DELETE FROM CART WHERE ID = :cartId";
+			jdbcTemplate.update(SQL_DELETE_CART, params);
+		}
 	}
-
 
 	@Override
 	public void deleteItem(String cartId, String productId) // 删除(某个)购物车项

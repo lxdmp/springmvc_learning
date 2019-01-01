@@ -10,7 +10,6 @@ public interface CartRepository
 	Cart read(String cartId); // 获取购物车
 
 	void delete(String cartId); // 删除购物车
-	void deleteItems(String cartId); // 删除(所有)购物车项
 	void deleteItem(String cartId, String productId); // 删除(某个)购物车项
 
 	void updateItem(String cartId, String productId, int updatedNum); // 购物车中加入某种货物
