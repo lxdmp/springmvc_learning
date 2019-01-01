@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
@@ -55,6 +57,7 @@ import org.mybatis.spring.annotation.MapperScan;
 	AmqpConfig.class
 })
 @MapperScan(value="com.lxdmp.springtest.dao")
+@PropertySource("classpath:mysql.properties")
 public class RootApplicationContextConfig implements SchedulingConfigurer
 {
 	private static final Logger logger = LoggerFactory.getLogger(RootApplicationContextConfig.class);
@@ -101,25 +104,14 @@ public class RootApplicationContextConfig implements SchedulingConfigurer
 	}
 
 	@Bean(name={"mysqlDataSource"})
-	public DriverManagerDataSource mysqlDataSource()
+	public DriverManagerDataSource mysqlDataSource(@Autowired Environment env)
 	{
-		Properties props = new Properties();
-		FileInputStream fis = null;
-		DriverManagerDataSource mysqlDataSource = null;
-		try {
-			String mysql_config_file_name = "mysql.properties";
-			String class_path = RootApplicationContextConfig.class.getClassLoader().getResource("/").toURI().getPath();
-			fis = new FileInputStream(class_path+"/"+mysql_config_file_name);
-			props.load(fis);
-
-			mysqlDataSource = new DriverManagerDataSource();
-			mysqlDataSource.setDriverClassName(props.getProperty("dbDriverClass"));
-			mysqlDataSource.setUrl(props.getProperty("dbUrl"));
-			mysqlDataSource.setUsername(props.getProperty("dbUsr"));
-			mysqlDataSource.setPassword(props.getProperty("dbPw"));
-		}catch(Exception e){
-			logger.error(e.toString());
-		}
+		//String class_path = RootApplicationContextConfig.class.getClassLoader().getResource("/").toURI().getPath();
+		DriverManagerDataSource mysqlDataSource = new DriverManagerDataSource();
+		mysqlDataSource.setDriverClassName(env.getProperty("dbDriverClass"));
+		mysqlDataSource.setUrl(env.getProperty("dbUrl"));
+		mysqlDataSource.setUsername(env.getProperty("dbUsr"));
+		mysqlDataSource.setPassword(env.getProperty("dbPw"));
 		return mysqlDataSource;
 	}
 
