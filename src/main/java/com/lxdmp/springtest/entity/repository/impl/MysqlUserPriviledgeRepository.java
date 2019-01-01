@@ -60,7 +60,7 @@ public class MysqlUserPriviledgeRepository extends BaseRepository implements Use
 	// 修改用户权限名
 	public void updateUserPriviledge(Integer userPriviledgeId, String userPriviledgeName)
 	{
-		final String SQL = "update UserPriviledge set name = :priviledgeName WHERE id = :priviledgeId";
+		final String SQL = "update UserPriviledge set name = :priviledgeName where id = :priviledgeId";
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("priviledgeId", userPriviledgeId);
 		params.put("priviledgeName", userPriviledgeName);
