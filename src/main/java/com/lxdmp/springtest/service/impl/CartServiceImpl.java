@@ -34,13 +34,11 @@ public class CartServiceImpl implements CartService
 	@Override
 	public void create(CartDto cartDto)
 	{
-		logger.info("here 1");
 		cartRepository.create(cartDto);
 		for(CartItemDto cartItemDto : cartDto.getCartItems())
 		{
 			this.updateItem(cartDto.getId(), cartItemDto.getProductId(), cartItemDto.getQuantity());
 		}
-		logger.info("here 2");
 	}
 
 	// 获取购物车
