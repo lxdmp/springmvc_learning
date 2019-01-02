@@ -28,6 +28,11 @@
 				<a href="#" class="label label-danger" ng-click="removeFromCart(item.product.productId)">
 					<span class="glyphicon glyphicon-remove" /></span>Remove
 				</a>
+				<%--
+				<a href="#" class="label label-info" ng-click="removeFromCart(item.product.productId)">
+					<span class="glyphicon glyphicon-remove-sign" /></span>Remove
+				</a>
+				--%>
 			</td>
 		</tr>
 		<tr>
