@@ -20,11 +20,11 @@
 			<th>Action</th>
 		</tr>
 		<tr ng-repeat="item in cart.cartItems">
-			<td>{{item.product.productId}}-{{item.product.name}}</td>
-			<td>{{item.product.unitPrice}}</td>
-			<td>{{item.quantity}}</td>
-			<td>{{item.totalPrice}}</td>
-			<td>
+			<td ng-cloak>{{item.product.productId}}-{{item.product.name}}</td>
+			<td ng-cloak>{{item.product.unitPrice}}</td>
+			<td ng-cloak>{{item.quantity}}</td>
+			<td ng-cloak>{{item.totalPrice}}</td>
+			<td ng-cloak>
 				<a href="#" class="label label-danger" ng-click="removeFromCart(item.product.productId)">
 					<span class="glyphicon glyphicon-remove" /></span>Remove
 				</a>
@@ -39,7 +39,7 @@
 			<th></th>
 			<th></th>
 			<th>Grand Total</th>
-			<th>{{cart.grandTotal}}</th>
+			<th ng-cloak>{{cart.grandTotal}}</th>
 			<th></th>
 		</tr>
 	</table>
